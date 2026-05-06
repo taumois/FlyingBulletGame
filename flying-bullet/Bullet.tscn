@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://81nwwjsec0fl"]
 
 [ext_resource type="Script" uid="uid://df0slt5m1a50v" path="res://bullet_character_body.gd" id="1_4s4u5"]
-[ext_resource type="Texture2D" uid="uid://b8do3supnyd1j" path="res://sprites/icon.svg" id="1_ayd6b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f3u8r"]
 
@@ -12,10 +11,9 @@ script = ExtResource("1_4s4u5")
 
 [node name="Sprite" type="Sprite2D" parent="CharacterBody" unique_id=1257408981]
 scale = Vector2(0.2883881, 0.9413976)
-texture = ExtResource("1_ayd6b")
 
 [node name="CollisionShape" type="CollisionShape2D" parent="CharacterBody" unique_id=64454770]
-scale = Vector2(1.5639763, 5.728853)
+scale = Vector2(1.5837319, 5.801218)
 shape = SubResource("RectangleShape2D_f3u8r")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CharacterBody" unique_id=37108012]
