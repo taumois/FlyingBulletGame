@@ -18,7 +18,6 @@ config/icon="res://sprites/icon.svg"
 [display]
 
 window/size/viewport_width=648
-window/size/mode=3
 window/stretch/mode="viewport"
 
 [dotnet]
