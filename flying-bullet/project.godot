@@ -11,14 +11,14 @@ config_version=5
 [application]
 
 config/name="Flying Bullet"
-run/main_scene="uid://81nwwjsec0fl"
+run/main_scene="uid://qbq5hhb0wgrm"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://sprites/icon.svg"
 
 [display]
 
 window/size/viewport_width=648
-window/stretch/mode="viewport"
+window/stretch/mode="canvas_items"
 
 [dotnet]
 
