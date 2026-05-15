@@ -17,8 +17,8 @@ config/icon="res://sprites/icon.svg"
 
 [display]
 
-window/size/viewport_width=648
-window/stretch/mode="canvas_items"
+window/size/viewport_width=720
+window/size/viewport_height=720
 
 [dotnet]
 

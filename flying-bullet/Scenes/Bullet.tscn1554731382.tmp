@@ -24,8 +24,5 @@ shape = SubResource("RectangleShape2D_f3u8r")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=37108012]
 
-[node name="BurstCooldown" type="Timer" parent="." unique_id=1512960084]
-one_shot = true
-
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]
