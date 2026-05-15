@@ -1,7 +1,7 @@
 extends RigidBody2D
 
-const ACCELERATION = 500
-const BURST_ACCELERATION = 10000
+const ACCELERATION = 100
+const BURST_ACCELERATION = 0
 const TURNING_ACCELERATION = 5000
 
 
@@ -17,13 +17,22 @@ func _physics_process(delta: float) -> void:
 	pass
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
-	var a = self.position
-	var direction_to_cursor = self.position.direction_to(get_global_mouse_position())
-	if state.get_contact_count() > 0 || $BurstCooldown.time_left == 0:
-		state.apply_force(Vector2(direction_to_cursor * BURST_ACCELERATION))
+	var vector_to_cursor = self.position.direction_to(get_global_mouse_position())
+	
+	var isColliding = (state.get_contact_count() > 0)
+	var burstCoolDownUp = ($BurstCooldown.time_left == 0)
+	if isColliding || burstCoolDownUp:
+		state.apply_impulse(Vector2(vector_to_cursor * BURST_ACCELERATION * 0.033))
 		$BurstCooldown.start()
-	state.apply_force(Vector2(direction_to_cursor * ACCELERATION))
-
+	state.apply_force(Vector2(vector_to_cursor * ACCELERATION))
+	
+	var x = state.linear_velocity.angle()
+	x = Vector2.from_angle(x)
+	x = x.rotated(deg_to_rad(90.0))
+	var y = self.global_rotation
+	y = Vector2.from_angle(y)
+	var z = (x-y).length()
+	apply_force(Vector2(100/z * x))
 
 func _on_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
 	pass
