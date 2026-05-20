@@ -8,7 +8,6 @@
 [node name="Bullet" type="RigidBody2D" unique_id=99446846]
 center_of_mass_mode = 1
 center_of_mass = Vector2(0, 50)
-lock_rotation = true
 contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_14k46")

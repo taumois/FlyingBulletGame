@@ -26,13 +26,25 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 		$BurstCooldown.start()
 	state.apply_force(Vector2(vector_to_cursor * ACCELERATION))
 	
-	var x = state.linear_velocity.angle()
-	x = Vector2.from_angle(x)
-	x = x.rotated(deg_to_rad(90.0))
-	var y = self.global_rotation
-	y = Vector2.from_angle(y)
-	var z = (x-y).length()
-	apply_force(Vector2(100/z * x))
+	#var x = state.linear_velocity.angle()
+	#x = Vector2.from_angle(x)
+	#x = x.rotated(deg_to_rad(90.0))
+	#var y = self.global_rotation
+	#y = Vector2.from_angle(y)
+	#var z = (x-y).length()
+	#apply_force(Vector2(100/z * x))
+	var x = self.rotation + deg_to_rad(-90)
+	var y = state.linear_velocity.angle()
+	var z = rad_to_deg(angle_difference(x, y))
+	if z > 180:
+		#print('_')
+		pass
+	else:
+		pass
+		#print(abs(z))
+	var w = Vector2(-state.linear_velocity*abs(z/100))
+	print(w.length())
+	state.apply_force(w)
 
 func _on_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
 	pass
