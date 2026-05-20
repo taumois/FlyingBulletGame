@@ -45,6 +45,7 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	var w = Vector2(-state.linear_velocity*abs(z/100))
 	print(w.length())
 	state.apply_force(w)
-
+	state.apply_force(w.rotated(deg_to_rad(z)))
+	state.apply_torque(state.linear_velocity.length_squared()*z/100)
 func _on_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
 	pass
