@@ -1,6 +1,6 @@
 extends RigidBody2D
 
-const ACCELERATION = 100
+const ACCELERATION = 1000
 const BURST_ACCELERATION = 0
 const TURNING_ACCELERATION = 5000
 
@@ -26,26 +26,27 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 		$BurstCooldown.start()
 	state.apply_force(Vector2(vector_to_cursor * ACCELERATION))
 	
-	#var x = state.linear_velocity.angle()
-	#x = Vector2.from_angle(x)
-	#x = x.rotated(deg_to_rad(90.0))
-	#var y = self.global_rotation
-	#y = Vector2.from_angle(y)
-	#var z = (x-y).length()
-	#apply_force(Vector2(100/z * x))
 	var x = self.rotation + deg_to_rad(-90)
+	var x2 = self.rotation + deg_to_rad(90)
 	var y = state.linear_velocity.angle()
 	var z = rad_to_deg(angle_difference(x, y))
-	if z > 180:
-		#print('_')
-		pass
+	var z2 = rad_to_deg(angle_difference(x2, y))
+	z = sqrt(abs(z)) * sign(z)
+	z2 = sqrt(abs(z2)) * sign(z2)
+	var w = Vector2(-state.linear_velocity*abs(z))
+	var m = Vector2(-state.linear_velocity*abs(z2))
+	#state.apply_force(w.rotated(deg_to_rad(z)))
+	var u = pow(z, 2) * sign(z)
+	if u < 90 && u > -90:
+		##state.apply_force(w)
+		##state.apply_torque(state.linear_velocity.length()*z)
+		state.apply_force(state.linear_velocity.bounce(Vector2.from_angle(self.rotation)) / angle_difference(state.linear_velocity.angle(), state.linear_velocity.bounce(Vector2.from_angle(self.rotation)).angle()))
+		#print(1)
 	else:
-		pass
-		#print(abs(z))
-	var w = Vector2(-state.linear_velocity*abs(z/100))
-	print(w.length())
-	state.apply_force(w)
-	state.apply_force(w.rotated(deg_to_rad(z)))
-	state.apply_torque(state.linear_velocity.length_squared()*z/100)
+		##state.apply_force(m)
+		##state.apply_torque(-state.linear_velocity.length()*z)
+		state.apply_force(state.linear_velocity.bounce(Vector2.from_angle(self.rotation)) / angle_difference(state.linear_velocity.angle(), state.linear_velocity.bounce(Vector2.from_angle(self.rotation)).angle()))
+		#print(0)
+	print(state.linear_velocity.length())
 func _on_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
 	pass

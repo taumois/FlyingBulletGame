@@ -6,18 +6,17 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f3u8r"]
 
 [node name="Bullet" type="RigidBody2D" unique_id=99446846]
-center_of_mass_mode = 1
 contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_14k46")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1257408981]
-position = Vector2(0, 50)
+position = Vector2(0, 2.2737368e-13)
 scale = Vector2(0.2883881, 0.9413976)
 texture = ExtResource("2_qvus8")
 
 [node name="CollisionShape" type="CollisionShape2D" parent="." unique_id=64454770]
-position = Vector2(0, 50)
+position = Vector2(0, -6.505213e-19)
 scale = Vector2(1.5639763, 5.728853)
 shape = SubResource("RectangleShape2D_f3u8r")
 
