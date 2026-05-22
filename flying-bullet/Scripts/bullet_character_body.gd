@@ -31,22 +31,14 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	var y = state.linear_velocity.angle()
 	var z = rad_to_deg(angle_difference(x, y))
 	var z2 = rad_to_deg(angle_difference(x2, y))
-	z = sqrt(abs(z)) * sign(z)
+	z = sqrt(abs(z)) * Vector2(0, 0).length() * sign(z)
 	z2 = sqrt(abs(z2)) * sign(z2)
-	var w = Vector2(-state.linear_velocity*abs(z))
-	var m = Vector2(-state.linear_velocity*abs(z2))
-	#state.apply_force(w.rotated(deg_to_rad(z)))
 	var u = pow(z, 2) * sign(z)
 	if u < 90 && u > -90:
-		##state.apply_force(w)
-		##state.apply_torque(state.linear_velocity.length()*z)
-		state.apply_force(state.linear_velocity.bounce(Vector2.from_angle(self.rotation)) / angle_difference(state.linear_velocity.angle(), state.linear_velocity.bounce(Vector2.from_angle(self.rotation)).angle()))
-		#print(1)
+		state.apply_force(Vector2(vector_to_cursor * ACCELERATION).bounce(Vector2.from_angle(self.rotation))/abs(z))
 	else:
-		##state.apply_force(m)
-		##state.apply_torque(-state.linear_velocity.length()*z)
-		state.apply_force(state.linear_velocity.bounce(Vector2.from_angle(self.rotation)) / angle_difference(state.linear_velocity.angle(), state.linear_velocity.bounce(Vector2.from_angle(self.rotation)).angle()))
-		#print(0)
-	print(state.linear_velocity.length())
+		state.apply_force(Vector2(vector_to_cursor * ACCELERATION).bounce(Vector2.from_angle(self.rotation))/abs(z))
+	print((state.linear_velocity.bounce(Vector2.from_angle(self.rotation))/abs(z)).length())
+	
 func _on_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
 	pass
