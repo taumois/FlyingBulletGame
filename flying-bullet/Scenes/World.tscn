@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://qbq5hhb0wgrm"]
 
-[ext_resource type="PackedScene" uid="uid://81nwwjsec0fl" path="res://Scenes/Bullet.tscn" id="1_j0p05"]
-[ext_resource type="PackedScene" path="res://Scenes/House.tscn" id="2_5nsto"]
+[ext_resource type="PackedScene" uid="uid://81nwwjsec0fl" path="res://scenes/Bullet.tscn" id="1_j0p05"]
+[ext_resource type="PackedScene" uid="uid://btgmk307wplld" path="res://scenes/House.tscn" id="2_5nsto"]
 
 [node name="World" type="Node2D" unique_id=1755103904]
 

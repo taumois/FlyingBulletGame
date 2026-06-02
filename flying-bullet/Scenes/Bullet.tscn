@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://81nwwjsec0fl"]
 
 [ext_resource type="Script" uid="uid://df0slt5m1a50v" path="res://scripts/bullet_character_body.gd" id="1_14k46"]
-[ext_resource type="Texture2D" uid="uid://b8do3supnyd1j" path="res://Resources/icon.svg" id="2_qvus8"]
+[ext_resource type="Texture2D" uid="uid://ddt78xugc1log" path="res://resources/Bullet.png" id="2_p1sfj"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_f3u8r"]
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_4utqk"]
+points = PackedVector2Array(-9.09, 9.7, -9.155, -3.5, 0, -10.625, 9.055, -3.5, 9.055, 9.7)
 
 [node name="Bullet" type="RigidBody2D" unique_id=99446846]
 contact_monitor = true
@@ -11,14 +12,16 @@ max_contacts_reported = 1
 script = ExtResource("1_14k46")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1257408981]
-position = Vector2(0, 2.2737368e-13)
-scale = Vector2(0.2883881, 0.9413976)
-texture = ExtResource("2_qvus8")
+scale = Vector2(0.22, 0.22)
+texture = ExtResource("2_p1sfj")
+centered = false
+offset = Vector2(-393.795, -140.035)
 
 [node name="CollisionShape" type="CollisionShape2D" parent="." unique_id=64454770]
-position = Vector2(0, -6.505213e-19)
-scale = Vector2(1.5639763, 5.728853)
-shape = SubResource("RectangleShape2D_f3u8r")
+position = Vector2(4.6222322e-33, 0)
+rotation = 1.5707964
+scale = Vector2(2.2, 8.059)
+shape = SubResource("ConvexPolygonShape2D_4utqk")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=37108012]
 
