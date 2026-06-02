@@ -6,7 +6,7 @@
 [node name="World" type="Node2D" unique_id=1755103904]
 
 [node name="Bullet" parent="." unique_id=99446846 instance=ExtResource("1_j0p05")]
-position = Vector2(180, 282)
+position = Vector2(-51, 225)
 
 [node name="House" parent="." unique_id=1506828352 instance=ExtResource("2_5nsto")]
 position = Vector2(440, 374)

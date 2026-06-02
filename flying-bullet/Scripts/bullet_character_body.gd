@@ -1,6 +1,6 @@
 extends RigidBody2D
 
-const ACCELERATION = 5000
+const ACCELERATION = 10000
 const TURNING_ACCELERATION = 500000
 
 
@@ -20,10 +20,14 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("ui_right"):
 		apply_torque(TURNING_ACCELERATION * delta)
 	
-	#if true:
-		#apply_force(rotation_as_vector.rotated(deg_to_rad(90)) * 10)
+	var x = self.linear_velocity.angle_to(Vector2.from_angle(self.rotation))
+	var force = Vector2(sin(x), cos(x)) * ACCELERATION
+	print(round(force.length()/1000)*1000)
+	#if x > 0:
+		#force = force.rotated(deg_to_rad(90))
 	#else:
-		#apply_force(rotation_as_vector.rotated(deg_to_rad(-90)) * 10)
+		#force = force.rotated(deg_to_rad(-90))
+	apply_force(force * delta / 750)
 
 func _on_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
 	pass
