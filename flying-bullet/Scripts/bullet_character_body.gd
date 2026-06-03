@@ -34,4 +34,4 @@ func _physics_process(delta: float) -> void:
 	apply_force(force * delta / 750)
 
 func _on_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
-	pass
+	apply_impulse(self.linear_velocity)

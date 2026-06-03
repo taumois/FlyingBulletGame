@@ -12,7 +12,6 @@ points = PackedVector2Array(-9.09, 9.7, -9.155, -3.5, 0, -10.625, 9.055, -3.5, 9
 
 [node name="Bullet" type="RigidBody2D" unique_id=99446846]
 physics_material_override = SubResource("PhysicsMaterial_p1sfj")
-center_of_mass_mode = 1
 contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("1_14k46")

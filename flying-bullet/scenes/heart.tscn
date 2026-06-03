@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://mn8il71j8erl"]
 
-[ext_resource type="Texture2D" uid="uid://b8do3supnyd1j" path="res://assets/icon.svg" id="1_452e1"]
+[ext_resource type="Texture2D" uid="uid://dcl5nb2umq1ij" path="res://assets/heart.png" id="1_v30as"]
 
 [node name="Heart" type="TextureRect" unique_id=511251124]
+offset_right = 100.0
+offset_bottom = 70.0
 size_flags_horizontal = 0
-texture = ExtResource("1_452e1")
-stretch_mode = 4
+texture = ExtResource("1_v30as")
+expand_mode = 1
