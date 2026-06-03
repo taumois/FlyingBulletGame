@@ -2,9 +2,13 @@ extends RigidBody2D
 
 const ACCELERATION = 10000
 const TURNING_ACCELERATION = 500000
+const MAX_HEARTS = 5
+
+var hearts
 
 
 func _ready() -> void:
+	hearts = MAX_HEARTS
 	$BurstCooldown.start()
 
 
