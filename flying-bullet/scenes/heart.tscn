@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://mn8il71j8erl"]
+
+[ext_resource type="Texture2D" uid="uid://b8do3supnyd1j" path="res://assets/icon.svg" id="1_452e1"]
+
+[node name="Heart" type="TextureRect" unique_id=511251124]
+size_flags_horizontal = 0
+texture = ExtResource("1_452e1")
+stretch_mode = 4

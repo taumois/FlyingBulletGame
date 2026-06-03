@@ -26,7 +26,7 @@ func _physics_process(delta: float) -> void:
 	
 	var x = self.linear_velocity.angle_to(Vector2.from_angle(self.rotation))
 	var force = Vector2(sin(x), cos(x)) * ACCELERATION
-	print(round(force.length()/1000)*1000)
+	#print(round(force.length()/1000)*1000)
 	#if x > 0:
 		#force = force.rotated(deg_to_rad(90))
 	#else:
