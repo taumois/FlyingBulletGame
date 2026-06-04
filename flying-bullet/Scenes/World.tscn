@@ -1,16 +1,9 @@
 [gd_scene format=3 uid="uid://qbq5hhb0wgrm"]
 
-[ext_resource type="PackedScene" uid="uid://81nwwjsec0fl" path="res://scenes/bullet.tscn" id="1_4wyf3"]
 [ext_resource type="PackedScene" uid="uid://btgmk307wplld" path="res://scenes/house.tscn" id="2_k0juu"]
 [ext_resource type="PackedScene" uid="uid://ch2fb2iw5ew7i" path="res://scenes/hud.tscn" id="3_71j4m"]
 
 [node name="World" type="Node2D" unique_id=1755103904]
-
-[node name="Bullet" parent="." unique_id=99446846 instance=ExtResource("1_4wyf3")]
-unique_name_in_owner = true
-
-[node name="Camera" type="Camera2D" parent="Bullet" unique_id=492698182]
-position_smoothing_enabled = true
 
 [node name="House" parent="." unique_id=1506828352 instance=ExtResource("2_k0juu")]
 position = Vector2(602, -97)
@@ -18,3 +11,6 @@ rotation = -0.7853982
 scale = Vector2(2, 2)
 
 [node name="HUD" parent="." unique_id=10412879 instance=ExtResource("3_71j4m")]
+
+[node name="Camera" type="Camera2D" parent="." unique_id=492698182]
+position_smoothing_enabled = true

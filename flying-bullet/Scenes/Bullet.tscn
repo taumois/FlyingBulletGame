@@ -1,19 +1,13 @@
 [gd_scene format=3 uid="uid://81nwwjsec0fl"]
 
-[ext_resource type="Script" uid="uid://df0slt5m1a50v" path="res://scripts/bullet_character_body.gd" id="1_14k46"]
+[ext_resource type="Script" uid="uid://74ryjwmk2mwf" path="res://scripts/bullet.gd" id="1_y25gk"]
 [ext_resource type="Texture2D" uid="uid://ddt78xugc1log" path="res://assets/bullet.png" id="2_p1sfj"]
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_p1sfj"]
-bounce = 1.0
 
 [sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_4utqk"]
 points = PackedVector2Array(-19.999996, 78, -20.000002, -35, -2.0000038, -89, 1.9999961, -89, 19.999998, -35, 20.000004, 78)
 
-[node name="Bullet" type="RigidBody2D" unique_id=99446846]
-physics_material_override = SubResource("PhysicsMaterial_p1sfj")
-contact_monitor = true
-max_contacts_reported = 1
-script = ExtResource("1_14k46")
+[node name="Bullet" type="CharacterBody2D" unique_id=1533421621]
+script = ExtResource("1_y25gk")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1257408981]
 scale = Vector2(0.22, 0.22)
@@ -27,6 +21,7 @@ rotation = 1.5707964
 shape = SubResource("ConvexPolygonShape2D_4utqk")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=37108012]
+root_node = NodePath("../..")
 
 [node name="BounceLength" type="Timer" parent="." unique_id=1512960084]
 wait_time = 5.0
@@ -35,7 +30,3 @@ one_shot = true
 [node name="BounceDelay" type="Timer" parent="." unique_id=1406726430]
 wait_time = 0.1
 one_shot = true
-
-[connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]
-[connection signal="timeout" from="BounceLength" to="." method="_on_bounce_length_timeout"]
-[connection signal="timeout" from="BounceDelay" to="." method="_on_bounce_delay_timeout"]
