@@ -5,7 +5,7 @@
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_p1sfj"]
 friction = 0.0
-bounce = 25.0
+bounce = 1.0
 
 [sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_4utqk"]
 points = PackedVector2Array(-9.09, 9.7, -9.155, -3.5, 0, -10.625, 9.055, -3.5, 9.055, 9.7)

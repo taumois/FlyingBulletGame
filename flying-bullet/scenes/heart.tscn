@@ -2,9 +2,14 @@
 
 [ext_resource type="Texture2D" uid="uid://dcl5nb2umq1ij" path="res://assets/heart.png" id="1_v30as"]
 
-[node name="Heart" type="TextureRect" unique_id=511251124]
-offset_right = 100.0
-offset_bottom = 70.0
-size_flags_horizontal = 0
+[node name="Heart" type="TextureRect" unique_id=1389678526]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 texture = ExtResource("1_v30as")
-expand_mode = 1
+expand_mode = 5
+stretch_mode = 4

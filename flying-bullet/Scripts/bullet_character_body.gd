@@ -12,7 +12,7 @@ func _ready() -> void:
 	$BurstCooldown.start()
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 
@@ -33,5 +33,6 @@ func _physics_process(delta: float) -> void:
 		#force = force.rotated(deg_to_rad(-90))
 	apply_force(force * delta / 750)
 
-func _on_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
-	apply_impulse(self.linear_velocity)
+func _on_body_shape_entered(_body_rid: RID, _body: Node, _body_shape_index: int, _local_shape_index: int) -> void:
+	call_deferred("set_lock_rotation_enabled", [true])
+	call_deferred("set_lock_rotation_enabled", [false])
