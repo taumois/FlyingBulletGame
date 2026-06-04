@@ -7,7 +7,7 @@
 bounce = 1.0
 
 [sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_4utqk"]
-points = PackedVector2Array(-9.09, 9.7, -9.155, -3.5, -1.5, -10.625, 1.5, -10.62, 9.055, -3.5, 9.055, 9.7)
+points = PackedVector2Array(-19.999996, 78, -20.000002, -35, -2.0000038, -89, 1.9999961, -89, 19.999998, -35, 20.000004, 78)
 
 [node name="Bullet" type="RigidBody2D" unique_id=99446846]
 physics_material_override = SubResource("PhysicsMaterial_p1sfj")
@@ -24,7 +24,6 @@ offset = Vector2(-393.795, -140.035)
 [node name="CollisionShape" type="CollisionShape2D" parent="." unique_id=64454770]
 position = Vector2(4.6222322e-33, 0)
 rotation = 1.5707964
-scale = Vector2(2.2, 8.059)
 shape = SubResource("ConvexPolygonShape2D_4utqk")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=37108012]

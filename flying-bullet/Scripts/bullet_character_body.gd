@@ -16,7 +16,8 @@ func _process(_delta: float) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	apply_force(Vector2.from_angle(self.rotation) * ACCELERATION * delta)
+	if Input.is_action_pressed("ui_accept"):
+		apply_force(Vector2.from_angle(self.rotation) * ACCELERATION * delta)
 	
 	if Input.is_action_pressed("ui_left"):
 		apply_torque(-TURNING_ACCELERATION * delta)
