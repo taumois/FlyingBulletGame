@@ -3,10 +3,8 @@
 [ext_resource type="Script" uid="uid://74ryjwmk2mwf" path="res://scripts/bullet.gd" id="1_y25gk"]
 [ext_resource type="Texture2D" uid="uid://ddt78xugc1log" path="res://assets/bullet.png" id="2_p1sfj"]
 
-[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_4utqk"]
-points = PackedVector2Array(-19.999996, 78, -20.000002, -35, -2.0000038, -89, 1.9999961, -89, 19.999998, -35, 20.000004, 78)
-
 [node name="Bullet" type="CharacterBody2D" unique_id=1533421621]
+motion_mode = 1
 script = ExtResource("1_y25gk")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1257408981]
@@ -15,10 +13,8 @@ texture = ExtResource("2_p1sfj")
 centered = false
 offset = Vector2(-393.795, -140.035)
 
-[node name="CollisionShape" type="CollisionShape2D" parent="." unique_id=64454770]
-position = Vector2(4.6222322e-33, 0)
-rotation = 1.5707964
-shape = SubResource("ConvexPolygonShape2D_4utqk")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=464412259]
+polygon = PackedVector2Array(-78, -20, 35, -20, 89, -2, 89, 2, 35, 20, -78, 20)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=37108012]
 root_node = NodePath("../..")

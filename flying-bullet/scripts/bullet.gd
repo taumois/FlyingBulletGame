@@ -10,6 +10,7 @@ func _ready() -> void:
 	hearts = MAX_HEARTS
 
 func _physics_process(delta: float) -> void:
-	var acceleration
+	var motion = Vector2.ZERO
 	
-	move_and_collide(acceleration)
+	
+	move_and_collide(motion)
