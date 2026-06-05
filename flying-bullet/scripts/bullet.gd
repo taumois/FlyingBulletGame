@@ -3,7 +3,7 @@ extends CharacterBody2D
 
 const MAX_HEARTS = 3
 const ROTATIONAL_ACCELERATION = 0.05 / 0.017
-const LINEAR_ACCELERATION = 100 / 0.017
+const LINEAR_ACCELERATION = 1 / 0.017
 const drag = 1.05
 
 
@@ -26,9 +26,11 @@ func _physics_process(delta: float) -> void:
 		rotate(rotation_direction * ROTATIONAL_ACCELERATION * delta)
 		velocity = velocity / drag
 	
-	var collision = move_and_collide(velocity * delta)
+	var collision = move_and_collide(velocity)
 	if collision != null:
 		bounce(collision)
+	else:
+		blacklistedCollisionId = null
 
 
 func bounce(collision: KinematicCollision2D) -> void:
