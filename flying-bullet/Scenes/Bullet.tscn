@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://81nwwjsec0fl"]
 
 [ext_resource type="Script" uid="uid://74ryjwmk2mwf" path="res://scripts/bullet.gd" id="1_y25gk"]
-[ext_resource type="Texture2D" uid="uid://ddt78xugc1log" path="res://assets/bullet.png" id="2_p1sfj"]
+[ext_resource type="Texture2D" uid="uid://ddt78xugc1log" path="res://assets/Bullet.png" id="2_p1sfj"]
 
 [node name="Bullet" type="CharacterBody2D" unique_id=1533421621]
 motion_mode = 1
