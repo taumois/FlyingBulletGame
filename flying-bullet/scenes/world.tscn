@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://qbq5hhb0wgrm"]
+[gd_scene format=3 uid="uid://bmtortsl7up2b"]
 
 [ext_resource type="PackedScene" uid="uid://81nwwjsec0fl" path="res://scenes/bullet.tscn" id="1_5a7ea"]
 [ext_resource type="PackedScene" uid="uid://ch2fb2iw5ew7i" path="res://scenes/hud.tscn" id="2_8j60k"]
@@ -11,6 +11,7 @@
 unique_name_in_owner = true
 
 [node name="Camera" type="Camera2D" parent="Bullet" unique_id=492698182]
+zoom = Vector2(0.14, 0.14)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 script = ExtResource("2_k0juu")
