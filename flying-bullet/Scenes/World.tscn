@@ -11,17 +11,28 @@ unique_name_in_owner = true
 
 [node name="Camera" type="Camera2D" parent="Bullet" unique_id=492698182]
 position_smoothing_enabled = true
+position_smoothing_speed = 10.0
 
 [node name="HUD" parent="." unique_id=10412879 instance=ExtResource("2_8j60k")]
 
 [node name="Houses" type="Node2D" parent="." unique_id=1870176974]
 
 [node name="House" parent="Houses" unique_id=1506828352 instance=ExtResource("3_fo5ed")]
-position = Vector2(602, -97)
-rotation = -0.7853982
+position = Vector2(550, -100)
+rotation = 0.7853982
 scale = Vector2(1.9999999, 1.9999999)
 
 [node name="House2" parent="Houses" unique_id=2132371804 instance=ExtResource("3_fo5ed")]
-position = Vector2(566, 347)
-rotation = -1.5707964
+position = Vector2(-500.00003, 4.9999924)
+rotation = 1.8325958
+scale = Vector2(2, 2)
+
+[node name="House3" parent="Houses" unique_id=1408112835 instance=ExtResource("3_fo5ed")]
+position = Vector2(450, 350)
+rotation = 6.2831855
+scale = Vector2(2, 2)
+
+[node name="House4" parent="Houses" unique_id=463321041 instance=ExtResource("3_fo5ed")]
+position = Vector2(200, 597)
+rotation = 6.2831855
 scale = Vector2(2, 2)
