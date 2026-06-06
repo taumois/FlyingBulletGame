@@ -7,6 +7,9 @@
 
 [node name="World" type="Node2D" unique_id=1755103904]
 
+[node name="HUD" parent="." unique_id=1363814451 instance=ExtResource("2_8j60k")]
+unique_name_in_owner = true
+
 [node name="Bullet" parent="." unique_id=1533421621 instance=ExtResource("1_5a7ea")]
 unique_name_in_owner = true
 
@@ -31,8 +34,8 @@ rotation = 6.2831855
 scale = Vector2(2, 2)
 
 [node name="House4" parent="Houses" unique_id=463321041 instance=ExtResource("3_fo5ed")]
-position = Vector2(200, 597)
+position = Vector2(139, 914)
 rotation = 6.2831855
-scale = Vector2(2, 2)
+scale = Vector2(7.015, 7.015)
 
-[node name="HUD" parent="." unique_id=1363814451 instance=ExtResource("2_8j60k")]
+[connection signal="score_updated" from="Bullet" to="HUD" method="_on_bullet_score_updated"]
