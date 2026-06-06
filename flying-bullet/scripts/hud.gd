@@ -4,7 +4,6 @@ const HEART = preload("res://scenes/heart.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	print(%Bullet.MAX_HEARTS)
 	for heart in %Bullet.MAX_HEARTS:
 		%Hearts.add_child(HEART.instantiate())
 

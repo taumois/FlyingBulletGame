@@ -18,9 +18,3 @@ polygon = PackedVector2Array(-78, -20, 35, -20, 89, -2, 89, 2, 35, 20, -78, 20)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=37108012]
 root_node = NodePath("../..")
-
-[node name="BounceLength" type="Timer" parent="." unique_id=1512960084]
-wait_time = 0.1
-one_shot = true
-
-[connection signal="timeout" from="BounceLength" to="." method="_on_bounce_length_timeout"]
