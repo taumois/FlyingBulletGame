@@ -8,9 +8,9 @@ extends CharacterBody2D
 
 const MAX_HEARTS = 3
 const ROTATIONAL_ACCELERATION = 100
-const LINEAR_ACCELERATION = 4500
+const LINEAR_ACCELERATION = 100
 const linear_drag = 1.02
-const rotational_drag = 1.005
+const rotational_drag = 0
 
 var hasBlacklistedCollider
 var blacklistedColliderId
@@ -26,18 +26,23 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	velocity += Vector2.from_angle(rotation) * LINEAR_ACCELERATION * delta
-	velocity = velocity / linear_drag
+	velocity = velocity / linear_drag 
 	
-	var _rotation_direction = (1 if Input.is_action_pressed("turn_left") else 0) + (-1 if Input.is_action_pressed("turn_right") else 0)
-	if Input.is_action_pressed("turn_left"):
-		_rotation_direction = -1
+	if Input.is_action_pressed("ui_accept"):
+		Engine.time_scale = -1
+	else:
+		Engine.time_scale = 1
+	
+	#var _rotation_direction = (1 if Input.is_action_pressed("turn_left") else 0) + (-1 if Input.is_action_pressed("turn_right") else 0)
+	#if Input.is_action_pressed("turn_left"):
+		#_rotation_direction = -1
 	
 	var collision = move_and_collide(velocity)
 	if collision != null:
 		bounce(collision)
+		print("col")
 	else:
 		hasBlacklistedCollider = false
-
 
 func bounce(collision: KinematicCollision2D) -> void:
 	var collisionId = collision.get_collider_id()
@@ -48,8 +53,8 @@ func bounce(collision: KinematicCollision2D) -> void:
 	
 	var collisionNormal = collision.get_normal()
 	velocity = velocity.bounce(collisionNormal)
-	rotation = velocity.angle()
-	position = collision.get_position()
+	rotation = Vector2.from_angle(rotation).bounce(collisionNormal).angle()
+	#position = collision.get_position()
 	
 	
 	
