@@ -28,10 +28,10 @@ func _physics_process(delta: float) -> void:
 	velocity += Vector2.from_angle(rotation) * LINEAR_ACCELERATION * delta
 	velocity = velocity / linear_drag
 	
-	var rotation_direction = (1 if Input.is_action_pressed("turn_left") else 0) + (-1 if Input.is_action_pressed("turn_right") else 0)
+	var _rotation_direction = (1 if Input.is_action_pressed("turn_left") else 0) + (-1 if Input.is_action_pressed("turn_right") else 0)
 	if Input.is_action_pressed("turn_left"):
-		rotation_direction = -1
-		
+		_rotation_direction = -1
+	
 	var collision = move_and_collide(velocity)
 	if collision != null:
 		bounce(collision)
