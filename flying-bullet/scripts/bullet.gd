@@ -7,16 +7,15 @@ extends CharacterBody2D
 # add speed number to HUD
 
 const MAX_HEARTS = 3
-const ROTATIONAL_ACCELERATION = 100
-const LINEAR_ACCELERATION = 100
-const linear_drag = 1.02
-const rotational_drag = 0
+const LINEAR_ACCELERATION = 10
+const linear_drag = 1.02 / 0.0166
 
 var hasBlacklistedCollider
 var blacklistedColliderId
 var hearts
 var score
 
+var x = str
 
 func _ready() -> void:
 	hasBlacklistedCollider = false
@@ -26,35 +25,36 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	velocity += Vector2.from_angle(rotation) * LINEAR_ACCELERATION * delta
-	velocity = velocity / linear_drag 
-	
-	if Input.is_action_pressed("ui_accept"):
-		Engine.time_scale = -1
-	else:
-		Engine.time_scale = 1
-	
-	#var _rotation_direction = (1 if Input.is_action_pressed("turn_left") else 0) + (-1 if Input.is_action_pressed("turn_right") else 0)
-	#if Input.is_action_pressed("turn_left"):
-		#_rotation_direction = -1
+	#velocity /= linear_drag * delta
 	
 	var collision = move_and_collide(velocity)
 	if collision != null:
 		bounce(collision)
-		print("col")
 	else:
 		hasBlacklistedCollider = false
 
+
 func bounce(collision: KinematicCollision2D) -> void:
-	var collisionId = collision.get_collider_id()
-	if collisionId == blacklistedColliderId:
+	var colliderId = collision.get_collider_id()
+	if colliderIdIsBlacklisted(colliderId):
 		return
-	blacklistedColliderId = collisionId
-	hasBlacklistedCollider = true
+	blacklistCollider(colliderId)
 	
+	self.set_collision_mask_value(1, false)
 	var collisionNormal = collision.get_normal()
+	print(collision.get_travel())
 	velocity = velocity.bounce(collisionNormal)
 	rotation = Vector2.from_angle(rotation).bounce(collisionNormal).angle()
-	#position = collision.get_position()
-	
-	
-	
+	position = collision.get_position()
+
+
+func colliderIdIsBlacklisted(id: int) -> bool:
+	if hasBlacklistedCollider:
+		if id == blacklistedColliderId:
+			return true
+	return false
+
+
+func blacklistCollider(colliderId: int) -> void:
+	blacklistedColliderId = colliderId
+	hasBlacklistedCollider = true
