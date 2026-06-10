@@ -5,7 +5,7 @@ signal current_health(health: int)
 signal current_speed(speed: int)
 
 const MAX_HEALTH = 3
-const LINEAR_ACCELERATION = 0.01 / 0.01666666666667
+const LINEAR_ACCELERATION = 0.1 / 0.01666666666667
 const LINEAR_SLIPPERINESS = 1 / 0.01666666666667
 
 var lastCollisionsCollider

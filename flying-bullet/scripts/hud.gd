@@ -3,12 +3,14 @@ extends CanvasLayer
 const HEART = preload("res://scenes/heart.tscn")
 
 var recorded_health;
+var recorded_speed;
 var time
 var acceleration
 
 
 func _ready() -> void:
 	recorded_health = 0
+	recorded_speed = 0
 	acceleration = 0
 
 
@@ -29,5 +31,7 @@ func _on_bullet_current_score(score: int) -> void:
 
 
 func _on_bullet_current_speed(speed: int) -> void:
-	time = time - Time.get_ticks_msec()
-	%Speed.text = "Speed {0}".format([acceleration])
+	acceleration = abs(recorded_speed - speed)
+	%Speed.text = "Acceleration {0}m/s/s".format([acceleration])
+	%Acceleration.text = "Speed {0}".format([speed])
+	recorded_speed = speed

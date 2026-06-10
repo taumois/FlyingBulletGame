@@ -35,7 +35,7 @@ self_modulate = Color(0, 0, 0, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
-text = "Score: "
+text = "Score"
 horizontal_alignment = 1
 
 [node name="Speed" type="Label" parent="Control/VBoxContainer/HBoxContainer" unique_id=1474510629]
@@ -44,5 +44,14 @@ self_modulate = Color(0, 0, 0, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "Score: "
+text = "Speed"
+horizontal_alignment = 1
+
+[node name="Acceleration" type="Label" parent="Control/VBoxContainer/HBoxContainer" unique_id=1113906291]
+unique_name_in_owner = true
+self_modulate = Color(0, 0, 0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Acceleration"
 horizontal_alignment = 1
