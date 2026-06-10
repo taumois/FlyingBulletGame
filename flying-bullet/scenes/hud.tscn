@@ -26,14 +26,10 @@ layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
-<<<<<<< Updated upstream
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer" unique_id=1704899476]
 layout_mode = 2
 
 [node name="Score" type="Label" parent="Control/VBoxContainer/HBoxContainer" unique_id=730581990]
-=======
-[node name="Score" type="Label" parent="Control/VBoxContainer" unique_id=730581990]
->>>>>>> Stashed changes
 unique_name_in_owner = true
 self_modulate = Color(0, 0, 0, 1)
 layout_mode = 2
@@ -48,5 +44,5 @@ self_modulate = Color(0, 0, 0, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-text = "Score: 0"
+text = "Score: "
 horizontal_alignment = 1
