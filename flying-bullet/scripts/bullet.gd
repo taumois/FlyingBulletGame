@@ -5,16 +5,31 @@ signal current_health(health: int)
 signal current_speed(speed: int)
 
 const MAX_HEALTH = 3
-const LINEAR_ACCELERATION = 0.1 / 0.01666666666667
-const LINEAR_SLIPPERINESS = 1 / 0.01666666666667
+const LINEAR_ACCELERATION = 0.5 / 0.01666666666667
+const LINEAR_SLIPPERINESS = 0.99 / 0.01666666666667
 
 var lastCollisionsCollider
 var health
 var score
 
+enum Direction {
+	LEFT = -1, 
+	RIGHT = 1,
+}
+
 func _ready() -> void:
 	health = MAX_HEALTH
 	score = 0
+
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	var turn_direction
+	if event.is_action_pressed("turn_left"):
+		turn_direction = Direction.LEFT
+	elif event.is_action_pressed("turn_right"):
+		turn_direction = Direction.RIGHT
+	get_viewport().set_input_as_handled()
+
 
 func _process(_delta: float) -> void:
 	emit_signal("current_score", score)
@@ -22,7 +37,7 @@ func _process(_delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	velocity += Vector2.from_angle(rotation) * LINEAR_ACCELERATION * delta
-	#velocity *= LINEAR_SLIPPERINESS * delta
+	velocity *= LINEAR_SLIPPERINESS * delta
 	var collision = move_and_collide(velocity)
 	if collision != null:
 		bounce(collision)
@@ -42,7 +57,3 @@ func bounce(collision: KinematicCollision2D) -> void:
 	velocity = velocity.bounce(collisionNormal)
 	rotation = Vector2.from_angle(rotation).bounce(collisionNormal).angle()
 	position = collision.get_position()
-
-
-class x:
-	var _health
