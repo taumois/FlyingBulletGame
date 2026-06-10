@@ -45,12 +45,13 @@ func _process(_delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	if turn_direction != null:
 		rotational_velocity += turn_direction * ROTATIONAL_ACCELERATION * delta
-	rotational_velocity = fmod(rotational_velocity, 360)
+	rotational_velocity = fmod(rotational_velocity, 360.0)
 	rotation += rotational_velocity
 	rotational_velocity *= ROTATIONAL_SLIPPERINESS * delta
 	
 	velocity = Vector2.from_angle(rotation) * velocity.length() + Vector2.from_angle(rotation) * LINEAR_ACCELERATION * delta
-	var a = absf(1 / ((1 / DRAG_FROM_ROTATION) * rotational_velocity / 100))
+	var a = 1 / (maxf(1 + (rotational_velocity / 360.0), 1) * (1.0 / DRAG_FROM_ROTATION))
+	a = absf(a)
 	print(a)
 	velocity *= LINEAR_SLIPPERINESS * delta * a
 	
