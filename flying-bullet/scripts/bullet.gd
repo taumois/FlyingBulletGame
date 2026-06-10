@@ -7,10 +7,15 @@ signal current_speed(speed: int)
 const MAX_HEALTH = 3
 const LINEAR_ACCELERATION = 0.5 / 0.01666666666667
 const LINEAR_SLIPPERINESS = 0.99 / 0.01666666666667
+const ROTATIONAL_ACCELERATION = 0.005 / 0.01666666666667
+const ROTATIONAL_SLIPPERINESS = 0.9 / 0.01666666666667
+const DRAG_FROM_ROTATION = 0.5 / 0.01666666666667
 
 var lastCollisionsCollider
 var health
 var score
+var turn_direction
+var rotational_velocity
 
 enum Direction {
 	LEFT = -1, 
@@ -18,17 +23,19 @@ enum Direction {
 }
 
 func _ready() -> void:
+	velocity = Vector2.ZERO
+	rotational_velocity = 0.0
 	health = MAX_HEALTH
 	score = 0
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
-	var turn_direction
-	if event.is_action_pressed("turn_left"):
+	if event.is_action("turn_left"):
 		turn_direction = Direction.LEFT
-	elif event.is_action_pressed("turn_right"):
+		get_viewport().set_input_as_handled()
+	elif event.is_action("turn_right"):
 		turn_direction = Direction.RIGHT
-	get_viewport().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 
 
 func _process(_delta: float) -> void:
@@ -36,8 +43,17 @@ func _process(_delta: float) -> void:
 	emit_signal("current_health", health)
 
 func _physics_process(delta: float) -> void:
-	velocity += Vector2.from_angle(rotation) * LINEAR_ACCELERATION * delta
-	velocity *= LINEAR_SLIPPERINESS * delta
+	if turn_direction != null:
+		rotational_velocity += turn_direction * ROTATIONAL_ACCELERATION * delta
+	rotational_velocity = fmod(rotational_velocity, 360)
+	rotation += rotational_velocity
+	rotational_velocity *= ROTATIONAL_SLIPPERINESS * delta
+	
+	velocity = Vector2.from_angle(rotation) * velocity.length() + Vector2.from_angle(rotation) * LINEAR_ACCELERATION * delta
+	var a = absf(1 / ((1 / DRAG_FROM_ROTATION) * rotational_velocity / 100))
+	print(a)
+	velocity *= LINEAR_SLIPPERINESS * delta * a
+	
 	var collision = move_and_collide(velocity)
 	if collision != null:
 		bounce(collision)
