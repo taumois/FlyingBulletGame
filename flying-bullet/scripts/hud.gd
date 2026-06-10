@@ -1,23 +1,33 @@
 extends CanvasLayer
 
 const HEART = preload("res://scenes/heart.tscn")
-const  SCORE_TEXT = "Score: {0}"
 
-# Called when the node enters the scene tree for the first time.
+var recorded_health;
+var time
+var acceleration
+
+
 func _ready() -> void:
-	update_score(1)
-	for heart in %Bullet.MAX_HEARTS:
-		%Hearts.add_child(HEART.instantiate())
+	recorded_health = 0
+	acceleration = 0
 
 
-func update_score(score: int) -> void:
-	%Score.text = SCORE_TEXT.format([score])
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	pass
 
 
-func _on_bullet_score_updated(score: int) -> void:
-	update_score(score)
+func _on_bullet_current_health(health: int) -> void:
+	for health_point in (health - recorded_health):
+		%Hearts.add_child(HEART.instantiate())
+	for health_point in (recorded_health - health):
+		%Hearts.get_child(0).queue_free()
+	recorded_health = health
+
+
+func _on_bullet_current_score(score: int) -> void:
+	%Score.text = "Score {0}".format([score])
+
+
+func _on_bullet_current_speed(speed: int) -> void:
+	time = time - Time.get_ticks_msec()
+	%Speed.text = "Speed {0}".format([acceleration])
