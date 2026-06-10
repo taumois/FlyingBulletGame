@@ -38,6 +38,11 @@ position = Vector2(139, 914)
 rotation = 6.2831855
 scale = Vector2(7.015, 7.015)
 
+<<<<<<< Updated upstream
 [connection signal="current_health" from="Bullet" to="HUD" method="_on_bullet_current_health"]
 [connection signal="current_score" from="Bullet" to="HUD" method="_on_bullet_current_score"]
 [connection signal="current_speed" from="Bullet" to="HUD" method="_on_bullet_current_speed"]
+=======
+[connection signal="health_updated" from="Bullet" to="HUD" method="_on_bullet_health_updated"]
+[connection signal="score_updated" from="Bullet" to="HUD" method="_on_bullet_score_updated"]
+>>>>>>> Stashed changes
