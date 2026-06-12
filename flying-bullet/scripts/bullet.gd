@@ -84,12 +84,11 @@ func bounce(collision: KinematicCollision2D) -> void:
 	rotation = Vector2.from_angle(rotation).bounce(collision_normal).angle()
 	position = collision.get_position()
 	
-	if collision.has_method("score_from_collision"):
-		collision.get_instance_id()
-		score += collision.score_from_collision()
+	if previous_collisions_collider.has_method("score_from_collision"):
+		score += previous_collisions_collider.get_collider().score_from_collision()
 		
-	if collision.has_method("acceleration_multiplication_from_collision"):
-		velocity *= collision.acceleration_multiplication_from_collision()
+	if collision.get_collider().has_method("acceleration_multiplication_from_collision"):
+		velocity *= previous_collisions_collider.get_collider().acceleration_multiplication_from_collision()
 
 
 func in_area_of_previous_collisions_collider() -> bool:
