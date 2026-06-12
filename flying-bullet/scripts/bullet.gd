@@ -5,11 +5,11 @@ signal current_health(health: int)
 signal current_speed(speed: int)
 
 const MAX_HEALTH = 3
-const LINEAR_ACCELERATION = 0.5 / 0.01666666666667
-const LINEAR_SLIPPERINESS = 0.99 / 0.01666666666667
+const LINEAR_ACCELERATION = 0.15 / 0.01666666666667
+const LINEAR_SLIPPERINESS = 0.996 / 0.01666666666667
 const ROTATIONAL_ACCELERATION = 0.005 / 0.01666666666667
 const ROTATIONAL_SLIPPERINESS = 0.9 / 0.01666666666667
-const MAGIC_ROTATION_DRAG_VALUE = 0.1
+const MAGIC_VELOCITY_LENGTH_DRAG_VALUE = 0.05
 
 var previous_collisions_collider
 var health
@@ -49,21 +49,22 @@ func _process(_delta: float) -> void:
 	emit_signal("current_health", health)
 
 
-func drag_multiplier_from_rotational_velocity() -> float:
-	var modified_rotational_velocity = maxf(absf(rotational_velocity), 1)
-	var x = MAGIC_ROTATION_DRAG_VALUE * modified_rotational_velocity
-	return 1 / x
+func drag_multiplier_from_velocity_length(velocity_length: float) -> float:
+	var modified_velocity_length = pow(absf(velocity_length), 2)
+	var drag_divider = MAGIC_VELOCITY_LENGTH_DRAG_VALUE * modified_velocity_length * 10 + 1
+	return 1 / drag_divider
 
 
 func _physics_process(delta: float) -> void:
 	if turn_direction != null:
-		rotational_velocity += turn_direction * ROTATIONAL_ACCELERATION * delta
+		rotational_velocity += turn_direction * ROTATIONAL_ACCELERATION * delta / (pow(maxf(velocity.length(), 1), 2)) * 2000
 	rotation += rotational_velocity
 	rotational_velocity *= ROTATIONAL_SLIPPERINESS * delta
 	
 	velocity = Vector2.from_angle(rotation) * velocity.length() + Vector2.from_angle(rotation) * LINEAR_ACCELERATION * delta
-	velocity *= LINEAR_SLIPPERINESS * drag_multiplier_from_rotational_velocity() * delta
-	print(drag_multiplier_from_rotational_velocity())
+	#velocity *= LINEAR_SLIPPERINESS * drag_multiplier_from_velocity_length(rotational_velocity) * delta
+	velocity *= LINEAR_SLIPPERINESS * delta / ((pow(maxf(rotational_velocity, 1), 2) + 1) / 8000 + 1)
+	print(pow(maxf(absf(rotational_velocity), 1), 2))
 	
 	if not in_area_of_previous_collisions_collider():
 		previous_collisions_collider.set_collision_layer_value(1, true)
