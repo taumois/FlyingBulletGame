@@ -49,8 +49,10 @@ func _process(_delta: float) -> void:
 	emit_signal("current_health", health)
 
 
-func drag_multiplier_from_rotational_velocity(rotational_velocity: float) -> float:
-	return 1 / maxf(pow(MAGIC_ROTATION_DRAG_VALUE * absf(rotational_velocity), 2), 1)
+func drag_multiplier_from_rotational_velocity() -> float:
+	var modified_rotational_velocity = maxf(absf(rotational_velocity), 1)
+	var x = MAGIC_ROTATION_DRAG_VALUE * modified_rotational_velocity
+	return 1 / x
 
 
 func _physics_process(delta: float) -> void:
@@ -60,7 +62,8 @@ func _physics_process(delta: float) -> void:
 	rotational_velocity *= ROTATIONAL_SLIPPERINESS * delta
 	
 	velocity = Vector2.from_angle(rotation) * velocity.length() + Vector2.from_angle(rotation) * LINEAR_ACCELERATION * delta
-	velocity *= LINEAR_SLIPPERINESS * drag_multiplier_from_rotational_velocity(rotational_velocity) * delta
+	velocity *= LINEAR_SLIPPERINESS * drag_multiplier_from_rotational_velocity() * delta
+	print(drag_multiplier_from_rotational_velocity())
 	
 	if not in_area_of_previous_collisions_collider():
 		previous_collisions_collider.set_collision_layer_value(1, true)
@@ -73,22 +76,22 @@ func _physics_process(delta: float) -> void:
 
 
 func bounce(collision: KinematicCollision2D) -> void:
-	var collision_normal
+	var collision_normal = collision.get_normal()
+	var collisions_collider = collision.get_collider()
 	
-	previous_collisions_collider.set_collision_layer_value(1, true)
-	previous_collisions_collider = collision.get_collider()
-	previous_collisions_collider.set_collision_layer_value(1, false)
-	
-	collision_normal = collision.get_normal()
 	velocity = velocity.bounce(collision_normal)
 	rotation = Vector2.from_angle(rotation).bounce(collision_normal).angle()
 	position = collision.get_position()
 	
-	if previous_collisions_collider.has_method("score_from_collision"):
-		score += previous_collisions_collider.get_collider().score_from_collision()
-		
-	if collision.get_collider().has_method("acceleration_multiplication_from_collision"):
-		velocity *= previous_collisions_collider.get_collider().acceleration_multiplication_from_collision()
+	if collisions_collider.has_method("score_from_collision"):
+		score += collisions_collider.score_from_collision()
+	
+	if collisions_collider.has_method("acceleration_multiplication_from_collision"):
+		velocity *= collisions_collider.acceleration_multiplication_from_collision()
+	
+	previous_collisions_collider.set_collision_layer_value(1, true)
+	collisions_collider.set_collision_layer_value(1, false)
+	previous_collisions_collider = collisions_collider
 
 
 func in_area_of_previous_collisions_collider() -> bool:
