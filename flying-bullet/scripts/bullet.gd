@@ -5,11 +5,10 @@ signal current_health(health: int)
 signal current_speed(speed: int)
 
 const MAX_HEALTH = 3
-const LINEAR_ACCELERATION = 0.15 / 0.01666666666667
-const LINEAR_SLIPPERINESS = 0.996 / 0.01666666666667
+const LINEAR_ACCELERATION = 0.3 / 0.01666666666667
+const LINEAR_SLIPPERINESS = 0.9985 / 0.01666666666667
 const ROTATIONAL_ACCELERATION = 0.005 / 0.01666666666667
 const ROTATIONAL_SLIPPERINESS = 0.9 / 0.01666666666667
-const MAGIC_VELOCITY_LENGTH_DRAG_VALUE = 0.05
 
 var previous_collisions_collider
 var health
@@ -49,22 +48,16 @@ func _process(_delta: float) -> void:
 	emit_signal("current_health", health)
 
 
-func drag_multiplier_from_velocity_length(velocity_length: float) -> float:
-	var modified_velocity_length = pow(absf(velocity_length), 2)
-	var drag_divider = MAGIC_VELOCITY_LENGTH_DRAG_VALUE * modified_velocity_length * 10 + 1
-	return 1 / drag_divider
-
-
 func _physics_process(delta: float) -> void:
 	if turn_direction != null:
-		rotational_velocity += turn_direction * ROTATIONAL_ACCELERATION * delta / (pow(maxf(velocity.length(), 1), 2)) * 2000
+		rotational_velocity += turn_direction * ROTATIONAL_ACCELERATION * delta
 	rotation += rotational_velocity
 	rotational_velocity *= ROTATIONAL_SLIPPERINESS * delta
+	rotational_velocity /= 1 + pow(velocity.length() * 0.1, 2)
 	
 	velocity = Vector2.from_angle(rotation) * velocity.length() + Vector2.from_angle(rotation) * LINEAR_ACCELERATION * delta
-	#velocity *= LINEAR_SLIPPERINESS * drag_multiplier_from_velocity_length(rotational_velocity) * delta
-	velocity *= LINEAR_SLIPPERINESS * delta / (maxf(pow(rotational_velocity, 2), 1) / 8000 + 1)
-	print(maxf(pow(rotational_velocity, 2), 1) / 8000 + 1)
+	velocity *= LINEAR_SLIPPERINESS * delta
+	velocity /= 1 + pow(rotational_velocity * 10, 2.0)
 	
 	if (previous_collisions_collider.get_collision_layer_value(1) == false) and (not in_area_of_previous_collisions_collider()):
 		previous_collisions_collider.set_collision_layer_value(1, true)
@@ -72,7 +65,7 @@ func _physics_process(delta: float) -> void:
 	var collision = move_and_collide(velocity)
 	if collision != null:
 		bounce(collision)
-	
+		
 	emit_signal("current_speed", velocity.length())
 
 

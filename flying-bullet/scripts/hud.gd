@@ -1,16 +1,16 @@
 extends CanvasLayer
 
 const HEART = preload("res://scenes/heart.tscn")
-const UNIT_A_TO_B_MULT = 1
+const UNIT_A_TO_B_MULTIPLICATION = 1
 
 var recorded_health;
+var recorded_time;
+var recorded_speed;
 
 func _ready() -> void:
 	recorded_health = 0
-
-
-func _process(_delta: float) -> void:
-	pass
+	recorded_time = Time.get_ticks_msec()
+	recorded_speed = 0
 
 
 func _on_bullet_current_health(health: int) -> void:
@@ -26,10 +26,19 @@ func _on_bullet_current_score(score: int) -> void:
 
 
 func _on_bullet_current_speed(speed: float) -> void:
+	var time = Time.get_ticks_msec()
+	
 	var speed_in_unit_b = unit_b_from_a(speed)
 	%Speed.text = "Speed: {0}x/s".format([roundf(speed_in_unit_b)])
+	
+	var acceleration = (speed - recorded_speed) / (time - recorded_time) * 1000
+	var acceleration_in_unit_b = unit_b_from_a(acceleration)
+	%Acceleration.text = "Acceleration: {0}x/s/s".format([roundf(acceleration_in_unit_b)])
+	
+	recorded_speed = speed
+	recorded_time = time
 
 
 func unit_b_from_a(a: float) -> float:
-	var b = a * UNIT_A_TO_B_MULT
+	var b = a * UNIT_A_TO_B_MULTIPLICATION
 	return b
