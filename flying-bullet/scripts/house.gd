@@ -1,6 +1,6 @@
 extends StaticBody2D
 
-const acceleration_multiplication_from_collision_for_bullet = 2
+const acceleration_multiplication_from_collision_for_bullet = 1.2
 const score_from_collision_for_bullet = 10
 
 

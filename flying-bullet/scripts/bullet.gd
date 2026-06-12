@@ -63,10 +63,10 @@ func _physics_process(delta: float) -> void:
 	
 	velocity = Vector2.from_angle(rotation) * velocity.length() + Vector2.from_angle(rotation) * LINEAR_ACCELERATION * delta
 	#velocity *= LINEAR_SLIPPERINESS * drag_multiplier_from_velocity_length(rotational_velocity) * delta
-	velocity *= LINEAR_SLIPPERINESS * delta / ((pow(maxf(rotational_velocity, 1), 2) + 1) / 8000 + 1)
-	print(pow(maxf(absf(rotational_velocity), 1), 2))
+	velocity *= LINEAR_SLIPPERINESS * delta / (maxf(pow(rotational_velocity, 2), 1) / 8000 + 1)
+	print(maxf(pow(rotational_velocity, 2), 1) / 8000 + 1)
 	
-	if not in_area_of_previous_collisions_collider():
+	if (previous_collisions_collider.get_collision_layer_value(1) == false) and (not in_area_of_previous_collisions_collider()):
 		previous_collisions_collider.set_collision_layer_value(1, true)
 	
 	var collision = move_and_collide(velocity)
