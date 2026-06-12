@@ -9,9 +9,9 @@ const LINEAR_ACCELERATION = 0.5 / 0.01666666666667
 const LINEAR_SLIPPERINESS = 0.99 / 0.01666666666667
 const ROTATIONAL_ACCELERATION = 0.005 / 0.01666666666667
 const ROTATIONAL_SLIPPERINESS = 0.9 / 0.01666666666667
-const DRAG_FROM_ROTATION = 0.5 / 0.01666666666667
+const MAGIC_ROTATION_DRAG_VALUE = 0.1
 
-var lastCollisionsCollider
+var previous_collisions_collider
 var health
 var score
 var turn_direction
@@ -20,40 +20,50 @@ var rotational_velocity
 enum Direction {
 	LEFT = -1, 
 	RIGHT = 1,
+	NEUTRAL = 0,
 }
 
 func _ready() -> void:
+	previous_collisions_collider = StaticBody2D.new()
 	velocity = Vector2.ZERO
+	turn_direction = Direction.NEUTRAL
 	rotational_velocity = 0.0
 	health = MAX_HEALTH
 	score = 0
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
-	if event.is_action("turn_left"):
+	if event.is_action_pressed("turn_left"):
 		turn_direction = Direction.LEFT
-		get_viewport().set_input_as_handled()
-	elif event.is_action("turn_right"):
+	elif event.is_action_released("turn_left"):
+		turn_direction = Direction.NEUTRAL
+	if event.is_action_pressed("turn_right"):
 		turn_direction = Direction.RIGHT
-		get_viewport().set_input_as_handled()
+	elif event.is_action_released("turn_right"):
+		turn_direction = Direction.NEUTRAL
+	get_viewport().set_input_as_handled()
 
 
 func _process(_delta: float) -> void:
 	emit_signal("current_score", score)
 	emit_signal("current_health", health)
 
+
+func drag_multiplier_from_rotational_velocity(rotational_velocity: float) -> float:
+	return 1 / maxf(pow(MAGIC_ROTATION_DRAG_VALUE * absf(rotational_velocity), 2), 1)
+
+
 func _physics_process(delta: float) -> void:
 	if turn_direction != null:
 		rotational_velocity += turn_direction * ROTATIONAL_ACCELERATION * delta
-	rotational_velocity = fmod(rotational_velocity, 360.0)
 	rotation += rotational_velocity
 	rotational_velocity *= ROTATIONAL_SLIPPERINESS * delta
 	
 	velocity = Vector2.from_angle(rotation) * velocity.length() + Vector2.from_angle(rotation) * LINEAR_ACCELERATION * delta
-	var a = 1 / (maxf(1 + (rotational_velocity / 360.0), 1) * (1.0 / DRAG_FROM_ROTATION))
-	a = absf(a)
-	print(a)
-	velocity *= LINEAR_SLIPPERINESS * delta * a
+	velocity *= LINEAR_SLIPPERINESS * drag_multiplier_from_rotational_velocity(rotational_velocity) * delta
+	
+	if not in_area_of_previous_collisions_collider():
+		previous_collisions_collider.set_collision_layer_value(1, true)
 	
 	var collision = move_and_collide(velocity)
 	if collision != null:
@@ -63,14 +73,30 @@ func _physics_process(delta: float) -> void:
 
 
 func bounce(collision: KinematicCollision2D) -> void:
-	var collisionNormal
+	var collision_normal
 	
-	if lastCollisionsCollider != null:
-		lastCollisionsCollider.set_collision_layer_value(1, true)
-	lastCollisionsCollider = collision.get_collider()
-	lastCollisionsCollider.set_collision_layer_value(1, false)
+	previous_collisions_collider.set_collision_layer_value(1, true)
+	previous_collisions_collider = collision.get_collider()
+	previous_collisions_collider.set_collision_layer_value(1, false)
 	
-	collisionNormal = collision.get_normal()
-	velocity = velocity.bounce(collisionNormal)
-	rotation = Vector2.from_angle(rotation).bounce(collisionNormal).angle()
+	collision_normal = collision.get_normal()
+	velocity = velocity.bounce(collision_normal)
+	rotation = Vector2.from_angle(rotation).bounce(collision_normal).angle()
 	position = collision.get_position()
+	
+	if collision.has_method("score_from_collision"):
+		collision.get_instance_id()
+		score += collision.score_from_collision()
+		
+	if collision.has_method("acceleration_multiplication_from_collision"):
+		velocity *= collision.acceleration_multiplication_from_collision()
+
+
+func in_area_of_previous_collisions_collider() -> bool:
+	var collision
+	
+	previous_collisions_collider.set_collision_layer_value(1, true)
+	collision = move_and_collide(Vector2.ZERO, true)
+	previous_collisions_collider.set_collision_layer_value(1, false)
+	
+	return collision != null
