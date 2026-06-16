@@ -2,14 +2,15 @@ extends CanvasLayer
 
 const HEART = preload("res://scenes/heart.tscn")
 const UNIT_A_TO_B_MULTIPLICATION = 1
+const MSECS_PER_SECOND = 1000
 
 var recorded_health;
-var recorded_time;
+var recorded_msec;
 var recorded_speed;
 
 func _ready() -> void:
 	recorded_health = 0
-	recorded_time = Time.get_ticks_msec()
+	recorded_msec = Time.get_ticks_msec()
 	recorded_speed = 0
 
 
@@ -26,17 +27,17 @@ func _on_bullet_current_score(score: int) -> void:
 
 
 func _on_bullet_current_speed(speed: float) -> void:
-	var time = Time.get_ticks_msec()
+	var msecs = Time.get_ticks_msec()
 	
 	var speed_in_unit_b = unit_b_from_a(speed)
-	%Speed.text = "Speed: {0}x/s".format([roundf(speed_in_unit_b)])
+	%Speed.text = "Speed: {0}x/s".format([int(speed_in_unit_b)])
 	
-	var acceleration = (speed - recorded_speed) / (time - recorded_time) * 1000
+	var acceleration = (speed - recorded_speed) / (msecs - recorded_msec) * MSECS_PER_SECOND
 	var acceleration_in_unit_b = unit_b_from_a(acceleration)
-	%Acceleration.text = "Acceleration: {0}x/s/s".format([roundf(acceleration_in_unit_b)])
+	%Acceleration.text = "Acceleration: {0}x/s/s".format([int(acceleration_in_unit_b)])
 	
 	recorded_speed = speed
-	recorded_time = time
+	recorded_msec = msecs
 
 
 func unit_b_from_a(a: float) -> float:

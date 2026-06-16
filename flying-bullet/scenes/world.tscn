@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://ch2fb2iw5ew7i" path="res://scenes/hud.tscn" id="2_8j60k"]
 [ext_resource type="Script" uid="uid://ccs11430lpxv0" path="res://scripts/camera.gd" id="2_k0juu"]
 [ext_resource type="PackedScene" uid="uid://btgmk307wplld" path="res://scenes/house.tscn" id="3_fo5ed"]
+[ext_resource type="PackedScene" uid="uid://dh575nedhpctp" path="res://scenes/slime.tscn" id="5_71j4m"]
 
 [node name="World" type="Node2D" unique_id=1755103904]
 
@@ -37,6 +38,8 @@ scale = Vector2(2, 2)
 position = Vector2(139, 914)
 rotation = 6.2831855
 scale = Vector2(7.015, 7.015)
+
+[node name="Slime" parent="." unique_id=1612937630 instance=ExtResource("5_71j4m")]
 
 [connection signal="current_health" from="Bullet" to="HUD" method="_on_bullet_current_health"]
 [connection signal="current_score" from="Bullet" to="HUD" method="_on_bullet_current_score"]
