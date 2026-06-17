@@ -1,15 +1,18 @@
 [gd_scene format=3 uid="uid://dh575nedhpctp"]
 
 [ext_resource type="Texture2D" uid="uid://b8do3supnyd1j" path="res://assets/icon.svg" id="1_371uh"]
+[ext_resource type="Script" uid="uid://b3d8vloasmpuu" path="res://scripts/slime.gd" id="1_p2gj0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p2gj0"]
 
 [node name="Slime" type="RigidBody2D" unique_id=1612937630]
+script = ExtResource("1_p2gj0")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1144248209]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=751983019]
 texture = ExtResource("1_371uh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=944156049]
+scale = Vector2(6.125, 6.125)
 shape = SubResource("RectangleShape2D_p2gj0")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1357822203]

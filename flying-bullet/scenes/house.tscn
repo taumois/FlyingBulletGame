@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://btgmk307wplld"]
 
 [ext_resource type="Script" uid="uid://7vp0g7fje0dj" path="res://scripts/house.gd" id="1_qtlar"]
-[ext_resource type="Texture2D" uid="uid://b8do3supnyd1j" path="res://assets/icon.svg" id="1_xvb4y"]
+[ext_resource type="Texture2D" uid="uid://dhycj1x6jvtse" path="res://assets/block.png" id="2_qtlar"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oh6kn"]
 
@@ -9,8 +9,8 @@
 script = ExtResource("1_qtlar")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=504339820]
-scale = Vector2(0.01, 0.01)
-texture = ExtResource("1_xvb4y")
+scale = Vector2(0.96339506, 0.96339506)
+texture = ExtResource("2_qtlar")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=838043982]
 scale = Vector2(6.25, 6.25)

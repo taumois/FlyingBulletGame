@@ -5,10 +5,10 @@ signal current_health(health: int)
 signal current_speed(speed: int)
 
 const MAX_HEALTH = 3
-const LINEAR_ACCELERATION = 0.3 / 0.01666666666667
-const LINEAR_SLIPPERINESS = 0.9985 / 0.01666666666667
-const ROTATIONAL_ACCELERATION = 0.005 / 0.01666666666667
-const ROTATIONAL_SLIPPERINESS = 0.9 / 0.01666666666667
+const LINEAR_ACCELERATION = 0.125 / 0.01666666666667
+const LINEAR_SLIPPERINESS = 1.0 / 0.01666666666667
+const ROTATIONAL_ACCELERATION = 1.0 / 0.01666666666667
+const ROTATIONAL_SLIPPERINESS = 1.0 / 0.01666666666667
 
 var previous_collisions_collider
 var health
@@ -53,11 +53,11 @@ func _physics_process(delta: float) -> void:
 		rotational_velocity += turn_direction * ROTATIONAL_ACCELERATION * delta
 	rotation += rotational_velocity
 	rotational_velocity *= ROTATIONAL_SLIPPERINESS * delta
-	rotational_velocity /= 1 + pow(velocity.length() * 0.1, 2)
+	rotational_velocity /= 1 + pow(velocity.length(), 2.0) * delta
 	
 	velocity = Vector2.from_angle(rotation) * velocity.length() + Vector2.from_angle(rotation) * LINEAR_ACCELERATION * delta
 	velocity *= LINEAR_SLIPPERINESS * delta
-	velocity /= 1 + pow(rotational_velocity * 10, 2.0)
+	velocity /= 1 + pow(rotational_velocity, 2.0) * delta
 	
 	if (previous_collisions_collider.get_collision_layer_value(1) == false) and (not in_area_of_previous_collisions_collider()):
 		previous_collisions_collider.set_collision_layer_value(1, true)
