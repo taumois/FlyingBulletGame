@@ -44,3 +44,4 @@ scale = Vector2(7.015, 7.015)
 [connection signal="current_health" from="Bullet" to="HUD" method="_on_bullet_current_health"]
 [connection signal="current_score" from="Bullet" to="HUD" method="_on_bullet_current_score"]
 [connection signal="current_speed" from="Bullet" to="HUD" method="_on_bullet_current_speed"]
+[connection signal="body_entered" from="Slime" to="HUD" method="_on_slime_body_entered"]

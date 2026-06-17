@@ -5,10 +5,12 @@ signal current_health(health: int)
 signal current_speed(speed: int)
 
 const MAX_HEALTH = 3
-const LINEAR_ACCELERATION = 0.2
-const ROTATIONAL_ACCELERATION = 0.1
-const LINEAR_RESISTANCE = 1.0
-const ROTATIONAL_RESISTANCE = 1.0
+const LINEAR_ACCELERATION = 0.05
+const ROTATIONAL_ACCELERATION = 0.005
+const BASE_LINEAR_RESISTANCE = 1.0
+const BASE_ROTATIONAL_RESISTANCE = 1.0
+const LINEAR_RESISTANCE = 0.0
+const ROTATIONAL_RESISTANCE = 0.0
 
 var previous_collisions_collider
 var health
@@ -25,6 +27,7 @@ enum Direction {
 func _ready() -> void:
 	previous_collisions_collider = StaticBody2D.new()
 	velocity = Vector2.ZERO
+	rotation = 0.0
 	turn_direction = Direction.NEUTRAL
 	rotational_velocity = 0.0
 	health = MAX_HEALTH
@@ -51,16 +54,11 @@ func _process(_delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	if turn_direction != null:
 		rotational_velocity += turn_direction * ROTATIONAL_ACCELERATION
+	rotational_velocity /= pow((1.0 + absf(velocity.length()) * ROTATIONAL_RESISTANCE) * (1 + BASE_ROTATIONAL_RESISTANCE), 2.0)
 	rotation += rotational_velocity
-	rotational_velocity /= ROTATIONAL_RESISTANCE
-	rotational_velocity /= 1 + pow(velocity.length(), 2.0)
 	
 	velocity = Vector2.from_angle(rotation) * velocity.length() + Vector2.from_angle(rotation) * LINEAR_ACCELERATION
-	velocity /= LINEAR_RESISTANCE
-	print(velocity.length())
-	velocity /= 1 + pow(rotational_velocity, 2.0)
-	print(1 / pow(1 / rotational_velocity, 2.0))
-	print(velocity.length())
+	velocity /= pow((1.0 + absf(rotational_velocity) * LINEAR_RESISTANCE) * (1 + BASE_LINEAR_RESISTANCE), 2.0)
 	
 	if (previous_collisions_collider.get_collision_layer_value(1) == false) and (not in_area_of_previous_collisions_collider()):
 		previous_collisions_collider.set_collision_layer_value(1, true)

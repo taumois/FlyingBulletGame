@@ -43,3 +43,7 @@ func _on_bullet_current_speed(speed: float) -> void:
 func unit_b_from_a(a: float) -> float:
 	var b = a * UNIT_A_TO_B_MULTIPLICATION
 	return b
+
+
+func _on_slime_body_entered(body: Node) -> void:
+	pass # Replace with function body.
