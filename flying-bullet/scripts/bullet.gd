@@ -5,10 +5,10 @@ signal current_health(health: int)
 signal current_speed(speed: int)
 
 const MAX_HEALTH = 3
-const LINEAR_ACCELERATION = 0.125 / 0.01666666666667
-const LINEAR_SLIPPERINESS = 1.0 / 0.01666666666667
-const ROTATIONAL_ACCELERATION = 1.0 / 0.01666666666667
-const ROTATIONAL_SLIPPERINESS = 1.0 / 0.01666666666667
+const LINEAR_ACCELERATION = 0.2
+const ROTATIONAL_ACCELERATION = 0.1
+const LINEAR_RESISTANCE = 1.0
+const ROTATIONAL_RESISTANCE = 1.0
 
 var previous_collisions_collider
 var health
@@ -50,14 +50,17 @@ func _process(_delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	if turn_direction != null:
-		rotational_velocity += turn_direction * ROTATIONAL_ACCELERATION * delta
+		rotational_velocity += turn_direction * ROTATIONAL_ACCELERATION
 	rotation += rotational_velocity
-	rotational_velocity *= ROTATIONAL_SLIPPERINESS * delta
-	rotational_velocity /= 1 + pow(velocity.length(), 2.0) * delta
+	rotational_velocity /= ROTATIONAL_RESISTANCE
+	rotational_velocity /= 1 + pow(velocity.length(), 2.0)
 	
-	velocity = Vector2.from_angle(rotation) * velocity.length() + Vector2.from_angle(rotation) * LINEAR_ACCELERATION * delta
-	velocity *= LINEAR_SLIPPERINESS * delta
-	velocity /= 1 + pow(rotational_velocity, 2.0) * delta
+	velocity = Vector2.from_angle(rotation) * velocity.length() + Vector2.from_angle(rotation) * LINEAR_ACCELERATION
+	velocity /= LINEAR_RESISTANCE
+	print(velocity.length())
+	velocity /= 1 + pow(rotational_velocity, 2.0)
+	print(1 / pow(1 / rotational_velocity, 2.0))
+	print(velocity.length())
 	
 	if (previous_collisions_collider.get_collision_layer_value(1) == false) and (not in_area_of_previous_collisions_collider()):
 		previous_collisions_collider.set_collision_layer_value(1, true)
