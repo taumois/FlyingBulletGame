@@ -22,8 +22,5 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	var angle_to_bullet = get_angle_to(bullet.position)
 	state.apply_force(Vector2.from_angle(angle_to_bullet) * LINEAR_ACCELERATION)
 
-func damage_from_collision() -> int:
-	return
-
-
-func damage(int) -> void
+#func damage_from_collision() -> int:
+	#return 
