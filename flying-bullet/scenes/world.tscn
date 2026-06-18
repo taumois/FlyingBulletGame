@@ -15,6 +15,9 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 
 [node name="Camera" type="Camera2D" parent="Bullet" unique_id=492698182]
+process_callback = 0
+position_smoothing_enabled = true
+position_smoothing_speed = 3.75
 script = ExtResource("2_k0juu")
 
 [node name="Houses" type="Node2D" parent="." unique_id=1870176974]
@@ -45,4 +48,5 @@ position = Vector2(-257, -177)
 [connection signal="current_health" from="Bullet" to="HUD" method="_on_bullet_current_health"]
 [connection signal="current_score" from="Bullet" to="HUD" method="_on_bullet_current_score"]
 [connection signal="current_speed" from="Bullet" to="HUD" method="_on_bullet_current_speed"]
+[connection signal="current_speed" from="Bullet" to="Bullet/Camera" method="_on_bullet_current_speed"]
 [connection signal="body_entered" from="Slime" to="HUD" method="_on_slime_body_entered"]
