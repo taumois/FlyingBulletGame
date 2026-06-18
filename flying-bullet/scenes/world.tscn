@@ -40,6 +40,7 @@ rotation = 6.2831855
 scale = Vector2(7.015, 7.015)
 
 [node name="Slime" parent="." unique_id=1612937630 instance=ExtResource("5_71j4m")]
+position = Vector2(-257, -177)
 
 [connection signal="current_health" from="Bullet" to="HUD" method="_on_bullet_current_health"]
 [connection signal="current_score" from="Bullet" to="HUD" method="_on_bullet_current_score"]

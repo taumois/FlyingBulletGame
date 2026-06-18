@@ -5,10 +5,10 @@ signal current_health(health: int)
 signal current_speed(speed: int)
 
 const MAX_HEALTH = 3
-const LINEAR_ACCELERATION = 0.05
-const ROTATIONAL_ACCELERATION = 0.005
-const LINEAR_RESISTANCE = 1.0
-const ROTATIONAL_RESISTANCE = 1.0
+const LINEAR_ACCELERATION = 1.0
+const ROTATIONAL_ACCELERATION = 0.0
+const LINEAR_DRAG_COEFFICIENT = 1.0
+const ROTATIONAL_DRAG_COEFFICIENT = 0.0
 const SCORE_GAIN_ON_BOUNCE = 5
 
 var previous_collisions_collider
@@ -25,7 +25,7 @@ enum Direction {
 
 func _ready() -> void:
 	previous_collisions_collider = StaticBody2D.new()
-	velocity = Vector2.RIGHT * 50.0
+	velocity = Vector2.ZERO
 	rotation = 0.0
 	turn_direction = Direction.NEUTRAL
 	rotational_velocity = 0.0
@@ -53,11 +53,16 @@ func _process(_delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	if turn_direction != null:
 		rotational_velocity += turn_direction * ROTATIONAL_ACCELERATION
-	rotational_velocity /= (1.0 + absf(velocity.length() * ROTATIONAL_RESISTANCE)) ** 2.0
+	
+	var rotational_drag = 1
+	rotational_velocity /= rotational_drag
+	
 	rotation += rotational_velocity
 	
 	velocity = Vector2.from_angle(rotation) * velocity.length() + Vector2.from_angle(rotation) * LINEAR_ACCELERATION
-	velocity /= (1.0 + absf(rotational_velocity) * LINEAR_RESISTANCE) ** 2.0
+	
+	var linear_drag = pow(velocity.length() + rotational_velocity, 2.0) * LINEAR_DRAG_COEFFICIENT
+	velocity /= linear_drag
 	
 	var collision = move_and_collide(velocity)
 	if collision != null:

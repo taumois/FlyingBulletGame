@@ -10,13 +10,7 @@ var bullet
 func _ready() -> void:
 	bullet = get_tree().root.get_node("World/Bullet")
 	health = MAX_HEALTH
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-func _physics_process(delta: float) -> void:
-	pass
+	
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	var angle_to_bullet = get_angle_to(bullet.position)
