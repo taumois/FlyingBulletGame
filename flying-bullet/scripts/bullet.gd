@@ -66,10 +66,13 @@ func _physics_process(delta: float) -> void:
 	
 	rotation += rotational_velocity * special_delta
 	linear_velocity = Vector2.from_angle(rotation) * speed + Vector2.from_angle(rotation) * LINEAR_ACCELERATION
-	
+	if (previous_collisions_collider.get_collision_layer_value(1) == false) and (not in_area_of_previous_collisions_collider()):
+		previous_collisions_collider.set_collision_layer_value(1, true)
 	var collision = move_and_collide(linear_velocity)
 	if collision != null:
-		bounce(collision)
+		var bounce_was_successful = attempt_bounce(collision)
+		if not bounce_was_successful:
+			pass
 	elif (previous_collisions_collider.get_collision_layer_value(1) == false) and (not in_area_of_previous_collisions_collider()):
 		previous_collisions_collider.set_collision_layer_value(1, true)
 	
@@ -85,13 +88,23 @@ func _drag_calculated(_velocity: float) -> float:
 	return drag
 
 
-func bounce(collision: KinematicCollision2D) -> void:
+func attempt_bounce(collision: KinematicCollision2D) -> bool:
 	var collision_normal = collision.get_normal()
 	var collisions_collider = collision.get_collider()
+	var saved_position = position
+	var saved_rotation = rotation
 	
-	linear_velocity = linear_velocity.bounce(collision_normal)
+	previous_collisions_collider = StaticBody2D.new()
+	
 	rotation = Vector2.from_angle(rotation).bounce(collision_normal).angle()
 	position = collision.get_position()
+	if in_area_of_previous_collisions_collider():
+		print(1)
+		position = saved_position
+		rotation = saved_rotation
+		return false
+	
+	linear_velocity = linear_velocity.bounce(collision_normal)
 	
 	score += SCORE_GAIN_ON_BOUNCE
 	
@@ -101,6 +114,8 @@ func bounce(collision: KinematicCollision2D) -> void:
 	previous_collisions_collider.set_collision_layer_value(1, true)
 	collisions_collider.set_collision_layer_value(1, false)
 	previous_collisions_collider = collisions_collider
+	
+	return true
 
 
 func in_area_of_previous_collisions_collider() -> bool:
@@ -110,7 +125,7 @@ func in_area_of_previous_collisions_collider() -> bool:
 	collision = move_and_collide(Vector2.ZERO, true)
 	previous_collisions_collider.set_collision_layer_value(1, false)
 	
-	if collision == null:
-		return false
-	else:
-		return true
+	if collision != null:
+		if collision.get_collider() == previous_collisions_collider:
+			return true
+	return false

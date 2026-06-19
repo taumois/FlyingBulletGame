@@ -13,8 +13,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	global_position = bullet.global_position + Vector2.from_angle(bullet.rotation) * viewport_width * 0.5
-	print(offset)
+	global_position = bullet.global_position + Vector2.from_angle(bullet.rotation) / $Camera.zoom.x * viewport_width * 0.25
 
 
 func _on_bullet_current_speed(speed: float) -> void:
