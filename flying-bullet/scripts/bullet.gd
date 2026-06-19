@@ -5,14 +5,12 @@ signal current_health(health: int)
 signal current_speed(speed: float)
 
 const MAX_HEALTH = 3
-const LINEAR_ACCELERATION = 0.0575
-const ROTATIONAL_ACCELERATION = 0.002
-const LINEAR_DRAG_COEFFICIENT = 0.0000001
-const ROTATIONAL_DRAG_COEFFICIENT = 0.000001
-const LINEAR_DRAG_LINEAR_FACTOR_COEFFICIENT = 1.0
-const LINEAR_DRAG_ROTATIONAL_FACTOR_COEFFICIENT = 10000.0
-const ROTATIONAL_DRAG_LINEAR_FACTOR_COEFFICIENT = 1.0
-const ROTATIONAL_DRAG_ROTATIONAL_FACTOR_COEFFICIENT = 10000.0
+const LINEAR_ACCELERATION = 0.1
+const ROTATIONAL_ACCELERATION = 0.1
+const LINEAR_DRAG_LINEAR_FACTOR_COEFFICIENT = 0.0001
+const LINEAR_DRAG_ROTATIONAL_FACTOR_COEFFICIENT = 10.0
+const ROTATIONAL_DRAG_LINEAR_FACTOR_COEFFICIENT = 100.0
+const ROTATIONAL_DRAG_ROTATIONAL_FACTOR_COEFFICIENT = 100.0
 const SCORE_GAIN_ON_BOUNCE = 5
 const FPS_DEVELOPED_IN = 60
 
@@ -59,8 +57,6 @@ func _process(_delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	var special_delta = delta * FPS_DEVELOPED_IN
-	print(delta)
-	print(special_delta)
 	
 	var speed = linear_velocity.length()
 	emit_signal("current_speed", speed)
@@ -68,28 +64,25 @@ func _physics_process(delta: float) -> void:
 	if turn_direction != null:
 		rotational_velocity += turn_direction * ROTATIONAL_ACCELERATION * special_delta
 	
-	var rotational_drag = _drag_calculated(rotational_velocity * ROTATIONAL_DRAG_ROTATIONAL_FACTOR_COEFFICIENT + speed * ROTATIONAL_DRAG_LINEAR_FACTOR_COEFFICIENT, ROTATIONAL_DRAG_COEFFICIENT)
-	rotational_velocity /= rotational_drag * special_delta
-	
 	rotation += rotational_velocity * special_delta
-	
 	linear_velocity = Vector2.from_angle(rotation) * speed + Vector2.from_angle(rotation) * LINEAR_ACCELERATION
-	
-	var linear_drag = _drag_calculated(speed * LINEAR_DRAG_LINEAR_FACTOR_COEFFICIENT + rotational_velocity * LINEAR_DRAG_ROTATIONAL_FACTOR_COEFFICIENT, LINEAR_DRAG_COEFFICIENT)
-	linear_velocity /= linear_drag * special_delta
-	
 	
 	var collision = move_and_collide(linear_velocity)
 	if collision != null:
 		bounce(collision)
 	elif (previous_collisions_collider.get_collision_layer_value(1) == false) and (not in_area_of_previous_collisions_collider()):
 		previous_collisions_collider.set_collision_layer_value(1, true)
+	
+	var rotational_drag = _drag_calculated(rotational_velocity * ROTATIONAL_DRAG_ROTATIONAL_FACTOR_COEFFICIENT + speed * ROTATIONAL_DRAG_LINEAR_FACTOR_COEFFICIENT)
+	rotational_velocity /= rotational_drag * special_delta
+	
+	var linear_drag = _drag_calculated(speed * LINEAR_DRAG_LINEAR_FACTOR_COEFFICIENT + rotational_velocity * LINEAR_DRAG_ROTATIONAL_FACTOR_COEFFICIENT)
+	linear_velocity /= linear_drag * special_delta
 
 
-func _drag_calculated(_velocity: float, drag_coefficient: float) -> float:
-	var drag = 1 + _velocity ** 2.0 * drag_coefficient
+func _drag_calculated(_velocity: float) -> float:
+	var drag = 1 + _velocity ** 2.0
 	return drag
-
 
 
 func bounce(collision: KinematicCollision2D) -> void:

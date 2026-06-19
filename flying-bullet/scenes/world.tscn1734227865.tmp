@@ -4,23 +4,22 @@
 [ext_resource type="PackedScene" uid="uid://ch2fb2iw5ew7i" path="res://scenes/hud.tscn" id="2_8j60k"]
 [ext_resource type="Script" uid="uid://ccs11430lpxv0" path="res://scripts/camera.gd" id="2_k0juu"]
 [ext_resource type="PackedScene" uid="uid://btgmk307wplld" path="res://scenes/house.tscn" id="3_fo5ed"]
-[ext_resource type="Script" uid="uid://c86gahi6h8828" path="res://scripts/camera_target_alterer.gd" id="3_qfnet"]
 [ext_resource type="PackedScene" uid="uid://dh575nedhpctp" path="res://scenes/slime.tscn" id="5_71j4m"]
 
 [node name="World" type="Node2D" unique_id=1755103904]
 
 [node name="HUD" parent="." unique_id=1363814451 instance=ExtResource("2_8j60k")]
+unique_name_in_owner = true
 
 [node name="Bullet" parent="." unique_id=1533421621 instance=ExtResource("1_5a7ea")]
+unique_name_in_owner = true
 
-[node name="CameraTargetOffsetter" type="Node2D" parent="Bullet" unique_id=1049840606]
-script = ExtResource("3_qfnet")
-
-[node name="Camera" type="Camera2D" parent="Bullet/CameraTargetOffsetter" unique_id=492698182]
+[node name="Camera" type="Camera2D" parent="Bullet" unique_id=492698182]
 ignore_rotation = false
-limit_enabled = false
+process_callback = 0
 position_smoothing_enabled = true
 rotation_smoothing_enabled = true
+rotation_smoothing_speed = 1.0
 script = ExtResource("2_k0juu")
 
 [node name="Houses" type="Node2D" parent="." unique_id=1870176974]
@@ -46,11 +45,10 @@ rotation = 6.2831855
 scale = Vector2(7.015, 7.015)
 
 [node name="Slime" parent="." unique_id=1612937630 instance=ExtResource("5_71j4m")]
-position = Vector2(-412, 565)
+position = Vector2(-257, -177)
 
 [connection signal="current_health" from="Bullet" to="HUD" method="_on_bullet_current_health"]
 [connection signal="current_score" from="Bullet" to="HUD" method="_on_bullet_current_score"]
 [connection signal="current_speed" from="Bullet" to="HUD" method="_on_bullet_current_speed"]
-[connection signal="current_speed" from="Bullet" to="Bullet/CameraTargetOffsetter/Camera" method="_on_bullet_current_speed"]
-[connection signal="current_speed" from="Bullet" to="Bullet/CameraTargetOffsetter" method="_on_bullet_current_speed"]
+[connection signal="current_speed" from="Bullet" to="Bullet/Camera" method="_on_bullet_current_speed"]
 [connection signal="body_entered" from="Slime" to="HUD" method="_on_slime_body_entered"]
