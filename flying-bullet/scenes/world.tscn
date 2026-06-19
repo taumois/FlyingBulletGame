@@ -12,6 +12,8 @@
 [node name="HUD" parent="." unique_id=1363814451 instance=ExtResource("2_8j60k")]
 unique_name_in_owner = true
 
+[node name="WhiteBackdrop" parent="." unique_id=1064880793 instance=ExtResource("6_qfnet")]
+
 [node name="Bullet" parent="." unique_id=1533421621 instance=ExtResource("1_5a7ea")]
 unique_name_in_owner = true
 
@@ -22,6 +24,8 @@ position_smoothing_enabled = true
 rotation_smoothing_enabled = true
 rotation_smoothing_speed = 1.0
 script = ExtResource("2_k0juu")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Bullet" unique_id=514134026]
 
 [node name="Houses" type="Node2D" parent="." unique_id=1870176974]
 
@@ -47,8 +51,6 @@ scale = Vector2(7.015, 7.015)
 
 [node name="Slime" parent="." unique_id=1612937630 instance=ExtResource("5_71j4m")]
 position = Vector2(-257, -177)
-
-[node name="WhiteBackdrop" parent="." unique_id=1064880793 instance=ExtResource("6_qfnet")]
 
 [connection signal="current_health" from="Bullet" to="HUD" method="_on_bullet_current_health"]
 [connection signal="current_score" from="Bullet" to="HUD" method="_on_bullet_current_score"]
