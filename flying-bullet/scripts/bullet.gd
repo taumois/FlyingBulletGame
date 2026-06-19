@@ -2,13 +2,13 @@ extends CharacterBody2D
 
 signal current_score(score: int)
 signal current_health(health: int)
-signal current_speed(speed: int)
+signal current_speed(speed: float)
 
 const MAX_HEALTH = 3
 const LINEAR_ACCELERATION = 0.0575
-const ROTATIONAL_ACCELERATION = 0.0
+const ROTATIONAL_ACCELERATION = 0.002
 const LINEAR_DRAG_COEFFICIENT = 0.0000001
-const ROTATIONAL_DRAG_COEFFICIENT = 0.0
+const ROTATIONAL_DRAG_COEFFICIENT = 0.000001
 const SCORE_GAIN_ON_BOUNCE = 5
 
 var previous_collisions_collider
@@ -58,7 +58,7 @@ func _physics_process(delta: float) -> void:
 	if turn_direction != null:
 		rotational_velocity += turn_direction * ROTATIONAL_ACCELERATION
 	
-	var rotational_drag = _drag_calculated(rotational_velocity + speed, LINEAR_DRAG_COEFFICIENT)
+	var rotational_drag = _drag_calculated(rotational_velocity + speed, ROTATIONAL_DRAG_COEFFICIENT)
 	rotational_velocity /= rotational_drag
 	
 	rotation += rotational_velocity
@@ -107,4 +107,7 @@ func in_area_of_previous_collisions_collider() -> bool:
 	collision = move_and_collide(Vector2.ZERO, true)
 	previous_collisions_collider.set_collision_layer_value(1, false)
 	
-	return collision != null
+	if collision == null:
+		return false
+	else:
+		return true

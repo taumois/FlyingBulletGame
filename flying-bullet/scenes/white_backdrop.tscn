@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://ud2x16r70jg1"]
+
+[ext_resource type="Texture2D" uid="uid://c2gm7qndowyq6" path="res://assets/blank_white.png" id="1_y4tn2"]
+
+[node name="WhiteBackdrop" type="CanvasLayer" unique_id=1064880793]
+layer = -1
+
+[node name="Control" type="Control" parent="." unique_id=1322365346]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Control" unique_id=1054957783]
+z_index = -73
+z_as_relative = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_y4tn2")
+expand_mode = 1
