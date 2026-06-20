@@ -3,15 +3,25 @@ extends CanvasLayer
 const HEART = preload("res://scenes/heart.tscn")
 const UNIT_A_TO_B_MULTIPLICATION = 1
 const MSECS_PER_SECOND = 1000
+const MSC_BETWEEN_LABEL_UPDATES = 100
 
 var recorded_health;
-var recorded_msec;
+var recorded_time_msec;
 var recorded_speed;
+var recorded_acceleration;
+
+@onready
+var score_label = %Score
+@onready
+var speed_label = %Speed
+@onready
+var jerk_label = %Jerk
 
 func _ready() -> void:
 	recorded_health = 0
-	recorded_msec = Time.get_ticks_msec()
-	recorded_speed = 0
+	recorded_time_msec = Time.get_ticks_msec()
+	recorded_speed = 0.0
+	recorded_acceleration = 0.0
 
 
 func _on_bullet_current_health(health: int) -> void:
@@ -23,21 +33,26 @@ func _on_bullet_current_health(health: int) -> void:
 
 
 func _on_bullet_current_score(score: int) -> void:
-	%Score.text = "Score: {0}".format([score])
+	score_label.text = "Score: {0}".format([score])
 
 
 func _on_bullet_current_speed(speed: float) -> void:
-	var msecs = Time.get_ticks_msec()
+	var time_msecs = Time.get_ticks_msec()
+	
+	if time_msecs - recorded_time_msec < MSC_BETWEEN_LABEL_UPDATES:
+		return
 	
 	var speed_in_unit_b = unit_b_from_a(speed)
-	%Speed.text = "Speed: {0}x/s".format([int(speed_in_unit_b)])
+	speed_label.text = "Speed: {0}x/s".format([int(speed_in_unit_b)])
 	
-	var acceleration = (speed - recorded_speed) / (msecs - recorded_msec) * MSECS_PER_SECOND
-	var acceleration_in_unit_b = unit_b_from_a(acceleration)
-	%Acceleration.text = "Acceleration: {0}x/s/s".format([int(acceleration_in_unit_b)])
+	var acceleration = (speed - recorded_speed) / (time_msecs - recorded_time_msec) * MSECS_PER_SECOND
+	var jerk = -(acceleration - recorded_acceleration) / (time_msecs - recorded_time_msec) * MSECS_PER_SECOND
+	var jerk_in_unit_b = unit_b_from_a(jerk)
+	jerk_label.text = "Jerk: {0}x/s/s".format([int(jerk_in_unit_b)])
 	
 	recorded_speed = speed
-	recorded_msec = msecs
+	recorded_acceleration = acceleration
+	recorded_time_msec = time_msecs
 
 
 func unit_b_from_a(a: float) -> float:

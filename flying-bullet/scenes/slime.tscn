@@ -9,10 +9,11 @@
 script = ExtResource("1_p2gj0")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=751983019]
+scale = Vector2(13.465976, 13.465976)
 texture = ExtResource("1_371uh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=944156049]
-scale = Vector2(6.125, 6.125)
+scale = Vector2(82.4791, 82.4791)
 shape = SubResource("RectangleShape2D_p2gj0")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1357822203]

@@ -4,15 +4,18 @@ signal current_score(score: int)
 signal current_health(health: int)
 signal current_speed(speed: float)
 
+const INITIAL_LINEAR_VELOCITY = Vector2.RIGHT * 10.0
 const MAX_HEALTH = 3
-const LINEAR_ACCELERATION = 0.1
+const LINEAR_ACCELERATION = 0.0
 const ROTATIONAL_ACCELERATION = 0.1
-const LINEAR_DRAG_LINEAR_FACTOR_COEFFICIENT = 0.0001
-const LINEAR_DRAG_ROTATIONAL_FACTOR_COEFFICIENT = 10.0
+const LINEAR_DRAG_LINEAR_FACTOR_COEFFICIENT = 0.002
+const LINEAR_DRAG_ROTATIONAL_FACTOR_COEFFICIENT = 1500.0
 const ROTATIONAL_DRAG_LINEAR_FACTOR_COEFFICIENT = 100.0
 const ROTATIONAL_DRAG_ROTATIONAL_FACTOR_COEFFICIENT = 100.0
 const SCORE_GAIN_ON_BOUNCE = 5
 const FPS_DEVELOPED_IN = 60
+const BOUNCED_LINEAR_VELOCITY_COEFFICIENT = 2.0
+const DRAG_EXPONENT = 2.0
 
 var previous_collisions_collider
 var health
@@ -28,11 +31,13 @@ enum Direction {
 }
 
 func _ready() -> void:
-	Engine.time_scale = 1.0
+	#Engine.physics_ticks_per_second = 60
+	#Engine.max_physics_steps_per_frame = 4
+	#Engine.time_scale = 1.0
 	previous_collisions_collider = StaticBody2D.new()
 	rotation = 0.0
 	turn_direction = Direction.NEUTRAL
-	linear_velocity = Vector2i.ZERO
+	linear_velocity = INITIAL_LINEAR_VELOCITY
 	rotational_velocity = 0.0
 	health = MAX_HEALTH
 	score = 0
@@ -57,6 +62,7 @@ func _process(_delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	var special_delta = delta * FPS_DEVELOPED_IN
+	print(delta)
 	
 	var speed = linear_velocity.length()
 	emit_signal("current_speed", speed)
@@ -65,7 +71,8 @@ func _physics_process(delta: float) -> void:
 		rotational_velocity += turn_direction * ROTATIONAL_ACCELERATION * special_delta
 	
 	rotation += rotational_velocity * special_delta
-	linear_velocity = Vector2.from_angle(rotation) * speed + Vector2.from_angle(rotation) * LINEAR_ACCELERATION
+	linear_velocity = Vector2.from_angle(rotation) * speed + Vector2.from_angle(rotation) * LINEAR_ACCELERATION * special_delta
+	
 	if (previous_collisions_collider.get_collision_layer_value(1) == false) and (not in_area_of_previous_collisions_collider()):
 		previous_collisions_collider.set_collision_layer_value(1, true)
 	var collision = move_and_collide(linear_velocity)
@@ -84,7 +91,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _drag_calculated(_velocity: float) -> float:
-	var drag = 1 + _velocity ** 2.0
+	var drag = 1 + _velocity ** DRAG_EXPONENT
 	return drag
 
 
@@ -104,7 +111,8 @@ func attempt_bounce(collision: KinematicCollision2D) -> bool:
 		rotation = saved_rotation
 		return false
 	
-	linear_velocity = linear_velocity.bounce(collision_normal)
+	linear_velocity = linear_velocity.bounce(collision_normal) * BOUNCED_LINEAR_VELOCITY_COEFFICIENT
+	
 	
 	score += SCORE_GAIN_ON_BOUNCE
 	

@@ -1,20 +1,24 @@
 extends Node2D
 
-const OFFSET_COEFFICIENT = 0.5
+signal current_scale(scale: float)
 
-var bullet
-var offset
+const SCALE_COEFFICIENT = 1.0
+const VIEWPORT_FRACTION_OFFSET = 0.134
+
+var parent
 var viewport_width
 
 func _ready() -> void:
-	bullet = get_parent()
-	offset = 0
+	parent = get_parent()
 	viewport_width  = get_viewport_rect().size.x
 
 
-func _process(delta: float) -> void:
-	global_position = bullet.global_position + Vector2.from_angle(bullet.rotation) / $Camera.zoom.x * viewport_width * 0.25
-
-
 func _on_bullet_current_speed(speed: float) -> void:
-	offset = pow(speed, 0.25) * OFFSET_COEFFICIENT
+	var scale = 1.0 / (sqrt(speed) * SCALE_COEFFICIENT)
+	emit_signal("current_scale", scale)
+	
+	var parent_rotation_vector = Vector2.from_angle(parent.rotation)
+	var offset_size = viewport_width * VIEWPORT_FRACTION_OFFSET
+	var offset_vector = parent_rotation_vector / scale * offset_size
+	
+	global_position = parent.global_position + offset_vector

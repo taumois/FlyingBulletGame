@@ -1,14 +1,13 @@
 extends Camera2D
 
-const ZOOM_SCALE_COEFFICIENT = 0.5
+const BASE_POSITION_SMOOTHING_SPEED = 0.5
+const BASE_ROTATION_SMOOTHING_SPEED = 0.1
 
-func _on_bullet_current_speed(speed: float) -> void:
-	var target_scale = 1.0 / (sqrt(speed) * ZOOM_SCALE_COEFFICIENT)
+func _on_camera_manipulator_current_scale(scale: float) -> void:
+	var scale_is_valid = scale < 1.0 && scale > 0.0
+	if scale_is_valid:
+		zoom.x = scale
+		zoom.y = scale
 	
-	var target_scale_is_valid = target_scale < 1.0 && target_scale > 0.0
-	if target_scale_is_valid:
-		zoom.x = target_scale
-		zoom.y = target_scale
-	
-	rotation_smoothing_speed = 1.0 / target_scale
-	position_smoothing_speed = 1.0 / target_scale
+	position_smoothing_speed = BASE_POSITION_SMOOTHING_SPEED / scale
+	rotation_smoothing_speed = BASE_ROTATION_SMOOTHING_SPEED / scale
