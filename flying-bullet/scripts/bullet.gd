@@ -74,15 +74,11 @@ func _physics_process(delta: float) -> void:
 	var linear_drag = _drag_calculated(speed * LINEAR_DRAG_LINEAR_FACTOR_COEFFICIENT + rotational_velocity * LINEAR_DRAG_ROTATIONAL_FACTOR_COEFFICIENT)
 	linear_velocity /= linear_drag * special_delta
 	
-	if (previous_collisions_collider.get_collision_layer_value(1) == false) and (not in_area_of_previous_collisions_collider()):
-		previous_collisions_collider.set_collision_layer_value(1, true)
 	var collision = move_and_collide(linear_velocity)
 	if collision != null:
 		var bounce_was_successful = attempt_bounce(collision)
 		if not bounce_was_successful:
 			pass
-	elif (previous_collisions_collider.get_collision_layer_value(1) == false) and (not in_area_of_previous_collisions_collider()):
-		previous_collisions_collider.set_collision_layer_value(1, true)
 
 
 func _drag_calculated(_velocity: float) -> float:
