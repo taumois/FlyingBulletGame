@@ -15,6 +15,11 @@ run/main_scene="uid://bmtortsl7up2b"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="uid://ddt78xugc1log"
 
+[display]
+
+window/stretch/mode="canvas_items"
+window/stretch/aspect="keep_height"
+
 [dotnet]
 
 project/assembly_name="Flying Bullet"

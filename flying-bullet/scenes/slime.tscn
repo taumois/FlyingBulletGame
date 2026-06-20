@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dh575nedhpctp"]
 
-[ext_resource type="Texture2D" uid="uid://b8do3supnyd1j" path="res://assets/icon.svg" id="1_371uh"]
 [ext_resource type="Script" uid="uid://b3d8vloasmpuu" path="res://scripts/slime.gd" id="1_p2gj0"]
+[ext_resource type="Texture2D" uid="uid://d2a3fvy0qd0ff" path="res://assets/checkboardish.png" id="2_p2gj0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p2gj0"]
 
@@ -9,8 +9,8 @@
 script = ExtResource("1_p2gj0")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=751983019]
-scale = Vector2(13.465976, 13.465976)
-texture = ExtResource("1_371uh")
+scale = Vector2(814.03735, 814.03735)
+texture = ExtResource("2_p2gj0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=944156049]
 scale = Vector2(82.4791, 82.4791)
