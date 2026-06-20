@@ -1,60 +1,56 @@
 extends CanvasLayer
 
-const HEART = preload("res://scenes/heart.tscn")
-const UNIT_A_TO_B_MULTIPLICATION = 1
-const MSECS_PER_SECOND = 1000
-const MSC_BETWEEN_LABEL_UPDATES = 100
-
-var recorded_health;
-var recorded_time_msec;
-var recorded_speed;
-var recorded_acceleration;
-
-@onready
-var score_label = %Score
-@onready
-var speed_label = %Speed
-@onready
-var jerk_label = %Jerk
+var recorded_health
+var recorded_score
+var health_label
+var score_label
+var show_health_timer
+var show_score_timer
 
 func _ready() -> void:
+	health_label = %Health
+	score_label = %Score
+	show_health_timer = %ShowHearts
+	show_score_timer = %ShowScore
 	recorded_health = 0
-	recorded_time_msec = Time.get_ticks_msec()
-	recorded_speed = 0.0
-	recorded_acceleration = 0.0
+	recorded_score = 0
+	
+	health_label.hide()
+	score_label.hide()
 
 
 func _on_bullet_current_health(health: int) -> void:
-	for health_point in (health - recorded_health):
-		%Hearts.add_child(HEART.instantiate())
-	for health_point in (recorded_health - health):
-		%Hearts.get_child(0).queue_free()
+	if health == recorded_health:
+		return
+	
+	health_label.text = str(health)
+	
+	score_label.hide()
+	health_label.show()
+	show_health_timer.start()	
+	
 	recorded_health = health
 
 
 func _on_bullet_current_score(score: int) -> void:
-	score_label.text = "Score: {0}".format([score])
-
-
-func _on_bullet_current_speed(speed: float) -> void:
-	var time_msecs = Time.get_ticks_msec()
-	
-	if time_msecs - recorded_time_msec < MSC_BETWEEN_LABEL_UPDATES:
+	if score == recorded_score or not show_health_timer.is_stopped():
 		return
 	
-	var speed_in_unit_b = unit_b_from_a(speed)
-	speed_label.text = "Speed: {0}x/s".format([int(speed_in_unit_b)])
+	score_label.text = str(score)
 	
-	var acceleration = (speed - recorded_speed) / (time_msecs - recorded_time_msec) * MSECS_PER_SECOND
-	var jerk = -(acceleration - recorded_acceleration) / (time_msecs - recorded_time_msec) * MSECS_PER_SECOND
-	var jerk_in_unit_b = unit_b_from_a(jerk)
-	jerk_label.text = "Jerk: {0}x/s/s".format([int(jerk_in_unit_b)])
+	score_label.show()
+	show_score_timer.start()
 	
-	recorded_speed = speed
-	recorded_acceleration = acceleration
-	recorded_time_msec = time_msecs
+	recorded_score = score
+	
 
 
-func unit_b_from_a(a: float) -> float:
-	var b = a * UNIT_A_TO_B_MULTIPLICATION
-	return b
+func _on_show_hearts_timer_timeout() -> void:
+	if show_score_timer.time_left > 0.0:
+		score_label.show()
+		
+	health_label.hide()
+	
+
+func _on_show_score_timeout() -> void:
+	score_label.hide()

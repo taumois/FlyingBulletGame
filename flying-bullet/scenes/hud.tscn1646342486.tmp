@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://ch2fb2iw5ew7i"]
+
+[ext_resource type="Script" uid="uid://cacb7nx8t6dsk" path="res://scripts/hud.gd" id="1_sd512"]
+
+[node name="HUD" type="CanvasLayer" unique_id=1278275383]
+script = ExtResource("1_sd512")
+
+[node name="Control" type="Control" parent="." unique_id=1363814451]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control" unique_id=1364304395]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.25
+grow_horizontal = 2
+
+[node name="Hearts" type="HBoxContainer" parent="Control/VBoxContainer" unique_id=636502533]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Score" type="Label" parent="Control/VBoxContainer" unique_id=1499201290]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ShowHearts" type="Timer" parent="." unique_id=31889247]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="ShowScore" type="Timer" parent="." unique_id=1085887980]
+unique_name_in_owner = true
+
+[connection signal="timeout" from="ShowHearts" to="." method="_on_show_hearts_timer_timeout"]
+[connection signal="timeout" from="ShowScore" to="." method="_on_show_score_timeout"]
