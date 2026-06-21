@@ -17,7 +17,7 @@ const FPS_DEVELOPED_IN = 60
 const BOUNCED_LINEAR_VELOCITY_COEFFICIENT = 2.0
 const DRAG_EXPONENT = 2.0
 
-var previous_collisions_collider
+#var previous_collisions_collider
 var health
 var score
 var turn_direction
@@ -34,7 +34,7 @@ func _ready() -> void:
 	#Engine.physics_ticks_per_second = 60
 	#Engine.max_physics_steps_per_frame = 4
 	#Engine.time_scale = 1.0
-	previous_collisions_collider = StaticBody2D.new()
+	#previous_collisions_collider = StaticBody2D.new()
 	rotation = 0.0
 	turn_direction = Direction.NEUTRAL
 	linear_velocity = INITIAL_LINEAR_VELOCITY
@@ -93,16 +93,25 @@ func attempt_bounce(collision: KinematicCollision2D) -> bool:
 	var saved_position = position
 	var saved_rotation = rotation
 	
-	previous_collisions_collider = StaticBody2D.new()
+	#previous_collisions_collider = StaticBody2D.new()
 	
-	rotation = Vector2.from_angle(rotation).bounce(collision_normal).angle()
-	position = collision.get_position()
-	if in_area_of_previous_collisions_collider():
-		position = saved_position
-		rotation = saved_rotation
-		return false
+	#if in_area_of_previous_collisions_collider():
+		#position = saved_position
+		#rotation = saved_rotation
+		#return false
 	
 	linear_velocity = linear_velocity.bounce(collision_normal) * BOUNCED_LINEAR_VELOCITY_COEFFICIENT
+	rotation = linear_velocity.angle()
+	
+	position = collision.get_position()
+	var angled_vector = Vector2.from_angle(rotation) * 10
+	var over = false
+	while not over:
+		position += angled_vector
+		var collision_b = move_and_collide(Vector2.ZERO, true)
+		if collision == null:
+			over = true
+		
 	
 	
 	score += SCORE_GAIN_ON_BOUNCE
@@ -110,21 +119,21 @@ func attempt_bounce(collision: KinematicCollision2D) -> bool:
 	if collisions_collider.has_method("material_bounciness"):
 		linear_velocity *= collisions_collider.acceleration_multiplication_from_collision()
 	
-	previous_collisions_collider.set_collision_layer_value(1, true)
-	collisions_collider.set_collision_layer_value(1, false)
-	previous_collisions_collider = collisions_collider
+	#previous_collisions_collider.set_collision_layer_value(1, true)
+	#collisions_collider.set_collision_layer_value(1, false)
+	#previous_collisions_collider = collisions_collider
 	
 	return true
 
 
-func in_area_of_previous_collisions_collider() -> bool:
-	var collision
-	
-	previous_collisions_collider.set_collision_layer_value(1, true)
-	collision = move_and_collide(Vector2.ZERO, true)
-	previous_collisions_collider.set_collision_layer_value(1, false)
-	
-	if collision != null:
-		if collision.get_collider() == previous_collisions_collider:
-			return true
-	return false
+#func in_area_of_previous_collisions_collider() -> bool:
+	#var collision
+	#
+	#previous_collisions_collider.set_collision_layer_value(1, true)
+	#collision = move_and_collide(Vector2.ZERO, true)
+	#previous_collisions_collider.set_collision_layer_value(1, false)
+	#
+	#if collision != null:
+		#if collision.get_collider() == previous_collisions_collider:
+			#return true
+	#return false

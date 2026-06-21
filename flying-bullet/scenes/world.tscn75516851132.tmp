@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://bmtortsl7up2b"]
+
+[ext_resource type="Script" uid="uid://c7f2nqnvemdln" path="res://scripts/world.gd" id="1_4mrxx"]
+[ext_resource type="PackedScene" uid="uid://81nwwjsec0fl" path="res://scenes/bullet.tscn" id="1_5a7ea"]
+[ext_resource type="PackedScene" uid="uid://ch2fb2iw5ew7i" path="res://scenes/hud.tscn" id="2_8j60k"]
+[ext_resource type="Script" uid="uid://ccs11430lpxv0" path="res://scripts/camera.gd" id="2_k0juu"]
+[ext_resource type="PackedScene" uid="uid://ud2x16r70jg1" path="res://scenes/white_backdrop.tscn" id="3_7r4gi"]
+[ext_resource type="PackedScene" uid="uid://btgmk307wplld" path="res://scenes/house.tscn" id="3_fo5ed"]
+[ext_resource type="Script" uid="uid://c86gahi6h8828" path="res://scripts/camera_target_alterer.gd" id="3_qfnet"]
+[ext_resource type="PackedScene" uid="uid://dh575nedhpctp" path="res://scenes/slime.tscn" id="5_71j4m"]
+
+[node name="World" type="Node2D" unique_id=1755103904]
+script = ExtResource("1_4mrxx")
+
+[node name="HUD" parent="." unique_id=1363814451 instance=ExtResource("2_8j60k")]
+
+[node name="WhiteBackdrop" parent="." unique_id=1064880793 instance=ExtResource("3_7r4gi")]
+
+[node name="Bullet" parent="." unique_id=1533421621 instance=ExtResource("1_5a7ea")]
+unique_name_in_owner = true
+
+[node name="CameraManipulator" type="Node2D" parent="Bullet" unique_id=1049840606]
+script = ExtResource("3_qfnet")
+
+[node name="Camera" type="Camera2D" parent="Bullet/CameraManipulator" unique_id=492698182]
+ignore_rotation = false
+limit_enabled = false
+position_smoothing_enabled = true
+position_smoothing_speed = 0.0
+rotation_smoothing_enabled = true
+rotation_smoothing_speed = 0.0
+script = ExtResource("2_k0juu")
+
+[node name="Houses" type="Node2D" parent="." unique_id=1870176974]
+
+[node name="House" parent="Houses" unique_id=1506828352 instance=ExtResource("3_fo5ed")]
+position = Vector2(550, -100)
+rotation = 0.7853982
+scale = Vector2(1.9999999, 1.9999999)
+
+[node name="House2" parent="Houses" unique_id=2132371804 instance=ExtResource("3_fo5ed")]
+position = Vector2(-500.00003, 4.9999924)
+rotation = 1.8325958
+scale = Vector2(2, 2)
+
+[node name="House3" parent="Houses" unique_id=1408112835 instance=ExtResource("3_fo5ed")]
+position = Vector2(450, 350)
+rotation = 6.2831855
+scale = Vector2(2, 2)
+
+[node name="House4" parent="Houses" unique_id=463321041 instance=ExtResource("3_fo5ed")]
+position = Vector2(139, 914)
+rotation = 6.2831855
+scale = Vector2(7.015, 7.015)
+
+[node name="Slime" parent="." unique_id=1612937630 instance=ExtResource("5_71j4m")]
+position = Vector2(-430, 2544)
+
+[connection signal="current_health" from="Bullet" to="HUD" method="_on_bullet_current_health"]
+[connection signal="current_score" from="Bullet" to="HUD" method="_on_bullet_current_score"]
+[connection signal="current_speed" from="Bullet" to="HUD" method="_on_bullet_current_speed"]
+[connection signal="current_speed" from="Bullet" to="Bullet/CameraManipulator" method="_on_bullet_current_speed"]
+[connection signal="current_speed" from="Bullet" to="Bullet/CameraManipulator/Camera" method="_on_bullet_current_speed"]
+[connection signal="current_scale" from="Bullet/CameraManipulator" to="Bullet/CameraManipulator/Camera" method="_on_camera_manipulator_current_scale"]
+[connection signal="body_entered" from="Slime" to="HUD" method="_on_slime_body_entered"]
