@@ -79,6 +79,7 @@ func _physics_process(delta: float) -> void:
 		var bounce_was_successful = attempt_bounce(collision)
 		if not bounce_was_successful:
 			pass
+	
 
 
 func _drag_calculated(_velocity: float) -> float:
