@@ -2,7 +2,7 @@ extends Node2D
 
 signal current_scale(scale: float)
 
-const SCALE_COEFFICIENT = 1.0
+const SCALE_COEFFICIENT = 15.0
 const VIEWPORT_FRACTION_OFFSET = 0.25
 
 var offset_size

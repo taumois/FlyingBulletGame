@@ -17,7 +17,6 @@ const FPS_DEVELOPED_IN = 60
 const BOUNCED_LINEAR_VELOCITY_COEFFICIENT = 2.0
 const DRAG_EXPONENT = 2.0
 
-#var previous_collisions_collider
 var health
 var score
 var turn_direction
@@ -31,10 +30,10 @@ enum Direction {
 }
 
 func _ready() -> void:
+	position = Vector2.ONE * 10_000
 	#Engine.physics_ticks_per_second = 60
 	#Engine.max_physics_steps_per_frame = 4
 	#Engine.time_scale = 1.0
-	#previous_collisions_collider = StaticBody2D.new()
 	rotation = 0.0
 	turn_direction = Direction.NEUTRAL
 	linear_velocity = INITIAL_LINEAR_VELOCITY
@@ -76,64 +75,40 @@ func _physics_process(delta: float) -> void:
 	
 	var collision = move_and_collide(linear_velocity)
 	if collision != null:
-		var bounce_was_successful = attempt_bounce(collision)
-		if not bounce_was_successful:
-			pass
+		bounce(collision)
 	
-
 
 func _drag_calculated(_velocity: float) -> float:
 	var drag = 1 + _velocity * _velocity
 	return drag
 
 
-func attempt_bounce(collision: KinematicCollision2D) -> bool:
+func bounce(collision: KinematicCollision2D) -> void:
 	var collision_normal = collision.get_normal()
 	var collisions_collider = collision.get_collider()
 	var saved_position = position
 	var saved_rotation = rotation
 	
-	#previous_collisions_collider = StaticBody2D.new()
-	
-	#if in_area_of_previous_collisions_collider():
-		#position = saved_position
-		#rotation = saved_rotation
-		#return false
-	
 	linear_velocity = linear_velocity.bounce(collision_normal) * BOUNCED_LINEAR_VELOCITY_COEFFICIENT
 	rotation = linear_velocity.angle()
 	
 	position = collision.get_position()
-	var angled_vector = Vector2.from_angle(rotation) * 10
-	var over = false
-	while not over:
-		position += angled_vector
-		var collision_b = move_and_collide(Vector2.ZERO, true)
-		if collision == null:
-			over = true
-		
-	
+	unstuck_forwards_from_collision(collision)
 	
 	score += SCORE_GAIN_ON_BOUNCE
 	
-	if collisions_collider.has_method("material_bounciness"):
+	if collisions_collider.has_method("material_bouaaaaaaanciness"):
 		linear_velocity *= collisions_collider.acceleration_multiplication_from_collision()
-	
-	#previous_collisions_collider.set_collision_layer_value(1, true)
-	#collisions_collider.set_collision_layer_value(1, false)
-	#previous_collisions_collider = collisions_collider
-	
-	return true
 
 
-#func in_area_of_previous_collisions_collider() -> bool:
-	#var collision
-	#
-	#previous_collisions_collider.set_collision_layer_value(1, true)
-	#collision = move_and_collide(Vector2.ZERO, true)
-	#previous_collisions_collider.set_collision_layer_value(1, false)
-	#
-	#if collision != null:
-		#if collision.get_collider() == previous_collisions_collider:
-			#return true
-	#return false
+func unstuck_forwards_from_collision(collision: KinematicCollision2D) -> void:
+	var forwards = Vector2.from_angle(rotation) * 10.0
+	var stuck = true
+	while stuck:
+		position += forwards
+		var updated_collision = move_and_collide(Vector2.ZERO, true)
+		if updated_collision == null:
+			stuck = false
+		elif collision.get_collider_id() != collision.get_collider_id():
+			stuck = false
+			bounce(updated_collision)

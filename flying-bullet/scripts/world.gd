@@ -1,7 +1,7 @@
 extends Node2D
 
-const CHUNK_SIZE = 4000
-const HOUSES_PER_CHUNK = 6
+const CHUNK_SIZE = 3_000
+const HOUSES_PER_CHUNK = 2
 const HOUSE = preload("res://scenes/house.tscn")
 
 var bullet
@@ -46,8 +46,8 @@ func load_chunk(chunk: Chunk) -> void:
 		house_unique_randf_y = fmod(rand_from_seed(house_unique_randf_y)[0] / house_unique_randf_x, 1.0)
 		house.position = chunk.position() * CHUNK_SIZE + Vector2i(house_unique_randf_x * CHUNK_SIZE, house_unique_randf_y * CHUNK_SIZE)
 		house.rotation = 2.0 * PI * chunk_unique_randf
-		house.scale.x = 5.0
-		house.scale.y = 5.0
+		house.scale.x = 20.0
+		house.scale.y = 7.5
 		chunk.houses.push_back(house)
 		add_child(house)
 
