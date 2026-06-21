@@ -23,13 +23,15 @@ script = ExtResource("3_qfnet")
 
 [node name="Camera" type="Camera2D" parent="Bullet/CameraManipulator" unique_id=492698182]
 ignore_rotation = false
-process_callback = 0
 limit_enabled = false
 position_smoothing_enabled = true
-position_smoothing_speed = 0.0
 rotation_smoothing_enabled = true
-rotation_smoothing_speed = 0.0
 script = ExtResource("2_k0juu")
+
+[node name="InitialPanTimer" type="Timer" parent="Bullet/CameraManipulator" unique_id=1413714133]
+unique_name_in_owner = true
+one_shot = true
+autostart = true
 
 [node name="Slime" parent="." unique_id=1612937630 instance=ExtResource("5_71j4m")]
 position = Vector2(-790, -563)
@@ -40,3 +42,4 @@ position = Vector2(-790, -563)
 [connection signal="current_speed" from="Bullet" to="Bullet/CameraManipulator" method="_on_bullet_current_speed"]
 [connection signal="current_speed" from="Bullet" to="Bullet/CameraManipulator/Camera" method="_on_bullet_current_speed"]
 [connection signal="current_scale" from="Bullet/CameraManipulator" to="Bullet/CameraManipulator/Camera" method="_on_camera_manipulator_current_scale"]
+[connection signal="timeout" from="Bullet/CameraManipulator/InitialPanTimer" to="Bullet/CameraManipulator" method="_on_initial_pan_timer_timeout"]

@@ -1,6 +1,6 @@
 extends Node2D
 
-const CHUNK_SIZE = 3_000
+const CHUNK_SIZE = 6_700
 const HOUSES_PER_CHUNK = 2
 const HOUSE = preload("res://scenes/house.tscn")
 
@@ -15,9 +15,9 @@ func _ready() -> void:
 	loaded_chunks.resize(9)
 	bullet_chunk = Chunk.new(bullet.position / CHUNK_SIZE)
 	for i in loaded_chunks.size():
-			var new_chunk = Chunk.new(Vector2i((i % 3) - 1, roundi(i / 3 - 0.5) - 0.5))
-			load_chunk(new_chunk)
-			loaded_chunks[i] = new_chunk
+		var new_chunk = Chunk.new(Vector2i((i % 3) - 1 + bullet_chunk.x, roundi(i / 3 - 0.25) - 0.5 + bullet_chunk.y))
+		load_chunk(new_chunk)
+		loaded_chunks[i] = new_chunk
 
 
 func _process(delta: float) -> void:
