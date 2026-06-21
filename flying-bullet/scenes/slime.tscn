@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dh575nedhpctp"]
 
 [ext_resource type="Script" uid="uid://b3d8vloasmpuu" path="res://scripts/slime.gd" id="1_p2gj0"]
-[ext_resource type="Texture2D" uid="uid://c2gm7qndowyq6" path="res://assets/blank_white.png" id="2_p2gj0"]
+[ext_resource type="Texture2D" uid="uid://ce2ilmq63yhoh" path="res://assets/blank_azure.png" id="2_p2gj0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p2gj0"]
 

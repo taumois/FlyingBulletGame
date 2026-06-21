@@ -1,20 +1,17 @@
 [gd_scene format=3 uid="uid://81nwwjsec0fl"]
 
 [ext_resource type="Script" uid="uid://74ryjwmk2mwf" path="res://scripts/bullet.gd" id="1_y25gk"]
-[ext_resource type="Texture2D" uid="uid://ddt78xugc1log" path="res://assets/bullet.png" id="2_p1sfj"]
+[ext_resource type="Texture2D" uid="uid://snpaodb7k8pr" path="res://assets/dart.png" id="2_y25gk"]
 
 [node name="Bullet" type="CharacterBody2D" unique_id=1533421621]
 motion_mode = 1
 script = ExtResource("1_y25gk")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=1257408981]
-scale = Vector2(0.22, 0.22)
-texture = ExtResource("2_p1sfj")
-centered = false
-offset = Vector2(-393.795, -140.035)
+texture = ExtResource("2_y25gk")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=464412259]
-polygon = PackedVector2Array(-78, -20, 35, -20, 89, -2, 89, 2, 35, 20, -78, 20)
+polygon = PackedVector2Array(-63, -14, 15, -14, 58, -2, 58, 2, 15, 14, -63, 14)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=37108012]
 root_node = NodePath("../..")

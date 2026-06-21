@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ud2x16r70jg1"]
 
-[ext_resource type="Texture2D" uid="uid://b2yi37jdakgwj" path="res://assets/blank_black.png" id="1_y4tn2"]
+[ext_resource type="Texture2D" uid="uid://dkjn1278fnqld" path="res://assets/blank_dark_grey.png" id="1_y4tn2"]
 
 [node name="WhiteBackdrop" type="CanvasLayer" unique_id=1064880793]
 layer = -1
@@ -20,9 +20,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -576.0
-offset_bottom = -324.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(2, 2)
 texture = ExtResource("1_y4tn2")
+stretch_mode = 1
