@@ -3,8 +3,9 @@ extends Node2D
 const FULL_ROTATION = 2 * PI
 const CHUNK_SIZE = 500
 const HOUSES_PER_CHUNK = 1
-const HOUSES_SCALE = Vector2(0.5, 0.5)
-const HOUSE = preload("res://scenes/house.tscn")
+const HOUSES_SCALE = Vector2(0.3, 0.3)
+const CHUNK_HOUSE = preload("res://scenes/house.tscn")
+const CHUNK_BACKDROP = preload("res://scenes/white_backdrop.tscn")
 
 var bullet
 var loaded_chunks: Array[Chunk]
@@ -42,26 +43,33 @@ func _process(delta: float) -> void:
 	for i in loaded_chunks.size():
 		if not loaded_chunks[i].is_adjacent_to_chunk(bullet_chunk):
 			for j in loaded_chunks.size():
-					var new_chunk = Chunk.new(Vector2i((j % 3) - 1 + bullet_chunk.x, roundi(j / 3 - 0.25) - 0.5 + bullet_chunk.y))
-					if not chunk_in_loaded_chunks(new_chunk):
-						loaded_chunks[i].remove_houses()
-						load_chunk(new_chunk)
-						loaded_chunks[i] = new_chunk
+				var new_chunk = Chunk.new(Vector2i((j % 3) - 1 + bullet_chunk.x, roundi(j / 3 - 0.25) - 0.5 + bullet_chunk.y))
+				if not chunk_in_loaded_chunks(new_chunk):
+					loaded_chunks[i].clear()
+					load_chunk(new_chunk)
+					loaded_chunks[i] = new_chunk
 
 func load_chunk(chunk: Chunk) -> void:
 	var chunk_unique_randf = fmod(chunk.x * chunk.y * seed, 1.0)
 	var house_unique_randf_x = fmod(rand_from_seed(chunk_unique_randf)[0] / chunk_unique_randf / PI, 1.0)
 	var house_unique_randf_y = fmod(rand_from_seed(chunk_unique_randf)[0] / chunk_unique_randf / seed, 1.0)
 	
-	for i in HOUSES_PER_CHUNK:
-		var house = HOUSE.instantiate()
-		house_unique_randf_x = fmod(rand_from_seed(house_unique_randf_x)[0] / house_unique_randf_y * seed, 1.0)
-		house_unique_randf_y = fmod(rand_from_seed(house_unique_randf_y)[0] / house_unique_randf_x, 1.0)
-		house.position = chunk.position() * CHUNK_SIZE + Vector2i(house_unique_randf_x * CHUNK_SIZE, house_unique_randf_y * CHUNK_SIZE)
-		house.rotation = FULL_ROTATION * chunk_unique_randf
-		house.scale = HOUSES_SCALE
-		chunk.houses.push_back(house)
-		add_child(house)
+	var backdrop = CHUNK_BACKDROP.instantiate()
+	backdrop.position = chunk.position() * CHUNK_SIZE + Vector2i.ONE * CHUNK_SIZE / 2
+	backdrop.scale = Vector2.ONE * CHUNK_SIZE
+	backdrop.z_index = -1
+	chunk.backdrop = backdrop
+	add_child(backdrop)
+	
+	#for i in HOUSES_PER_CHUNK:
+		#var house = CHUNK_HOUSE.instantiate()
+		#house_unique_randf_x = fmod(rand_from_seed(house_unique_randf_x)[0] / house_unique_randf_y * seed, 1.0)
+		#house_unique_randf_y = fmod(rand_from_seed(house_unique_randf_y)[0] / house_unique_randf_x, 1.0)
+		#house.position = chunk.position() * CHUNK_SIZE + Vector2i(house_unique_randf_x * CHUNK_SIZE, house_unique_randf_y * CHUNK_SIZE)
+		#house.rotation = FULL_ROTATION * chunk_unique_randf
+		#house.scale = HOUSES_SCALE
+		#chunk.houses.push_back(house)
+		#add_child(house)
 
 
 func chunk_in_loaded_chunks(chunk: Chunk) -> bool:
@@ -76,6 +84,7 @@ class Chunk:
 	var x
 	var y
 	var houses: Array[Node2D]
+	var backdrop
 	
 	func _init(position: Vector2i) -> void:
 		x = position.x
@@ -96,7 +105,9 @@ class Chunk:
 		return chunk.x == x and chunk.y == y
 	
 
-	func remove_houses() -> void:
+	func clear() -> void:
 		for house in houses:
 			house.queue_free()
 		houses.clear()
+		backdrop.queue_free()
+		backdrop = null
