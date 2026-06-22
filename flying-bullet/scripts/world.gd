@@ -3,7 +3,7 @@ extends Node2D
 const FULL_ROTATION = 2 * PI
 const CHUNK_SIZE = 500
 const HOUSES_PER_CHUNK = 1
-const HOUSES_SCALE = Vector2(0.3, 0.3)
+const HOUSES_SCALE = Vector2(0.5, 0.5)
 const HOUSE = preload("res://scenes/house.tscn")
 
 var bullet
@@ -15,18 +15,29 @@ func _ready() -> void:
 	bullet = %Bullet
 	seed = randf()
 	loaded_chunks.resize(9)
-	bullet_chunk = Chunk.new(bullet.position / CHUNK_SIZE)
+	bullet_chunk = _bullet_current_chunk()
 	for i in loaded_chunks.size():
 		var new_chunk = Chunk.new(Vector2i((i % 3) - 1 + bullet_chunk.x, roundi(i / 3 - 0.25) - 0.5 + bullet_chunk.y))
 		load_chunk(new_chunk)
 		loaded_chunks[i] = new_chunk
 
 
+func _bullet_current_chunk() -> Chunk:
+	var chunk_x = roundi(bullet.position.x / CHUNK_SIZE)
+	if bullet.position.x < 0.0:
+		chunk_x -= 1
+	var chunk_y = roundi(bullet.position.y / CHUNK_SIZE)
+	if bullet.position.y < 0.0:
+		chunk_y -= 1
+	return Chunk.new(Vector2i(chunk_x, chunk_y))
+
+
 func _process(delta: float) -> void:
-	var new_bullet_chunk = Chunk.new(bullet.position / CHUNK_SIZE)
+	var new_bullet_chunk = _bullet_current_chunk()
 	if new_bullet_chunk.is_chunk(bullet_chunk):
 		return
 	bullet_chunk = new_bullet_chunk
+	print(bullet_chunk.position())
 	
 	for i in loaded_chunks.size():
 		if not loaded_chunks[i].is_adjacent_to_chunk(bullet_chunk):
@@ -44,7 +55,7 @@ func load_chunk(chunk: Chunk) -> void:
 	
 	for i in HOUSES_PER_CHUNK:
 		var house = HOUSE.instantiate()
-		house_unique_randf_x = fmod(rand_from_seed(house_unique_randf_x)[0] / house_unique_randf_y, 1.0)
+		house_unique_randf_x = fmod(rand_from_seed(house_unique_randf_x)[0] / house_unique_randf_y * seed, 1.0)
 		house_unique_randf_y = fmod(rand_from_seed(house_unique_randf_y)[0] / house_unique_randf_x, 1.0)
 		house.position = chunk.position() * CHUNK_SIZE + Vector2i(house_unique_randf_x * CHUNK_SIZE, house_unique_randf_y * CHUNK_SIZE)
 		house.rotation = FULL_ROTATION * chunk_unique_randf
