@@ -4,7 +4,6 @@
 [ext_resource type="PackedScene" uid="uid://81nwwjsec0fl" path="res://scenes/bullet.tscn" id="1_5a7ea"]
 [ext_resource type="PackedScene" uid="uid://ch2fb2iw5ew7i" path="res://scenes/hud.tscn" id="2_8j60k"]
 [ext_resource type="Script" uid="uid://ccs11430lpxv0" path="res://scripts/camera.gd" id="2_k0juu"]
-[ext_resource type="PackedScene" uid="uid://ud2x16r70jg1" path="res://scenes/white_backdrop.tscn" id="3_7r4gi"]
 [ext_resource type="Script" uid="uid://c86gahi6h8828" path="res://scripts/camera_target_alterer.gd" id="3_qfnet"]
 [ext_resource type="PackedScene" uid="uid://btgmk307wplld" path="res://scenes/house.tscn" id="7_i7141"]
 
@@ -12,8 +11,6 @@
 script = ExtResource("1_4mrxx")
 
 [node name="HUD" parent="." unique_id=1363814451 instance=ExtResource("2_8j60k")]
-
-[node name="WhiteBackdrop" parent="." unique_id=1064880793 instance=ExtResource("3_7r4gi")]
 
 [node name="Bullet" parent="." unique_id=1533421621 instance=ExtResource("1_5a7ea")]
 unique_name_in_owner = true
