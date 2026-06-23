@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://74ryjwmk2mwf" path="res://scripts/bullet.gd" id="1_y25gk"]
 [ext_resource type="Texture2D" uid="uid://snpaodb7k8pr" path="res://assets/dart.png" id="2_y25gk"]
+[ext_resource type="Texture2D" uid="uid://c1e72liv16sra" path="res://assets/orange_spark.png" id="3_l5glv"]
 
 [node name="Bullet" type="CharacterBody2D" unique_id=1533421621]
 motion_mode = 1
@@ -13,12 +14,18 @@ texture = ExtResource("2_y25gk")
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=464412259]
 polygon = PackedVector2Array(-63, -14, 15, -14, 58, -2, 58, 2, 15, 14, -63, 14)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=37108012]
-root_node = NodePath("../..")
-
 [node name="ResetCollisionLimit" type="Timer" parent="." unique_id=1083690068]
 unique_name_in_owner = true
 wait_time = 0.34
 one_shot = true
+
+[node name="Trail" type="CPUParticles2D" parent="." unique_id=2132413796]
+z_index = -1
+texture = ExtResource("3_l5glv")
+gravity = Vector2(0, 0)
+angular_velocity_min = -720.0
+angular_velocity_max = 720.0
+orbit_velocity_min = -0.3
+orbit_velocity_max = 0.3
 
 [connection signal="timeout" from="ResetCollisionLimit" to="." method="_on_reset_collision_limit_timeout"]

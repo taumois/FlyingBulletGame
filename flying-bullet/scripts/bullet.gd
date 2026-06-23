@@ -8,13 +8,13 @@ const INITIAL_LINEAR_VELOCITY = Vector2.RIGHT * 3.33
 const MAX_HEALTH = 3
 const LINEAR_ACCELERATION = 0.0
 const ROTATIONAL_ACCELERATION = 0.02
-const LINEAR_DRAG_LINEAR_FACTOR_COEFFICIENT = 0.0015
-const LINEAR_DRAG_ROTATIONAL_FACTOR_COEFFICIENT = 0.0
+const LINEAR_DRAG_LINEAR_FACTOR_COEFFICIENT = 0.00115
+const LINEAR_DRAG_ROTATIONAL_FACTOR_COEFFICIENT = 1.0
 const ROTATIONAL_DRAG_LINEAR_FACTOR_COEFFICIENT = 0.00225
 const ROTATIONAL_DRAG_ROTATIONAL_FACTOR_COEFFICIENT = 6.7
 const SCORE_GAIN_ON_BOUNCE = 5
 const FPS_DEVELOPED_IN = 60
-const BOUNCED_LINEAR_VELOCITY_COEFFICIENT = 2.0
+const BOUNCED_LINEAR_VELOCITY_COEFFICIENT = 1.5
 const DRAG_EXPONENT = 2.0
 const COLLISION_LIMIT = 1
 
@@ -44,7 +44,7 @@ func _ready() -> void:
 	score = 0
 
 
-func _unhandled_key_input(event: InputEvent) -> void:
+func _unhandled_key_input(_event: InputEvent) -> void:
 	if Input.is_action_pressed("turn_right"):
 		turn_direction = Direction.RIGHT
 	elif Input.is_action_pressed("turn_left"):

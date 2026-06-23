@@ -1,8 +1,8 @@
 extends Node2D
 
 const FULL_ROTATION = 2 * PI
-const CHUNK_SIZE = 6500
-const HOUSES_PER_CHUNK = 8
+const CHUNK_SIZE = 7500
+const HOUSES_PER_CHUNK = 3
 const HOUSES_SCALE = Vector2(5.0, 25.0)
 const CHUNK_HOUSE = preload("res://scenes/house.tscn")
 
@@ -35,14 +35,16 @@ func get_bullet_current_chunk() -> Chunk:
 	return chunk
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var bullet_current_chunk = get_bullet_current_chunk()
 	if bullet_current_chunk.is_chunk(bullet_chunk):
 		return
 	bullet_chunk = bullet_current_chunk
 	for i in loaded_chunks.size():
-		var chunk = Chunk.new(Vector2i((i % 3) - 1 + bullet_chunk.position.x, roundi(i / 3 - 1.25) + bullet_chunk.position.y))
-		var chunk_seed_base = rand_from_seed((chunk.position.x + 7) * chunk.position.y + chunk.position.x)[0] % (seeds.size() / 2)
+		var flt_i = float(i)
+		var chunk = Chunk.new(Vector2i(roundi(fmod(flt_i, 3)) - 1 + bullet_chunk.position.x, roundi(flt_i / 3 - 1.25) + bullet_chunk.position.y))
+		var half_seeds_size = roundi(float(seeds.size()) / 2)
+		var chunk_seed_base = rand_from_seed((chunk.position.x + 7) * chunk.position.y + chunk.position.x)[0] % half_seeds_size
 		for j in HOUSES_PER_CHUNK:
 			remove_child(loaded_chunks[i].houses[j])
 			var house = get_house_from_bank()
@@ -69,8 +71,8 @@ class Chunk:
 	var real_position: Vector2
 	var houses: Array[StaticBody2D]
 	
-	func _init(position: Vector2i) -> void:
-		self.position = position
+	func _init(chunk_position: Vector2i) -> void:
+		self.position = chunk_position
 		self.real_position = position * CHUNK_SIZE
 		houses.resize(HOUSES_PER_CHUNK)
 	

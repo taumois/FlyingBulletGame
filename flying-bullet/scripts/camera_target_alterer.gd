@@ -20,10 +20,10 @@ func viewport_rect_updated():
 
 
 func _on_bullet_current_speed(speed: float) -> void:
-	var scale = 1.0 / (sqrt(speed) * SCALE_COEFFICIENT)
-	emit_signal("current_scale", scale)
+	var everything_scale = 1.0 / (sqrt(speed) * SCALE_COEFFICIENT)
+	emit_signal("current_scale", everything_scale)
 	
 	var parent_rotation_vector = Vector2.from_angle(parent.rotation)
-	var offset_vector = parent_rotation_vector / scale * offset_size
+	var offset_vector = parent_rotation_vector / everything_scale * offset_size
 	
 	global_position = parent.global_position + offset_vector
