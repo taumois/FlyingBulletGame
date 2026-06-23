@@ -96,10 +96,10 @@ func bounce(collision: KinematicCollision2D) -> void:
 	position = collision.get_position() + pre_bounce_linear_velocity
 	var stuck = true
 	while(stuck):
-		position += Vector2.from_angle(rotation) * +1.0
+		position += Vector2.from_angle(rotation)
 		var stuck_collision = move_and_collide(Vector2.ZERO, true)
 		if stuck_collision == null:
-			position += Vector2.from_angle(rotation) * 10.0
+			position += Vector2.from_angle(rotation)
 			stuck = false
 		elif stuck_collision.get_collider_rid() != collision_collider_rid:
 			bounce(stuck_collision)
