@@ -6,7 +6,6 @@
 [ext_resource type="Script" uid="uid://ccs11430lpxv0" path="res://scripts/camera.gd" id="2_k0juu"]
 [ext_resource type="PackedScene" uid="uid://ud2x16r70jg1" path="res://scenes/white_backdrop.tscn" id="3_7r4gi"]
 [ext_resource type="Script" uid="uid://c86gahi6h8828" path="res://scripts/camera_target_alterer.gd" id="3_qfnet"]
-[ext_resource type="PackedScene" uid="uid://dh575nedhpctp" path="res://scenes/slime.tscn" id="5_71j4m"]
 
 [node name="World" type="Node2D" unique_id=1755103904]
 script = ExtResource("1_4mrxx")
@@ -27,9 +26,6 @@ limit_enabled = false
 position_smoothing_enabled = true
 rotation_smoothing_enabled = true
 script = ExtResource("2_k0juu")
-
-[node name="Slime" parent="." unique_id=1612937630 instance=ExtResource("5_71j4m")]
-position = Vector2(-790, -563)
 
 [connection signal="current_health" from="Bullet" to="HUD" method="_on_bullet_current_health"]
 [connection signal="current_score" from="Bullet" to="HUD" method="_on_bullet_current_score"]

@@ -32,7 +32,6 @@ func _ready() -> void:
 func get_bullet_current_chunk() -> Chunk:
 	var chunk_position = Vector2i(roundi(bullet.position.x / CHUNK_SIZE), roundi(bullet.position.y / CHUNK_SIZE))
 	var chunk = Chunk.new(chunk_position)
-	print(chunk.position)
 	return chunk
 
 
@@ -44,7 +43,8 @@ func _process(delta: float) -> void:
 	for i in loaded_chunks.size():
 		remove_child(loaded_chunks[i].houses[0])
 		loaded_chunks[i].houses.clear()
-		var chunk = Chunk.new(Vector2i((i % 3) - 1 + bullet_chunk.position.x, roundi(i / 3 - 0.25) - 0.5 + bullet_chunk.position.y))
+		var chunk = Chunk.new(Vector2i((i % 3) - 1 + bullet_chunk.position.x, roundi(i / 3 - 0.5) - 1 + bullet_chunk.position.y))
+		print(roundi(i / 3 - 0.25) - 0.5)
 		var house = get_house_from_bank()
 		house.position = chunk.real_position
 		add_child(house)
