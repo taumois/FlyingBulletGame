@@ -14,7 +14,7 @@ var bullet_chunk: Chunk
 
 func _ready() -> void:
 	bullet = %Bullet
-	seeds.resize(HOUSES_PER_CHUNK * 27)
+	seeds.resize(HOUSES_PER_CHUNK * 9 * 3)
 	for i in seeds.size():
 		seeds[i] = randf()
 	loaded_chunks.resize(9)
@@ -42,11 +42,11 @@ func _process(delta: float) -> void:
 	bullet_chunk = bullet_current_chunk
 	for i in loaded_chunks.size():
 		var chunk = Chunk.new(Vector2i((i % 3) - 1 + bullet_chunk.position.x, roundi(i / 3 - 1.25) + bullet_chunk.position.y))
-		var chunk_seed_base = (chunk.position.x * chunk.position.y) % seeds.size()
+		var chunk_seed_base = rand_from_seed((chunk.position.x + 7) * chunk.position.y + chunk.position.x)[0] % (seeds.size() / 2)
 		for j in HOUSES_PER_CHUNK:
 			remove_child(loaded_chunks[i].houses[j])
 			var house = get_house_from_bank()
-			var house_seed_base = chunk_seed_base + j * 3
+			var house_seed_base = (chunk_seed_base + j * 3)
 			house.position.x = chunk.real_position.x - 0.5 * CHUNK_SIZE + seeds[house_seed_base + 0] * CHUNK_SIZE
 			house.position.y = chunk.real_position.y - 0.5 * CHUNK_SIZE + seeds[house_seed_base + 1] * CHUNK_SIZE
 			house.rotation = FULL_ROTATION * seeds[house_seed_base + 2]

@@ -23,13 +23,36 @@ script = ExtResource("3_qfnet")
 
 [node name="Camera" type="Camera2D" parent="Bullet/CameraManipulator" unique_id=492698182]
 ignore_rotation = false
+process_callback = 0
 limit_enabled = false
 position_smoothing_enabled = true
 rotation_smoothing_enabled = true
 script = ExtResource("2_k0juu")
 
 [node name="House" parent="." unique_id=1506828352 instance=ExtResource("7_i7141")]
-position = Vector2(241, -239)
+position = Vector2(-124.999985, -343)
+rotation = 0.91061646
+scale = Vector2(0.6232561, 7.9467397)
+
+[node name="House2" parent="." unique_id=643605031 instance=ExtResource("7_i7141")]
+position = Vector2(-252, -480)
+rotation = 0.91061646
+scale = Vector2(0.6232561, 7.9467397)
+
+[node name="House3" parent="." unique_id=465164670 instance=ExtResource("7_i7141")]
+position = Vector2(825, -153.99998)
+rotation = 1.7642715
+scale = Vector2(0.6232561, 7.9467397)
+
+[node name="House4" parent="." unique_id=618873610 instance=ExtResource("7_i7141")]
+position = Vector2(698, -291)
+rotation = 1.7642715
+scale = Vector2(0.6232561, 7.9467397)
+
+[node name="House5" parent="." unique_id=1449292136 instance=ExtResource("7_i7141")]
+position = Vector2(-262, 209.00002)
+rotation = 2.4799979
+scale = Vector2(0.9417099, 2.4646459)
 
 [connection signal="current_health" from="Bullet" to="HUD" method="_on_bullet_current_health"]
 [connection signal="current_score" from="Bullet" to="HUD" method="_on_bullet_current_score"]

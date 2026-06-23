@@ -16,12 +16,15 @@ const SCORE_GAIN_ON_BOUNCE = 5
 const FPS_DEVELOPED_IN = 60
 const BOUNCED_LINEAR_VELOCITY_COEFFICIENT = 2.0
 const DRAG_EXPONENT = 2.0
+const COLLISION_LIMIT = 1
 
+var collision_limit_timer: Timer
 var health
 var score
 var turn_direction
 var linear_velocity
 var rotational_velocity
+var collision_count
 
 enum Direction {
 	LEFT = -1, 
@@ -30,10 +33,9 @@ enum Direction {
 }
 
 func _ready() -> void:
+	collision_count = 0
+	collision_limit_timer = %ResetCollisionLimit
 	position = Vector2.ZERO
-	#Engine.physics_ticks_per_second = 60
-	#Engine.max_physics_steps_per_frame = 4
-	#Engine.time_scale = 1.0
 	rotation = 0.0
 	turn_direction = Direction.NEUTRAL
 	linear_velocity = INITIAL_LINEAR_VELOCITY
@@ -60,7 +62,7 @@ func _process(_delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	var special_delta = delta * FPS_DEVELOPED_IN
 	
-	var speed = linear_velocity.length()
+	var speed = linear_velocity.length() * special_delta
 	emit_signal("current_speed", speed)
 	
 	if turn_direction != null:
@@ -85,30 +87,35 @@ func _drag_calculated(_velocity: float) -> float:
 
 func bounce(collision: KinematicCollision2D) -> void:
 	var collision_normal = collision.get_normal()
-	var collisions_collider = collision.get_collider()
-	var saved_position = position
-	var saved_rotation = rotation
+	var collision_collider_rid = collision.get_collider_rid()
+	var pre_bounce_linear_velocity = linear_velocity
 	
 	linear_velocity = linear_velocity.bounce(collision_normal) * BOUNCED_LINEAR_VELOCITY_COEFFICIENT
 	rotation = linear_velocity.angle()
 	
-	position = collision.get_position()
-	unstuck_forwards_from_collision(collision)
+	position = collision.get_position() + pre_bounce_linear_velocity
+	var stuck = true
+	while(stuck):
+		position += Vector2.from_angle(rotation) * +1.0
+		var stuck_collision = move_and_collide(Vector2.ZERO, true)
+		if stuck_collision == null:
+			position += Vector2.from_angle(rotation) * 10.0
+			stuck = false
+		elif stuck_collision.get_collider_rid() != collision_collider_rid:
+			bounce(stuck_collision)
+			stuck = false
 	
 	score += SCORE_GAIN_ON_BOUNCE
 	
-	if collisions_collider.has_method("material_bouaaaaaaanciness"):
-		linear_velocity *= collisions_collider.acceleration_multiplication_from_collision()
+	#if collision_limit_timer.is_stopped():
+		#collision_limit_timer.start()
+	#else:
+		#collision_count += 1
 
 
-func unstuck_forwards_from_collision(collision: KinematicCollision2D) -> void:
-	var forwards = Vector2.from_angle(rotation) * 10.0
-	var stuck = true
-	while stuck:
-		position += forwards
-		var updated_collision = move_and_collide(Vector2.ZERO, true)
-		if updated_collision == null:
-			stuck = false
-		elif collision.get_collider_id() != collision.get_collider_id():
-			stuck = false
-			bounce(updated_collision)
+#func _on_reset_collision_limit_timeout() -> void:
+	#if collision_count > COLLISION_LIMIT:
+		#position += Vector2.from_angle(rotation) * 1000.0
+		#linear_velocity = INITIAL_LINEAR_VELOCITY
+		#rotational_velocity = 0.0
+	#collision_count = 0

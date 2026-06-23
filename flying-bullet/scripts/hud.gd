@@ -27,7 +27,7 @@ func _on_bullet_current_health(health: int) -> void:
 	
 	score_label.hide()
 	health_label.show()
-	show_health_timer.start()	
+	show_health_timer.start()
 	
 	recorded_health = health
 
@@ -42,7 +42,6 @@ func _on_bullet_current_score(score: int) -> void:
 	show_score_timer.start()
 	
 	recorded_score = score
-	
 
 
 func _on_show_hearts_timer_timeout() -> void:
@@ -50,7 +49,7 @@ func _on_show_hearts_timer_timeout() -> void:
 		score_label.show()
 		
 	health_label.hide()
-	
+
 
 func _on_show_score_timeout() -> void:
 	score_label.hide()

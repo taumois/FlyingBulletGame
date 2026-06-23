@@ -13,6 +13,7 @@ config_version=5
 config/name="Flying Bullet"
 run/main_scene="uid://bmtortsl7up2b"
 config/features=PackedStringArray("4.6", "GL Compatibility")
+boot_splash/image="uid://bo57j6e20rjmm"
 config/icon="uid://snpaodb7k8pr"
 
 [display]

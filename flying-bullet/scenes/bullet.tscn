@@ -15,3 +15,10 @@ polygon = PackedVector2Array(-63, -14, 15, -14, 58, -2, 58, 2, 15, 14, -63, 14)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=37108012]
 root_node = NodePath("../..")
+
+[node name="ResetCollisionLimit" type="Timer" parent="." unique_id=1083690068]
+unique_name_in_owner = true
+wait_time = 0.34
+one_shot = true
+
+[connection signal="timeout" from="ResetCollisionLimit" to="." method="_on_reset_collision_limit_timeout"]
