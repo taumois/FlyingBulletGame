@@ -43,8 +43,7 @@ func _process(delta: float) -> void:
 	for i in loaded_chunks.size():
 		remove_child(loaded_chunks[i].houses[0])
 		loaded_chunks[i].houses.clear()
-		var chunk = Chunk.new(Vector2i((i % 3) - 1 + bullet_chunk.position.x, roundi(i / 3 - 0.5) - 1 + bullet_chunk.position.y))
-		print(roundi(i / 3 - 0.25) - 0.5)
+		var chunk = Chunk.new(Vector2i((i % 3) - 1 + bullet_chunk.position.x, roundi(i / 3 - 1.25) + bullet_chunk.position.y))
 		var house = get_house_from_bank()
 		house.position = chunk.real_position
 		add_child(house)
