@@ -1,11 +1,10 @@
 extends Node2D
 
 const FULL_ROTATION = 2 * PI
-const CHUNK_SIZE = 500
-const HOUSES_PER_CHUNK = 1
-const HOUSES_SCALE = Vector2(0.3, 0.3)
+const CHUNK_SIZE = 6500
+const HOUSES_PER_CHUNK = 8
+const HOUSES_SCALE = Vector2(5.0, 25.0)
 const CHUNK_HOUSE = preload("res://scenes/house.tscn")
-const CHUNK_BACKDROP = preload("res://scenes/white_backdrop.tscn")
 
 var bullet: CharacterBody2D
 var loaded_chunks: Array[Chunk]
@@ -15,6 +14,7 @@ var bullet_chunk: Chunk
 
 func _ready() -> void:
 	bullet = %Bullet
+	seeds.resize(HOUSES_PER_CHUNK * 27)
 	for i in seeds.size():
 		seeds[i] = randf()
 	loaded_chunks.resize(9)
@@ -41,13 +41,18 @@ func _process(delta: float) -> void:
 		return
 	bullet_chunk = bullet_current_chunk
 	for i in loaded_chunks.size():
-		remove_child(loaded_chunks[i].houses[0])
-		loaded_chunks[i].houses.clear()
 		var chunk = Chunk.new(Vector2i((i % 3) - 1 + bullet_chunk.position.x, roundi(i / 3 - 1.25) + bullet_chunk.position.y))
-		var house = get_house_from_bank()
-		house.position = chunk.real_position
-		add_child(house)
-		chunk.houses[0] = house
+		var chunk_seed_base = (chunk.position.x * chunk.position.y) % seeds.size()
+		for j in HOUSES_PER_CHUNK:
+			remove_child(loaded_chunks[i].houses[j])
+			var house = get_house_from_bank()
+			var house_seed_base = chunk_seed_base + j * 3
+			house.position.x = chunk.real_position.x - 0.5 * CHUNK_SIZE + seeds[house_seed_base + 0] * CHUNK_SIZE
+			house.position.y = chunk.real_position.y - 0.5 * CHUNK_SIZE + seeds[house_seed_base + 1] * CHUNK_SIZE
+			house.rotation = FULL_ROTATION * seeds[house_seed_base + 2]
+			add_child(house)
+			chunk.houses[j] = house
+		loaded_chunks[i].houses.clear()
 		loaded_chunks[i] = chunk
 
 
@@ -63,12 +68,10 @@ class Chunk:
 	var position: Vector2i
 	var real_position: Vector2
 	var houses: Array[StaticBody2D]
-	var key
 	
 	func _init(position: Vector2i) -> void:
 		self.position = position
 		self.real_position = position * CHUNK_SIZE
-		key = rand_from_seed((position.x + 2) * position.y + position.x)[0] % HOUSES_PER_CHUNK * 9
 		houses.resize(HOUSES_PER_CHUNK)
 	
 	
