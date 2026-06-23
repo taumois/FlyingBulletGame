@@ -7,107 +7,71 @@ const HOUSES_SCALE = Vector2(0.3, 0.3)
 const CHUNK_HOUSE = preload("res://scenes/house.tscn")
 const CHUNK_BACKDROP = preload("res://scenes/white_backdrop.tscn")
 
-var bullet
+var bullet: CharacterBody2D
 var loaded_chunks: Array[Chunk]
-var seed
-var bullet_chunk
+var house_bank: Array[StaticBody2D]
+var seeds: Array[float]
+var bullet_chunk: Chunk
 
 func _ready() -> void:
 	bullet = %Bullet
-	seed = randf()
+	for i in seeds.size():
+		seeds[i] = randf()
 	loaded_chunks.resize(9)
-	bullet_chunk = _bullet_current_chunk()
+	house_bank.resize(9 * HOUSES_PER_CHUNK)
+	for i in house_bank.size():
+		var house = CHUNK_HOUSE.instantiate()
+		house.scale = HOUSES_SCALE
+		house_bank[i] = house
+	bullet_chunk = get_bullet_current_chunk()
 	for i in loaded_chunks.size():
-		var new_chunk = Chunk.new(Vector2i((i % 3) - 1 + bullet_chunk.x, roundi(i / 3 - 0.25) - 0.5 + bullet_chunk.y))
-		load_chunk(new_chunk)
-		loaded_chunks[i] = new_chunk
+		var chunk = Chunk.new(Vector2i.ZERO)
+		loaded_chunks[i] = chunk
 
 
-func _bullet_current_chunk() -> Chunk:
-	var chunk_x = roundi(bullet.position.x / CHUNK_SIZE)
-	if bullet.position.x < 0.0:
-		chunk_x -= 1
-	var chunk_y = roundi(bullet.position.y / CHUNK_SIZE)
-	if bullet.position.y < 0.0:
-		chunk_y -= 1
-	return Chunk.new(Vector2i(chunk_x, chunk_y))
+func get_bullet_current_chunk() -> Chunk:
+	var chunk_position = Vector2i(roundi(bullet.position.x / CHUNK_SIZE), roundi(bullet.position.y / CHUNK_SIZE))
+	var chunk = Chunk.new(chunk_position)
+	print(chunk.position)
+	return chunk
 
 
 func _process(delta: float) -> void:
-	var new_bullet_chunk = _bullet_current_chunk()
-	if new_bullet_chunk.is_chunk(bullet_chunk):
+	var bullet_current_chunk = get_bullet_current_chunk()
+	if bullet_current_chunk.is_chunk(bullet_chunk):
 		return
-	bullet_chunk = new_bullet_chunk
-	print(bullet_chunk.position())
-	
+	bullet_chunk = bullet_current_chunk
 	for i in loaded_chunks.size():
-		if not loaded_chunks[i].is_adjacent_to_chunk(bullet_chunk):
-			for j in loaded_chunks.size():
-				var new_chunk = Chunk.new(Vector2i((j % 3) - 1 + bullet_chunk.x, roundi(j / 3 - 0.25) - 0.5 + bullet_chunk.y))
-				if not chunk_in_loaded_chunks(new_chunk):
-					loaded_chunks[i].clear()
-					load_chunk(new_chunk)
-					loaded_chunks[i] = new_chunk
-
-func load_chunk(chunk: Chunk) -> void:
-	var chunk_unique_randf = fmod(chunk.x * chunk.y * seed, 1.0)
-	var house_unique_randf_x = fmod(rand_from_seed(chunk_unique_randf)[0] / chunk_unique_randf / PI, 1.0)
-	var house_unique_randf_y = fmod(rand_from_seed(chunk_unique_randf)[0] / chunk_unique_randf / seed, 1.0)
-	
-	var backdrop = CHUNK_BACKDROP.instantiate()
-	backdrop.position = chunk.position() * CHUNK_SIZE + Vector2i.ONE * CHUNK_SIZE / 2
-	backdrop.scale = Vector2.ONE * CHUNK_SIZE
-	backdrop.z_index = -1
-	chunk.backdrop = backdrop
-	add_child(backdrop)
-	
-	#for i in HOUSES_PER_CHUNK:
-		#var house = CHUNK_HOUSE.instantiate()
-		#house_unique_randf_x = fmod(rand_from_seed(house_unique_randf_x)[0] / house_unique_randf_y * seed, 1.0)
-		#house_unique_randf_y = fmod(rand_from_seed(house_unique_randf_y)[0] / house_unique_randf_x, 1.0)
-		#house.position = chunk.position() * CHUNK_SIZE + Vector2i(house_unique_randf_x * CHUNK_SIZE, house_unique_randf_y * CHUNK_SIZE)
-		#house.rotation = FULL_ROTATION * chunk_unique_randf
-		#house.scale = HOUSES_SCALE
-		#chunk.houses.push_back(house)
-		#add_child(house)
+		remove_child(loaded_chunks[i].houses[0])
+		loaded_chunks[i].houses.clear()
+		var chunk = Chunk.new(Vector2i((i % 3) - 1 + bullet_chunk.position.x, roundi(i / 3 - 0.25) - 0.5 + bullet_chunk.position.y))
+		var house = get_house_from_bank()
+		house.position = chunk.real_position
+		add_child(house)
+		chunk.houses[0] = house
+		loaded_chunks[i] = chunk
 
 
-func chunk_in_loaded_chunks(chunk: Chunk) -> bool:
-	for loaded_chunk in loaded_chunks:
-		if chunk.x == loaded_chunk.x:
-			if chunk.y == loaded_chunk.y:
-				return true
-	return false
+func get_house_from_bank() -> StaticBody2D:
+	for house in house_bank:
+		if house.get_parent() == null:
+			return house
+	print("This shouldn't be printed")
+	return null
 
 
 class Chunk:
-	var x
-	var y
-	var houses: Array[Node2D]
-	var backdrop
+	var position: Vector2i
+	var real_position: Vector2
+	var houses: Array[StaticBody2D]
+	var key
 	
 	func _init(position: Vector2i) -> void:
-		x = position.x
-		y = position.y
+		self.position = position
+		self.real_position = position * CHUNK_SIZE
+		key = rand_from_seed((position.x + 2) * position.y + position.x)[0] % HOUSES_PER_CHUNK * 9
+		houses.resize(HOUSES_PER_CHUNK)
 	
-	
-	func position() -> Vector2i:
-		return Vector2i(x, y)
-	
-	
-	func is_adjacent_to_chunk(chunk: Chunk) -> bool:
-		var x_adjacent = chunk.x - 1 <= x and x <= chunk.x + 1
-		var y_adjacent = chunk.y - 1 <= y and y <= chunk.y + 1
-		return x_adjacent and y_adjacent
-
 	
 	func is_chunk(chunk: Chunk) -> bool:
-		return chunk.x == x and chunk.y == y
-	
-
-	func clear() -> void:
-		for house in houses:
-			house.queue_free()
-		houses.clear()
-		backdrop.queue_free()
-		backdrop = null
+		return position == chunk.position
