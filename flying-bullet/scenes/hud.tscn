@@ -72,6 +72,7 @@ vertical_alignment = 1
 
 [node name="TutorialScreen" type="TextureRect" parent="Control" unique_id=1035764173]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -93,6 +94,7 @@ unique_name_in_owner = true
 wait_time = 1.5
 one_shot = true
 autostart = true
+ignore_time_scale = true
 
 [node name="EndScreenDuration" type="Timer" parent="." unique_id=2007257666]
 unique_name_in_owner = true

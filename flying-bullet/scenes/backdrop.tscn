@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cb1s5lunwlybu"]
+
+[ext_resource type="Texture2D" uid="uid://dkjn1278fnqld" path="res://assets/blank_dark_grey.png" id="1_hwdtg"]
+
+[node name="Backdrop" type="CanvasLayer" unique_id=51415157]
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=376863588]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_hwdtg")
+stretch_mode = 1

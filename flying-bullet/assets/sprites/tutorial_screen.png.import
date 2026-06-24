@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://snpaodb7k8pr"
-path="res://.godot/imported/dart.png-78aecbdfa3038df79814d710acfaacd2.ctex"
+uid="uid://bfoxri8lywbdq"
+path="res://.godot/imported/tutorial_screen.png-f46453429ac07e967ce31f4023f1be75.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/dart.png"
-dest_files=["res://.godot/imported/dart.png-78aecbdfa3038df79814d710acfaacd2.ctex"]
+source_file="res://assets/sprites/tutorial_screen.png"
+dest_files=["res://.godot/imported/tutorial_screen.png-f46453429ac07e967ce31f4023f1be75.ctex"]
 
 [params]
 
@@ -23,7 +23,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

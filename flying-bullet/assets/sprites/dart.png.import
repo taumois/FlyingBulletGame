@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dsljvw6iajo0q"
-path="res://.godot/imported/death_screen.png-5572177140c55d70153a47aa4a07a6e5.ctex"
+uid="uid://snpaodb7k8pr"
+path="res://.godot/imported/dart.png-da26e4b5a453c121b2b098ed48efd91f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/death_screen.png"
-dest_files=["res://.godot/imported/death_screen.png-5572177140c55d70153a47aa4a07a6e5.ctex"]
+source_file="res://assets/sprites/dart.png"
+dest_files=["res://.godot/imported/dart.png-da26e4b5a453c121b2b098ed48efd91f.ctex"]
 
 [params]
 
@@ -23,7 +23,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -37,4 +37,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

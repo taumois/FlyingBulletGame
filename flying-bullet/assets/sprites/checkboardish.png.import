@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2yi37jdakgwj"
-path="res://.godot/imported/blank_black.png-ba7eb94ca1e4be4105a87470ed78f516.ctex"
+uid="uid://d2a3fvy0qd0ff"
+path="res://.godot/imported/checkboardish.png-0883db1fe0c8f397edd9cd61631549c2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/blank_black.png"
-dest_files=["res://.godot/imported/blank_black.png-ba7eb94ca1e4be4105a87470ed78f516.ctex"]
+source_file="res://assets/sprites/checkboardish.png"
+dest_files=["res://.godot/imported/checkboardish.png-0883db1fe0c8f397edd9cd61631549c2.ctex"]
 
 [params]
 

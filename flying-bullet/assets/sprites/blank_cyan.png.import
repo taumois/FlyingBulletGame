@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://fo3y8xxokn1p"
-path="res://.godot/imported/black_lines.png-1992241024edce4266b03744735a1cdc.ctex"
+uid="uid://dji3edh5ys7ac"
+path="res://.godot/imported/blank_cyan.png-d7848317b5dfcfd0a0fdb99c2871da40.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/black_lines.png"
-dest_files=["res://.godot/imported/black_lines.png-1992241024edce4266b03744735a1cdc.ctex"]
+source_file="res://assets/sprites/blank_cyan.png"
+dest_files=["res://.godot/imported/blank_cyan.png-d7848317b5dfcfd0a0fdb99c2871da40.ctex"]
 
 [params]
 
