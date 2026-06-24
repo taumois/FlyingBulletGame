@@ -4,6 +4,8 @@ signal current_score(score: int)
 signal current_health(health: int)
 signal current_speed(speed: float)
 
+const COLLISION_DAMAGE_TO_ENEMIES = 1
+const SCORE_GAIN_FROM_DEALING_DAMAGE = 499
 const INITIAL_SPEED = 3.33
 const MAX_HEALTH = 3
 const LINEAR_ACCELERATION = 0.001
@@ -91,6 +93,11 @@ func bounce(collision: KinematicCollision2D) -> void:
 	var collision_normal = collision.get_normal()
 	var collision_collider_rid = collision.get_collider_rid()
 	var pre_bounce_linear_velocity = linear_velocity
+	
+	var collision_collider = collision.get_collider()
+	if collision_collider.has_method("damage"):
+		collision_collider.damage(COLLISION_DAMAGE_TO_ENEMIES);
+		score += SCORE_GAIN_FROM_DEALING_DAMAGE
 	
 	linear_velocity = linear_velocity.bounce(collision_normal) * BOUNCED_LINEAR_VELOCITY_COEFFICIENT
 	rotation = linear_velocity.angle()
