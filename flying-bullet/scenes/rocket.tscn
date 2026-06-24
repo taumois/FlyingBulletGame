@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://bue5s7qs8ps8d"]
+
+[ext_resource type="Script" uid="uid://baextiam28udb" path="res://scripts/rocket.gd" id="1_3341w"]
+[ext_resource type="Texture2D" uid="uid://cqmltpy7hwihv" path="res://assets/sprites/rocket_enemy.png" id="2_dkv7l"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dkv7l"]
+
+[node name="Rocket" type="RigidBody2D" unique_id=1865721609]
+script = ExtResource("1_3341w")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=899651458]
+scale = Vector2(0.565, 0.565)
+texture = ExtResource("2_dkv7l")
+
+[node name="RotatedSprite" type="Sprite2D" parent="." unique_id=1504275501]
+rotation = 0.7853982
+scale = Vector2(0.565, 0.565)
+texture = ExtResource("2_dkv7l")
+
+[node name="CollisionShape" type="CollisionShape2D" parent="." unique_id=255783913]
+scale = Vector2(3.37, 3.37)
+shape = SubResource("CircleShape2D_dkv7l")
+
+[node name="FlameFX" type="CPUParticles2D" parent="." unique_id=241280215]
+texture = ExtResource("2_dkv7l")
+lifetime = 0.34
+emission_shape = 1
+emission_sphere_radius = 33.95
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 39.61
+initial_velocity_max = 128.72
+scale_amount_min = 0.1
+scale_amount_max = 0.2
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

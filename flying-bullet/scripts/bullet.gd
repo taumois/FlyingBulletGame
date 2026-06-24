@@ -97,7 +97,10 @@ func bounce(collision: KinematicCollision2D) -> void:
 	var collision_collider = collision.get_collider()
 	if collision_collider.has_method("damage"):
 		collision_collider.damage(COLLISION_DAMAGE_TO_ENEMIES);
-		score += SCORE_GAIN_FROM_DEALING_DAMAGE
+		if collision_collider.has_method("explode"):
+			collision_collider.explode(self);
+		else:
+			score += SCORE_GAIN_FROM_DEALING_DAMAGE
 	
 	linear_velocity = linear_velocity.bounce(collision_normal) * BOUNCED_LINEAR_VELOCITY_COEFFICIENT
 	rotation = linear_velocity.angle()

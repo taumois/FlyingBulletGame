@@ -1,18 +1,18 @@
 [gd_scene format=3 uid="uid://dh575nedhpctp"]
 
-[ext_resource type="Script" uid="uid://b3d8vloasmpuu" path="res://scripts/slime.gd" id="1_p2gj0"]
-[ext_resource type="Texture2D" uid="uid://rij7t1c2tt5i" path="res://assets/sprites/laser_enemy.png" id="2_p2gj0"]
-[ext_resource type="AudioStream" uid="uid://d4n4ickpngpms" path="res://assets/sounds/laser_sound.mp3" id="3_n6pvg"]
+[ext_resource type="Script" uid="uid://b3d8vloasmpuu" path="res://scripts/slime.gd" id="1_7gkdm"]
+[ext_resource type="Texture2D" uid="uid://rij7t1c2tt5i" path="res://assets/sprites/laser_enemy.png" id="2_djsw6"]
+[ext_resource type="AudioStream" uid="uid://d4n4ickpngpms" path="res://assets/sounds/laser_sound.mp3" id="3_8vftx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p2gj0"]
 
-[node name="Slime" type="RigidBody2D" unique_id=1612937630]
-script = ExtResource("1_p2gj0")
+[node name="LaserSlime" type="RigidBody2D" unique_id=1612937630]
+script = ExtResource("1_7gkdm")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=751983019]
-texture = ExtResource("2_p2gj0")
+[node name="Sprite" type="Sprite2D" parent="." unique_id=751983019]
+texture = ExtResource("2_djsw6")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=944156049]
+[node name="CollisionShape" type="CollisionShape2D" parent="." unique_id=944156049]
 scale = Vector2(5, 5)
 shape = SubResource("RectangleShape2D_p2gj0")
 
@@ -29,7 +29,7 @@ autostart = true
 unique_name_in_owner = true
 visible = false
 scale = Vector2(999, 0.75)
-texture = ExtResource("2_p2gj0")
+texture = ExtResource("2_djsw6")
 
 [node name="LaserVisualDuration" type="Timer" parent="." unique_id=2136152302]
 unique_name_in_owner = true
@@ -38,11 +38,11 @@ one_shot = true
 
 [node name="LaserSound" type="AudioStreamPlayer" parent="." unique_id=376594149]
 unique_name_in_owner = true
-stream = ExtResource("3_n6pvg")
+stream = ExtResource("3_8vftx")
 
 [node name="LaserFX" type="CPUParticles2D" parent="." unique_id=608911836]
 amount = 4
-texture = ExtResource("2_p2gj0")
+texture = ExtResource("2_djsw6")
 lifetime = 3.0
 speed_scale = 2.0
 emission_shape = 1
@@ -55,5 +55,6 @@ initial_velocity_max = 1000.0
 scale_amount_min = 0.3
 scale_amount_max = 0.6
 
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="LaserCooldown" to="." method="_on_laser_cooldown_timeout"]
 [connection signal="timeout" from="LaserVisualDuration" to="." method="_on_laser_visual_duration_timeout"]
