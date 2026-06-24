@@ -30,6 +30,7 @@ func _on_bullet_current_health(health: int) -> void:
 		return
 	if health <= 0:
 		player_died()
+		return
 	
 	health_label.text = str(health)
 	
@@ -41,9 +42,11 @@ func _on_bullet_current_health(health: int) -> void:
 
 
 func player_died() -> void:
-	Engine.time_scale = 0.0
+	Engine.time_scale = 0
 	health_label.hide()
-	score_label.show()
+	show_health_timer.paused = true
+	show_score_timer.paused = true
+	_on_bullet_current_score(recorded_score + 1)
 	death_screen.show()
 	end_screen_duration.start()
 

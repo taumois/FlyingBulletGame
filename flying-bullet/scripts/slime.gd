@@ -1,7 +1,7 @@
 extends RigidBody2D
 
-const LINEAR_ACCELERATION = 1000.0
-const ROTATIONAL_ACCELERATION = 100000.0
+const LINEAR_ACCELERATION = 100000.0
+const ROTATIONAL_ACCELERATION = 500000.0
 const LASER_DAMAGE = 1
 
 var health
@@ -21,9 +21,10 @@ func _ready() -> void:
 	bullet = get_tree().root.get_node("World/Bullet")
 
 func _physics_process(delta: float) -> void:
-	apply_torque(ROTATIONAL_ACCELERATION * delta)
+	#apply_torque(ROTATIONAL_ACCELERATION * delta)
 	
 	var angle_to_bullet = get_angle_to(bullet.position)
+	look_at(bullet.position)
 	apply_force(Vector2.from_angle(angle_to_bullet) * LINEAR_ACCELERATION * delta)
 	
 	if laser_cooldown.is_stopped():
@@ -32,16 +33,17 @@ func _physics_process(delta: float) -> void:
 			laser_collision_position = laser_point.get_collision_point()
 			var collider = laser_point.get_collider()
 			if collider.has_method("damage"):
+				print(1)
 				collider.damage(LASER_DAMAGE);
 				laser_duration.stop()
 				laser_duration.timeout.emit()
 		else:
-			laser_collision_position = global_position
-		laser.scale.y = global_position.distance_to(laser_collision_position)
-		laser.position = Vector2.from_angle(get_angle_to(laser_collision_position)) * laser.scale.y * 10.0
+			laser_collision_position = position
+		laser.position = laser_collision_position
+		#laser.position = Vector2.from_angle(get_angle_to(laser_collision_position)) * laser.scale.y
 
 
-func damage(amount: int) -> void:
+func damage(_amount: int) -> void:
 	queue_free()
 
 

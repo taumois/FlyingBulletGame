@@ -23,7 +23,7 @@ func _ready() -> void:
 		var house = CHUNK_HOUSE.instantiate()
 		house.scale = HOUSES_SCALE
 		house_bank[i] = house
-	bullet_chunk = get_bullet_current_chunk()
+	bullet_chunk = Chunk.new(Vector2i(1.0, 1.0))
 	for i in loaded_chunks.size():
 		var chunk = Chunk.new(Vector2i.ZERO)
 		loaded_chunks[i] = chunk

@@ -19,7 +19,7 @@ shape = SubResource("RectangleShape2D_p2gj0")
 
 [node name="LaserPoint" type="RayCast2D" parent="." unique_id=782439102]
 unique_name_in_owner = true
-target_position = Vector2(0, 9999)
+target_position = Vector2(999, 0)
 
 [node name="LaserCooldown" type="Timer" parent="." unique_id=394984849]
 unique_name_in_owner = true
@@ -32,7 +32,7 @@ one_shot = true
 
 [node name="Laser" type="Sprite2D" parent="." unique_id=1327643237]
 unique_name_in_owner = true
-scale = Vector2(10, 1)
+scale = Vector2(100, 100)
 texture = ExtResource("3_n6pvg")
 
 [connection signal="timeout" from="LaserCooldown" to="." method="_on_laser_cooldown_timeout"]

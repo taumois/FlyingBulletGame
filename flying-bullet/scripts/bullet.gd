@@ -4,7 +4,7 @@ signal current_score(score: int)
 signal current_health(health: int)
 signal current_speed(speed: float)
 
-const INITIAL_SPEED = 5000.0
+const INITIAL_SPEED = 1.33
 const MAX_HEALTH = 3
 const LINEAR_ACCELERATION = 0.005
 const ROTATIONAL_ACCELERATION = 0.02
@@ -36,9 +36,9 @@ func _ready() -> void:
 	collision_count = 0
 	collision_limit_timer = %ResetCollisionLimit
 	position = Vector2.ZERO
-	rotation = 0.0
+	rotation = randi() * PI
 	turn_direction = Direction.NEUTRAL
-	linear_velocity = Vector2.from_angle(randf() * PI) * INITIAL_SPEED
+	linear_velocity = Vector2.ONE * INITIAL_SPEED
 	rotational_velocity = 0.0
 	health = MAX_HEALTH
 	score = 0
