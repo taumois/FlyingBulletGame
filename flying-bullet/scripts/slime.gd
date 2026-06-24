@@ -1,10 +1,9 @@
 extends RigidBody2D
 
-const LINEAR_ACCELERATION = 80000.0
-const ROTATIONAL_ACCELERATION = 3000000.0
+const LINEAR_ACCELERATION = 1000.0
+const ROTATIONAL_ACCELERATION = 100000.0
 const LASER_DAMAGE = 1
 
-var health
 var bullet
 var laser_point: RayCast2D
 var laser_visual_duration: Timer
@@ -17,10 +16,8 @@ func _ready() -> void:
 	laser_visual_duration = %LaserVisualDuration
 	laser_cooldown = %LaserCooldown
 	laser = %Laser
-	linear_damp = 1.0
-	angular_damp = 1.0
 	laser_sound = %LaserSound
-	bullet = get_tree().root.get_node("World/Bullet")
+	bullet = %Bullet
 
 func _physics_process(delta: float) -> void:
 	apply_torque(ROTATIONAL_ACCELERATION * delta)
