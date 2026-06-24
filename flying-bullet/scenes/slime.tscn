@@ -5,6 +5,8 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p2gj0"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n6pvg"]
+
 [node name="Slime" type="RigidBody2D" unique_id=1612937630]
 script = ExtResource("1_p2gj0")
 
@@ -16,4 +18,28 @@ texture = ExtResource("2_p2gj0")
 scale = Vector2(5, 5)
 shape = SubResource("RectangleShape2D_p2gj0")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1357822203]
+[node name="LaserPoint" type="RayCast2D" parent="." unique_id=782439102]
+unique_name_in_owner = true
+target_position = Vector2(0, 9999)
+
+[node name="LaserCooldown" type="Timer" parent="." unique_id=394984849]
+unique_name_in_owner = true
+one_shot = true
+autostart = true
+
+[node name="LaserDuration" type="Timer" parent="." unique_id=16114490]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=2008955381]
+scale = Vector2(20, 20)
+texture = ExtResource("2_p2gj0")
+
+[node name="Laser" type="Area2D" parent="." unique_id=1515339660]
+unique_name_in_owner = true
+
+[node name="LaserShape" type="CollisionShape2D" parent="Laser" unique_id=1960551465]
+shape = SubResource("RectangleShape2D_n6pvg")
+
+[connection signal="timeout" from="LaserCooldown" to="." method="_on_laser_cooldown_timeout"]
+[connection signal="timeout" from="LaserDuration" to="." method="_on_laser_duration_timeout"]
