@@ -4,13 +4,13 @@ signal current_score(score: int)
 signal current_health(health: int)
 signal current_speed(speed: float)
 
-const INITIAL_LINEAR_VELOCITY = Vector2.RIGHT * 3.33
+const INITIAL_SPEED = 5000.0
 const MAX_HEALTH = 3
-const LINEAR_ACCELERATION = 0.0
+const LINEAR_ACCELERATION = 0.005
 const ROTATIONAL_ACCELERATION = 0.02
 const LINEAR_DRAG_LINEAR_FACTOR_COEFFICIENT = 0.00115
-const LINEAR_DRAG_ROTATIONAL_FACTOR_COEFFICIENT = 1.0
-const ROTATIONAL_DRAG_LINEAR_FACTOR_COEFFICIENT = 0.00225
+const LINEAR_DRAG_ROTATIONAL_FACTOR_COEFFICIENT = 0.0
+const ROTATIONAL_DRAG_LINEAR_FACTOR_COEFFICIENT = 0.0
 const ROTATIONAL_DRAG_ROTATIONAL_FACTOR_COEFFICIENT = 6.7
 const SCORE_GAIN_ON_BOUNCE = 5
 const FPS_DEVELOPED_IN = 60
@@ -38,7 +38,7 @@ func _ready() -> void:
 	position = Vector2.ZERO
 	rotation = 0.0
 	turn_direction = Direction.NEUTRAL
-	linear_velocity = INITIAL_LINEAR_VELOCITY
+	linear_velocity = Vector2.from_angle(randf() * PI) * INITIAL_SPEED
 	rotational_velocity = 0.0
 	health = MAX_HEALTH
 	score = 0
@@ -52,11 +52,6 @@ func _unhandled_key_input(_event: InputEvent) -> void:
 	else:
 		turn_direction = Direction.NEUTRAL
 	get_viewport().set_input_as_handled()
-
-
-func _process(_delta: float) -> void:
-	emit_signal("current_score", score)
-	emit_signal("current_health", health)
 
 
 func _physics_process(delta: float) -> void:
@@ -78,7 +73,14 @@ func _physics_process(delta: float) -> void:
 	var collision = move_and_collide(linear_velocity)
 	if collision != null:
 		bounce(collision)
-	
+
+
+func damage(amount: int) -> void:
+	health -= amount
+	if health < 0:
+		health = 0
+	emit_signal("current_health", health)
+
 
 func _drag_calculated(_velocity: float) -> float:
 	var drag = 1 + _velocity * _velocity
@@ -106,6 +108,7 @@ func bounce(collision: KinematicCollision2D) -> void:
 			stuck = false
 	
 	score += SCORE_GAIN_ON_BOUNCE
+	emit_signal("current_score", score)
 	
 	#if collision_limit_timer.is_stopped():
 		#collision_limit_timer.start()

@@ -21,10 +21,13 @@ one_shot = true
 
 [node name="Trail" type="CPUParticles2D" parent="." unique_id=2132413796]
 z_index = -1
+position = Vector2(-63, 0)
+amount = 16
 texture = ExtResource("3_l5glv")
+lifetime = 2.0
 gravity = Vector2(0, 0)
-angular_velocity_min = -720.0
-angular_velocity_max = 720.0
+angular_velocity_min = -180.0
+angular_velocity_max = 180.0
 orbit_velocity_min = -0.3
 orbit_velocity_max = 0.3
 

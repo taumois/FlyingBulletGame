@@ -2,10 +2,9 @@
 
 [ext_resource type="Script" uid="uid://b3d8vloasmpuu" path="res://scripts/slime.gd" id="1_p2gj0"]
 [ext_resource type="Texture2D" uid="uid://ce2ilmq63yhoh" path="res://assets/blank_azure.png" id="2_p2gj0"]
+[ext_resource type="Texture2D" uid="uid://c2gm7qndowyq6" path="res://assets/blank_white.png" id="3_n6pvg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p2gj0"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_n6pvg"]
 
 [node name="Slime" type="RigidBody2D" unique_id=1612937630]
 script = ExtResource("1_p2gj0")
@@ -31,15 +30,10 @@ autostart = true
 unique_name_in_owner = true
 one_shot = true
 
-[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=2008955381]
-scale = Vector2(20, 20)
-texture = ExtResource("2_p2gj0")
-
-[node name="Laser" type="Area2D" parent="." unique_id=1515339660]
+[node name="Laser" type="Sprite2D" parent="." unique_id=1327643237]
 unique_name_in_owner = true
-
-[node name="LaserShape" type="CollisionShape2D" parent="Laser" unique_id=1960551465]
-shape = SubResource("RectangleShape2D_n6pvg")
+scale = Vector2(10, 1)
+texture = ExtResource("3_n6pvg")
 
 [connection signal="timeout" from="LaserCooldown" to="." method="_on_laser_cooldown_timeout"]
 [connection signal="timeout" from="LaserDuration" to="." method="_on_laser_duration_timeout"]

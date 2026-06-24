@@ -6,7 +6,6 @@
 [ext_resource type="Script" uid="uid://ccs11430lpxv0" path="res://scripts/camera.gd" id="2_k0juu"]
 [ext_resource type="Script" uid="uid://c86gahi6h8828" path="res://scripts/camera_target_alterer.gd" id="3_qfnet"]
 [ext_resource type="PackedScene" uid="uid://dh575nedhpctp" path="res://scenes/slime.tscn" id="7_4mrxx"]
-[ext_resource type="PackedScene" uid="uid://btgmk307wplld" path="res://scenes/house.tscn" id="7_i7141"]
 
 [node name="World" type="Node2D" unique_id=1755103904]
 script = ExtResource("1_4mrxx")
@@ -26,26 +25,6 @@ limit_enabled = false
 position_smoothing_enabled = true
 rotation_smoothing_enabled = true
 script = ExtResource("2_k0juu")
-
-[node name="House" parent="." unique_id=1506828352 instance=ExtResource("7_i7141")]
-position = Vector2(500, 850)
-rotation = 0.7853982
-scale = Vector2(1, 5)
-
-[node name="House2" parent="." unique_id=1627294212 instance=ExtResource("7_i7141")]
-position = Vector2(500, 3.0517578e-05)
-rotation = -0.7853982
-scale = Vector2(1, 5)
-
-[node name="House3" parent="." unique_id=510678388 instance=ExtResource("7_i7141")]
-position = Vector2(-350, 850)
-rotation = -0.7853982
-scale = Vector2(1, 5)
-
-[node name="House4" parent="." unique_id=449580534 instance=ExtResource("7_i7141")]
-position = Vector2(-350, 0)
-rotation = 0.7853982
-scale = Vector2(1, 5)
 
 [node name="Slime" parent="." unique_id=1612937630 instance=ExtResource("7_4mrxx")]
 position = Vector2(72, 459)

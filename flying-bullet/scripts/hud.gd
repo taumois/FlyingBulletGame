@@ -6,12 +6,18 @@ var health_label
 var score_label
 var show_health_timer
 var show_score_timer
+var tutorial_screen
+var death_screen
+var end_screen_duration
 
 func _ready() -> void:
 	health_label = %Health
 	score_label = %Score
 	show_health_timer = %ShowHearts
 	show_score_timer = %ShowScore
+	tutorial_screen = %TutorialScreen
+	death_screen = %DeathScreen
+	end_screen_duration = %EndScreenDuration
 	recorded_health = 0
 	recorded_score = 0
 	
@@ -22,6 +28,8 @@ func _ready() -> void:
 func _on_bullet_current_health(health: int) -> void:
 	if health == recorded_health:
 		return
+	if health <= 0:
+		player_died()
 	
 	health_label.text = str(health)
 	
@@ -30,6 +38,14 @@ func _on_bullet_current_health(health: int) -> void:
 	show_health_timer.start()
 	
 	recorded_health = health
+
+
+func player_died() -> void:
+	Engine.time_scale = 0.0
+	health_label.hide()
+	score_label.show()
+	death_screen.show()
+	end_screen_duration.start()
 
 
 func _on_bullet_current_score(score: int) -> void:
@@ -53,3 +69,7 @@ func _on_show_hearts_timer_timeout() -> void:
 
 func _on_show_score_timeout() -> void:
 	score_label.hide()
+
+
+func _on_end_screen_duration_timeout() -> void:
+	get_tree().reload_current_scene()
