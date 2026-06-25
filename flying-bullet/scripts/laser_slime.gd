@@ -3,6 +3,7 @@ extends RigidBody2D
 const LINEAR_ACCELERATION = 50000.0
 const ROTATIONAL_ACCELERATION = 100000.0
 const LASER_DAMAGE = 1
+const DEATH_EXPLOSION = preload("res://scenes/death_explosion.tscn")
 
 var bullet
 var laser_point: RayCast2D
@@ -34,6 +35,13 @@ func _physics_process(delta: float) -> void:
 
 
 func damage(_amount: int) -> void:
+	_die()
+
+
+func _die() -> void:
+	var explosion = DEATH_EXPLOSION.instantiate()
+	explosion.position = position
+	add_sibling(explosion)
 	queue_free()
 
 

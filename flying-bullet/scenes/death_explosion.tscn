@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://dxaunym7lr2it"]
+
+[ext_resource type="Texture2D" uid="uid://c1e72liv16sra" path="res://assets/sprites/orange_spark.png" id="1_4gqjm"]
+[ext_resource type="Script" uid="uid://bb6q23kpos5de" path="res://scripts/death_explosion.gd" id="2_njiuk"]
+
+[sub_resource type="Gradient" id="Gradient_njiuk"]
+offsets = PackedFloat32Array(0, 0.28804347, 1)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 0.9019608, 0.9019608, 0.9019608, 0)
+
+[node name="DeathExplosion" type="CPUParticles2D" unique_id=1250679713]
+emitting = false
+amount = 7
+texture = ExtResource("1_4gqjm")
+lifetime = 1.3699999999999999
+one_shot = true
+speed_scale = 10.76
+explosiveness = 0.7
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 751.09
+initial_velocity_max = 1000.0
+angular_velocity_min = -590.09
+angular_velocity_max = 190.96
+scale_amount_min = 39.75
+scale_amount_max = 51.71
+color_ramp = SubResource("Gradient_njiuk")
+script = ExtResource("2_njiuk")
+
+[connection signal="finished" from="." to="." method="_on_finished"]

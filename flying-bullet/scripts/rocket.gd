@@ -15,10 +15,14 @@ func _physics_process(delta: float) -> void:
 
 
 func damage(_amount: int) -> void:
+	_die()
+
+
+func _die() -> void:
 	queue_free()
 
 
 func explode(body: Node) -> void:
 	if body.has_method("damage"):
 		body.damage(DAMAGE)
-	queue_free()
+	_die()
