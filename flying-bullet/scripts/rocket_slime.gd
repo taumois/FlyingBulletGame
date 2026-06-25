@@ -8,7 +8,7 @@ const ROCKET = preload("res://scenes/rocket.tscn")
 var bullet
 
 func _ready() -> void:
-	bullet = %Bullet
+	bullet = get_parent().bullet
 
 
 func _physics_process(delta: float) -> void:
@@ -17,7 +17,6 @@ func _physics_process(delta: float) -> void:
 
 
 func damage(_amount: int) -> void:
-	print(get_contact_count())
 	queue_free()
 
 

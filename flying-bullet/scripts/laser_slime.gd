@@ -17,7 +17,7 @@ func _ready() -> void:
 	laser_cooldown = %LaserCooldown
 	laser = %Laser
 	laser_sound = %LaserSound
-	bullet = %Bullet
+	bullet = get_parent().bullet
 
 func _physics_process(delta: float) -> void:
 	apply_torque(ROTATIONAL_ACCELERATION * delta)

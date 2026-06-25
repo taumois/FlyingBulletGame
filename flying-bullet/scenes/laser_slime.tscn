@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dh575nedhpctp"]
 
-[ext_resource type="Script" uid="uid://b3d8vloasmpuu" path="res://scripts/slime.gd" id="1_7gkdm"]
+[ext_resource type="Script" uid="uid://b3d8vloasmpuu" path="res://scripts/laser_slime.gd" id="1_7gkdm"]
 [ext_resource type="Texture2D" uid="uid://rij7t1c2tt5i" path="res://assets/sprites/laser_enemy.png" id="2_djsw6"]
 [ext_resource type="AudioStream" uid="uid://d4n4ickpngpms" path="res://assets/sounds/laser_sound.mp3" id="3_8vftx"]
 
@@ -10,10 +10,11 @@
 script = ExtResource("1_7gkdm")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=751983019]
+scale = Vector2(10, 10)
 texture = ExtResource("2_djsw6")
 
 [node name="CollisionShape" type="CollisionShape2D" parent="." unique_id=944156049]
-scale = Vector2(5, 5)
+scale = Vector2(53, 53)
 shape = SubResource("RectangleShape2D_p2gj0")
 
 [node name="LaserPoint" type="RayCast2D" parent="." unique_id=782439102]

@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://ch2fb2iw5ew7i"]
 
 [ext_resource type="Script" uid="uid://cacb7nx8t6dsk" path="res://scripts/hud.gd" id="1_sd512"]
-[ext_resource type="Texture2D" uid="uid://bfoxri8lywbdq" path="res://assets/tutorial_screen.png" id="2_oo0fn"]
+[ext_resource type="Texture2D" uid="uid://bfoxri8lywbdq" path="res://assets/sprites/tutorial_screen.png" id="2_oo0fn"]
 [ext_resource type="Script" uid="uid://dfl8jbbbh8nkw" path="res://scripts/tutorial_screen.gd" id="3_5ysmq"]
-[ext_resource type="Texture2D" uid="uid://dsljvw6iajo0q" path="res://assets/death_screen.png" id="4_6fi6k"]
+[ext_resource type="Texture2D" uid="uid://dsljvw6iajo0q" path="res://assets/sprites/death_screen.png" id="4_6fi6k"]
 
 [node name="HUD" type="CanvasLayer" unique_id=1278275383]
 script = ExtResource("1_sd512")

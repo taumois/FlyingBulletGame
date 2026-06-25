@@ -8,11 +8,12 @@
 [node name="RocketSlime" type="RigidBody2D" unique_id=1612937630]
 script = ExtResource("1_ktm8v")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=751983019]
+[node name="Sprite" type="Sprite2D" parent="." unique_id=751983019]
+scale = Vector2(10, 10)
 texture = ExtResource("2_k38qd")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=944156049]
-scale = Vector2(5, 5)
+[node name="CollisionShape" type="CollisionShape2D" parent="." unique_id=944156049]
+scale = Vector2(53, 53)
 shape = SubResource("RectangleShape2D_p2gj0")
 
 [node name="RocketCooldown" type="Timer" parent="." unique_id=542018303]
