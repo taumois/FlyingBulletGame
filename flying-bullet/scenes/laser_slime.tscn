@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://b3d8vloasmpuu" path="res://scripts/laser_slime.gd" id="1_7gkdm"]
 [ext_resource type="Texture2D" uid="uid://rij7t1c2tt5i" path="res://assets/sprites/laser_enemy.png" id="2_djsw6"]
-[ext_resource type="AudioStream" uid="uid://d4n4ickpngpms" path="res://assets/sounds/laser_sound.mp3" id="3_8vftx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p2gj0"]
 
@@ -36,11 +35,6 @@ texture = ExtResource("2_djsw6")
 unique_name_in_owner = true
 wait_time = 0.1
 one_shot = true
-
-[node name="LaserSound" type="AudioStreamPlayer" parent="." unique_id=376594149]
-unique_name_in_owner = true
-stream = ExtResource("3_8vftx")
-volume_db = 24.0
 
 [node name="LaserFX" type="CPUParticles2D" parent="." unique_id=608911836]
 position = Vector2(298, 0)

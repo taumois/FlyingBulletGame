@@ -10,14 +10,12 @@ var laser_point: RayCast2D
 var laser_visual_duration: Timer
 var laser_cooldown: Timer
 var laser: Sprite2D
-var laser_sound: AudioStreamPlayer
 
 func _ready() -> void:
 	laser_point = %LaserPoint
 	laser_visual_duration = %LaserVisualDuration
 	laser_cooldown = %LaserCooldown
 	laser = %Laser
-	laser_sound = %LaserSound
 	bullet = get_parent().bullet
 
 func _physics_process(delta: float) -> void:
@@ -29,7 +27,6 @@ func _physics_process(delta: float) -> void:
 		if collider.has_method("damage"):
 			laser.show()
 			laser_visual_duration.start()
-			laser_sound.play()
 			laser_cooldown.start()
 			collider.damage(LASER_DAMAGE);
 
