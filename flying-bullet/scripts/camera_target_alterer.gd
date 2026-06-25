@@ -21,6 +21,8 @@ func viewport_rect_updated():
 
 func _on_bullet_current_speed(speed: float) -> void:
 	var everything_scale = 1.0 / (sqrt(speed) * SCALE_COEFFICIENT)
+	if everything_scale < 0.05:
+		everything_scale = 0.05
 	emit_signal("current_scale", everything_scale)
 	
 	var parent_rotation_vector = Vector2.from_angle(parent.rotation)

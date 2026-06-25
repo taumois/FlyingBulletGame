@@ -1,9 +1,9 @@
 extends Node2D
 
 const FULL_ROTATION = 2 * PI
-const CHUNK_SIZE = 6_500
+const CHUNK_SIZE = 8_000
 const HOUSES_PER_CHUNK = 3
-const HOUSES_SCALE = Vector2(15.0, 3.0)
+const HOUSES_SCALE = Vector2(5.0, 15.0)
 const CHUNK_HOUSE = preload("res://scenes/house.tscn")
 
 var bullet: CharacterBody2D
@@ -35,7 +35,8 @@ func get_bullet_current_chunk() -> Chunk:
 	return chunk
 
 
-func _process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
+	bullet.special_physics_process(delta)
 	var bullet_current_chunk = get_bullet_current_chunk()
 	if bullet_current_chunk.is_chunk(bullet_chunk):
 		return
@@ -46,7 +47,8 @@ func _process(_delta: float) -> void:
 		var half_seeds_size = roundi(float(seeds.size()) / 2)
 		var chunk_seed_base = rand_from_seed((chunk.position.x + 7) * chunk.position.y + chunk.position.x)[0] % half_seeds_size
 		for j in HOUSES_PER_CHUNK:
-			remove_child(loaded_chunks[i].houses[j])
+			if get_child_count() > 4:
+				remove_child(loaded_chunks[i].houses[j])
 			var house = get_house_from_bank()
 			var house_seed_base = (chunk_seed_base + j * 3)
 			house.position.x = chunk.real_position.x - 0.5 * CHUNK_SIZE + seeds[house_seed_base + 0] * CHUNK_SIZE

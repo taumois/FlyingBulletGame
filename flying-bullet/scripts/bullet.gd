@@ -6,14 +6,12 @@ signal current_speed(speed: float)
 
 const COLLISION_DAMAGE_TO_ENEMIES = 1
 const SCORE_GAIN_FROM_DEALING_DAMAGE = 499
-const INITIAL_SPEED = 3.33
+const INITIAL_SPEED = 35.0
 const MAX_HEALTH = 7
-const LINEAR_ACCELERATION = 0.001
-const ROTATIONAL_ACCELERATION = 0.02
-const LINEAR_DRAG_LINEAR_FACTOR_COEFFICIENT = 0.00115
-const LINEAR_DRAG_ROTATIONAL_FACTOR_COEFFICIENT = 0.0
-const ROTATIONAL_DRAG_LINEAR_FACTOR_COEFFICIENT = 0.0
-const ROTATIONAL_DRAG_ROTATIONAL_FACTOR_COEFFICIENT = 6.7
+const LINEAR_ACCELERATION = 0.085
+const LINEAR_DRAG_COEFFICIENT = 0.0001
+const ROTATIONAL_ACCELERATION = 0.0035
+const ROTATIONAL_DRAG_COEFFICIENT = 0.6
 const SCORE_GAIN_ON_BOUNCE = 5
 const FPS_DEVELOPED_IN = 60
 const BOUNCED_LINEAR_VELOCITY_COEFFICIENT = 1.5
@@ -56,7 +54,7 @@ func _unhandled_key_input(_event: InputEvent) -> void:
 	get_viewport().set_input_as_handled()
 
 
-func _physics_process(delta: float) -> void:
+func special_physics_process(delta: float) -> void:
 	var special_delta = delta * FPS_DEVELOPED_IN
 	
 	var speed = linear_velocity.length() * special_delta
@@ -64,13 +62,16 @@ func _physics_process(delta: float) -> void:
 	
 	if turn_direction != null:
 		rotational_velocity += turn_direction * ROTATIONAL_ACCELERATION * special_delta
-	var rotational_drag = _drag_calculated(rotational_velocity * ROTATIONAL_DRAG_ROTATIONAL_FACTOR_COEFFICIENT + (speed if rotational_velocity >= 0 else -speed) * ROTATIONAL_DRAG_LINEAR_FACTOR_COEFFICIENT)
-	rotational_velocity /= rotational_drag * special_delta
+	var rotational_drag = rotational_velocity * rotational_velocity * ROTATIONAL_DRAG_COEFFICIENT
+	if rotational_velocity > 0.0:
+		rotational_drag *= -1
+	rotational_velocity += rotational_drag * special_delta
 	rotation += rotational_velocity * special_delta
 	
-	linear_velocity = Vector2.from_angle(rotation) * speed + Vector2.from_angle(rotation) * LINEAR_ACCELERATION * special_delta
-	var linear_drag = _drag_calculated(speed * LINEAR_DRAG_LINEAR_FACTOR_COEFFICIENT + rotational_velocity * LINEAR_DRAG_ROTATIONAL_FACTOR_COEFFICIENT)
-	linear_velocity /= linear_drag * special_delta
+	linear_velocity = Vector2.from_angle(rotation) * speed
+	linear_velocity += Vector2.from_angle(rotation) * LINEAR_ACCELERATION * special_delta
+	var linear_drag = speed * speed * LINEAR_DRAG_COEFFICIENT * -1
+	linear_velocity += Vector2.from_angle(rotation) * linear_drag * special_delta
 	
 	var collision = move_and_collide(linear_velocity)
 	if collision != null:
@@ -82,11 +83,6 @@ func damage(amount: int) -> void:
 	if health < 0:
 		health = 0
 	emit_signal("current_health", health)
-
-
-func _drag_calculated(_velocity: float) -> float:
-	var drag = 1 + _velocity * _velocity
-	return drag
 
 
 func bounce(collision: KinematicCollision2D) -> void:
