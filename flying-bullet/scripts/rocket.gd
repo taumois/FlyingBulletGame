@@ -1,6 +1,6 @@
 extends RigidBody2D
 
-const LINEAR_ACCELERATION = 500000.0
+const LINEAR_ACCELERATION = 150000.0
 const DAMAGE = 1
 
 var bullet
@@ -10,6 +10,7 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	apply_torque(linear_velocity.length_squared())
 	apply_force(Vector2.from_angle(self.global_position.angle_to_point(bullet.global_position)) * LINEAR_ACCELERATION * delta)
 
 
