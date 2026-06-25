@@ -40,6 +40,7 @@ one_shot = true
 [node name="LaserSound" type="AudioStreamPlayer" parent="." unique_id=376594149]
 unique_name_in_owner = true
 stream = ExtResource("3_8vftx")
+volume_db = 24.0
 
 [node name="LaserFX" type="CPUParticles2D" parent="." unique_id=608911836]
 position = Vector2(298, 0)
