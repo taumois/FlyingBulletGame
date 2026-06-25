@@ -34,7 +34,7 @@ script = ExtResource("2_k0juu")
 script = ExtResource("7_i7141")
 
 [node name="SpawnCooldown" type="Timer" parent="SlimeSpawner" unique_id=942607742]
-wait_time = 5.0
+wait_time = 3.0
 autostart = true
 
 [connection signal="current_health" from="Bullet" to="HUD" method="_on_bullet_current_health"]

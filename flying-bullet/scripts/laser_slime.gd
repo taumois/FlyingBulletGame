@@ -28,7 +28,6 @@ func _physics_process(delta: float) -> void:
 		if collider.has_method("damage"):
 			laser.show()
 			laser_visual_duration.start()
-			laser_sound.stop()
 			laser_sound.play()
 			laser_cooldown.start()
 			collider.damage(LASER_DAMAGE);

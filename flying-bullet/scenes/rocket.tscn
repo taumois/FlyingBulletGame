@@ -25,6 +25,7 @@ shape = SubResource("CircleShape2D_dkv7l")
 position = Vector2(-2, -6)
 amount = 4
 texture = ExtResource("2_dkv7l")
+lifetime = 0.27
 spread = 180.0
 gravity = Vector2(0, 0)
 initial_velocity_min = 592.67
