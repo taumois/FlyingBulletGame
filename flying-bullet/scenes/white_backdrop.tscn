@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://ud2x16r70jg1"]
-
-[ext_resource type="Texture2D" uid="uid://b2yi37jdakgwj" path="res://assets/blank_black.png" id="1_y4tn2"]
-
-[node name="WhiteBackdrop" type="Sprite2D" unique_id=1579024827]
-texture = ExtResource("1_y4tn2")

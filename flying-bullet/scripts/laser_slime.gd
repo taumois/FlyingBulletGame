@@ -4,8 +4,9 @@ const LINEAR_ACCELERATION = 50000.0
 const ROTATIONAL_ACCELERATION = 100000.0
 const LASER_DAMAGE = 1
 const DEATH_EXPLOSION = preload("res://scenes/death_explosion.tscn")
+const RECOIL_FORCE = 2500.0
 
-var bullet
+var bullet: CharacterBody2D
 var laser_point: RayCast2D
 var laser_visual_duration: Timer
 var laser_cooldown: Timer
@@ -25,8 +26,11 @@ func _physics_process(delta: float) -> void:
 	apply_force(Vector2.from_angle(self.global_position.angle_to_point(bullet.global_position)) * LINEAR_ACCELERATION * delta)
 	
 	if laser_cooldown.is_stopped() and laser_point.is_colliding():
+		laser_sprite.scale.x = position.distance_to(laser_point.get_collision_point()) / 32
+		
 		var collider = laser_point.get_collider()
 		if collider.has_method("damage"):
+			apply_impulse(Vector2.from_angle(rotation) * -RECOIL_FORCE)
 			laser_sprite.hide()
 			laser_fire_sprite.show()
 			laser_visual_duration.start()
