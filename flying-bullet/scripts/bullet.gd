@@ -8,7 +8,7 @@ const DAMAGE_EXPLOSION = preload("res://scenes/death_explosion.tscn")
 const COLLISION_DAMAGE_TO_ENEMIES = 1
 const SCORE_GAIN_FROM_DEALING_DAMAGE = 499
 const INITIAL_SPEED = 35.0
-const MAX_HEALTH = 7
+const INITIAL_HEALTH = 10
 const LINEAR_ACCELERATION = 0.085
 const LINEAR_DRAG_COEFFICIENT = 0.0001
 const ROTATIONAL_ACCELERATION = 0.0035
@@ -41,7 +41,7 @@ func _ready() -> void:
 	turn_direction = Direction.NEUTRAL
 	linear_velocity = Vector2.ONE * INITIAL_SPEED
 	rotational_velocity = 0.0
-	health = MAX_HEALTH
+	health = INITIAL_HEALTH
 	score = 0
 
 

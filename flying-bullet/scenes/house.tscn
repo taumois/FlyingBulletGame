@@ -6,10 +6,10 @@
 
 [node name="House" type="StaticBody2D" unique_id=1506828352]
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=504339820]
+[node name="Sprite" type="Sprite2D" parent="." unique_id=504339820]
 scale = Vector2(0.78, 0.78)
 texture = ExtResource("1_d7po0")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=838043982]
+[node name="CollisionShape" type="CollisionShape2D" parent="." unique_id=838043982]
 scale = Vector2(5, 5)
 shape = SubResource("RectangleShape2D_qtlar")
