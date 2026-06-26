@@ -9,13 +9,13 @@ const COLLISION_DAMAGE_TO_ENEMIES = 1
 const SCORE_GAIN_FROM_DEALING_DAMAGE = 499
 const INITIAL_SPEED = 35.0
 const INITIAL_HEALTH = 10
-const LINEAR_ACCELERATION = 0.0
-const LINEAR_DRAG_COEFFICIENT = 0.00015
+const LINEAR_ACCELERATION = 0.085
+const LINEAR_DRAG_COEFFICIENT = 0.0001
 const ROTATIONAL_ACCELERATION = 0.0035
 const ROTATIONAL_DRAG_COEFFICIENT = 0.6
 const SCORE_GAIN_ON_BOUNCE = 5
 const FPS_DEVELOPED_IN = 60
-const BOUNCED_LINEAR_VELOCITY = 100.0
+const BOUNCED_LINEAR_VELOCITY_COEFFICIENT = 1.5
 const DRAG_EXPONENT = 2.0
 const COLLISION_LIMIT = 1
 
@@ -35,6 +35,7 @@ enum Direction {
 
 func _ready() -> void:
 	collision_count = 0
+	collision_limit_timer = %ResetCollisionLimit
 	position = Vector2.ZERO
 	rotation = 0.0
 	turn_direction = Direction.NEUTRAL
@@ -94,6 +95,8 @@ func do_explosion() -> void:
 
 func bounce(collision: KinematicCollision2D) -> void:
 	var collision_normal = collision.get_normal()
+	var collision_collider_rid = collision.get_collider_rid()
+	var pre_bounce_linear_velocity = linear_velocity
 	
 	var collision_collider = collision.get_collider()
 	if collision_collider.has_method("damage"):
@@ -103,11 +106,33 @@ func bounce(collision: KinematicCollision2D) -> void:
 		else:
 			score += SCORE_GAIN_FROM_DEALING_DAMAGE
 	
-	var bounce_vector = linear_velocity.bounce(collision_normal)
-	var bounce_vector_angle = bounce_vector.angle()
-	linear_velocity = bounce_vector.normalized() * BOUNCED_LINEAR_VELOCITY
-	rotation = bounce_vector_angle
-	position += linear_velocity
+	linear_velocity = linear_velocity.bounce(collision_normal) * BOUNCED_LINEAR_VELOCITY_COEFFICIENT
+	rotation = linear_velocity.angle()
+	
+	position = collision.get_position() + pre_bounce_linear_velocity
+	var stuck = true
+	while(stuck):
+		position += Vector2.from_angle(rotation)
+		var stuck_collision = move_and_collide(Vector2.ZERO, true)
+		if stuck_collision == null:
+			position += Vector2.from_angle(rotation)
+			stuck = false
+		elif stuck_collision.get_collider_rid() != collision_collider_rid:
+			bounce(stuck_collision)
+			stuck = false
 	
 	score += SCORE_GAIN_ON_BOUNCE
 	emit_signal("current_score", score)
+	
+	#if collision_limit_timer.is_stopped():
+		#collision_limit_timer.start()
+	#else:
+		#collision_count += 1
+
+
+#func _on_reset_collision_limit_timeout() -> void:
+	#if collision_count > COLLISION_LIMIT:
+		#position += Vector2.from_angle(rotation) * 1000.0
+		#linear_velocity = INITIAL_LINEAR_VELOCITY
+		#rotational_velocity = 0.0
+	#collision_count = 0
