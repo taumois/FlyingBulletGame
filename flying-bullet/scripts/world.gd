@@ -5,7 +5,6 @@ const CHUNK_SIZE = 8_000
 const HOUSES_PER_CHUNK = 3
 const HOUSES_SCALE = Vector2(5.0, 15.0)
 const CHUNK_HOUSE = preload("res://scenes/house.tscn")
-const CHUNK_BACKGROUND = preload("res://scenes/white_backdrop.tscn")
 
 var bullet: CharacterBody2D
 var loaded_chunks: Array[Chunk]
@@ -51,9 +50,6 @@ func _physics_process(delta: float) -> void:
 			if get_child_count() > 4:
 				if loaded_chunks[i].houses[j]:
 					remove_child(loaded_chunks[i].houses[j])
-			if loaded_chunks[i].background:
-				loaded_chunks[i].background.queue_free()
-				loaded_chunks[i].background = null
 			var house = get_house_from_bank()
 			var house_seed_base = (chunk_seed_base + j * 3)
 			house.position.x = chunk.real_position.x - 0.5 * CHUNK_SIZE + seeds[house_seed_base + 0] * CHUNK_SIZE
@@ -61,11 +57,6 @@ func _physics_process(delta: float) -> void:
 			house.rotation = FULL_ROTATION * seeds[house_seed_base + 2]
 			add_child(house)
 			chunk.houses[j] = house
-			var background = CHUNK_BACKGROUND.instantiate()
-			background.scale = Vector2(CHUNK_SIZE, CHUNK_SIZE)
-			background.global_position = chunk.real_position
-			chunk.background = background
-			add_child(background)
 		loaded_chunks[i].houses.clear()
 		loaded_chunks[i] = chunk
 
@@ -82,7 +73,6 @@ class Chunk:
 	var position: Vector2i
 	var real_position: Vector2
 	var houses: Array[StaticBody2D]
-	var background: Sprite2D
 	
 	func _init(chunk_position: Vector2i) -> void:
 		self.position = chunk_position
