@@ -9,13 +9,15 @@ var bullet
 var laser_point: RayCast2D
 var laser_visual_duration: Timer
 var laser_cooldown: Timer
-var laser: Sprite2D
+var laser_fire_sprite: Sprite2D
+var laser_sprite: Sprite2D
 
 func _ready() -> void:
 	laser_point = %LaserPoint
 	laser_visual_duration = %LaserVisualDuration
 	laser_cooldown = %LaserCooldown
-	laser = %Laser
+	laser_fire_sprite = %LaserFireSprite
+	laser_sprite = %LaserSprite
 	bullet = get_parent().bullet
 
 func _physics_process(delta: float) -> void:
@@ -25,7 +27,8 @@ func _physics_process(delta: float) -> void:
 	if laser_cooldown.is_stopped() and laser_point.is_colliding():
 		var collider = laser_point.get_collider()
 		if collider.has_method("damage"):
-			laser.show()
+			laser_sprite.hide()
+			laser_fire_sprite.show()
 			laser_visual_duration.start()
 			laser_cooldown.start()
 			collider.damage(LASER_DAMAGE);
@@ -43,4 +46,8 @@ func _die() -> void:
 
 
 func _on_laser_visual_duration_timeout() -> void:
-	laser.hide()
+	laser_fire_sprite.hide()
+
+
+func _on_laser_cooldown_timeout() -> void:
+	laser_sprite.show()

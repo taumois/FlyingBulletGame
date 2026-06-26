@@ -48,7 +48,8 @@ func _physics_process(delta: float) -> void:
 		var chunk_seed_base = rand_from_seed((chunk.position.x + 7) * chunk.position.y + chunk.position.x)[0] % half_seeds_size
 		for j in HOUSES_PER_CHUNK:
 			if get_child_count() > 4:
-				remove_child(loaded_chunks[i].houses[j])
+				if loaded_chunks[i].houses[j]:
+					remove_child(loaded_chunks[i].houses[j])
 			var house = get_house_from_bank()
 			var house_seed_base = (chunk_seed_base + j * 3)
 			house.position.x = chunk.real_position.x - 0.5 * CHUNK_SIZE + seeds[house_seed_base + 0] * CHUNK_SIZE

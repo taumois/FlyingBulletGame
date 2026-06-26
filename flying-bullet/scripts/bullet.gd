@@ -4,6 +4,7 @@ signal current_score(score: int)
 signal current_health(health: int)
 signal current_speed(speed: float)
 
+const DAMAGE_EXPLOSION = preload("res://scenes/death_explosion.tscn")
 const COLLISION_DAMAGE_TO_ENEMIES = 1
 const SCORE_GAIN_FROM_DEALING_DAMAGE = 499
 const INITIAL_SPEED = 35.0
@@ -83,6 +84,13 @@ func damage(amount: int) -> void:
 	if health < 0:
 		health = 0
 	emit_signal("current_health", health)
+	do_explosion()
+
+
+func do_explosion() -> void:
+	var explosion = DAMAGE_EXPLOSION.instantiate()
+	explosion.position = position
+	add_sibling(explosion)
 
 
 func bounce(collision: KinematicCollision2D) -> void:

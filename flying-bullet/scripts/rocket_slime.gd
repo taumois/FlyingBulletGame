@@ -27,4 +27,6 @@ func _die() -> void:
 	queue_free()
 
 func _on_rocket_cooldown_timeout() -> void:
-	add_child(ROCKET.instantiate())
+	var rocket = ROCKET.instantiate()
+	rocket.position -= Vector2.from_angle(get_angle_to(bullet.position))
+	add_child(rocket)
