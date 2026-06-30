@@ -1,9 +1,9 @@
 extends Node2D
 
 const FULL_ROTATION = 2 * PI
-const CHUNK_SIZE = 8_000
+const CHUNK_SIZE = 7_500
 const HOUSES_PER_CHUNK = 3
-const HOUSES_SCALE = Vector2(5.0, 15.0)
+const HOUSES_SCALE = Vector2(5.0, 25.0)
 const CHUNK_HOUSE = preload("res://scenes/house.tscn")
 const CHUNK_BACKGROUND = preload("res://scenes/white_backdrop.tscn")
 
@@ -61,11 +61,13 @@ func _physics_process(delta: float) -> void:
 			house.rotation = FULL_ROTATION * seeds[house_seed_base + 2]
 			add_child(house)
 			chunk.houses[j] = house
-			var background = CHUNK_BACKGROUND.instantiate()
-			background.scale = Vector2(CHUNK_SIZE, CHUNK_SIZE)
-			background.global_position = chunk.real_position
-			chunk.background = background
-			add_child(background)
+		var background = CHUNK_BACKGROUND.instantiate()
+		background.scale = Vector2(CHUNK_SIZE, CHUNK_SIZE) / 1
+		background.global_position = chunk.real_position
+		background.rotation += PI / 2 * (chunk.position.x % 3)
+		background.z_index = -999
+		add_child(background)
+		chunk.background = background
 		loaded_chunks[i].houses.clear()
 		loaded_chunks[i] = chunk
 
