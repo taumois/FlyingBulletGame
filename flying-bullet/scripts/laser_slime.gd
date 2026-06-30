@@ -26,13 +26,12 @@ func _physics_process(delta: float) -> void:
 	
 	if laser_cooldown.is_stopped() and laser_point.is_colliding():
 		var collider = laser_point.get_collider()
-		if collider != null:
-			if collider.has_method("damage"):
-				laser_sprite.hide()
-				laser_fire_sprite.show()
-				laser_visual_duration.start()
-				laser_cooldown.start()
-				collider.damage(LASER_DAMAGE);
+		if collider.has_method("damage"):
+			laser_sprite.hide()
+			laser_fire_sprite.show()
+			laser_visual_duration.start()
+			laser_cooldown.start()
+			collider.damage(LASER_DAMAGE);
 
 
 func damage(_amount: int) -> void:

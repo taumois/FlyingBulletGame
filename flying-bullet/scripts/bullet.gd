@@ -11,8 +11,8 @@ const INITIAL_SPEED = 35.0
 const INITIAL_HEALTH = 10
 const LINEAR_ACCELERATION = 0.085
 const LINEAR_DRAG_COEFFICIENT = 0.0001
-const ROTATIONAL_ACCELERATION = 0.01
-const ROTATIONAL_DRAG_COEFFICIENT = 0.5
+const ROTATIONAL_ACCELERATION = 0.0035
+const ROTATIONAL_DRAG_COEFFICIENT = 0.6
 const SCORE_GAIN_ON_BOUNCE = 5
 const FPS_DEVELOPED_IN = 60
 const BOUNCED_LINEAR_VELOCITY_COEFFICIENT = 1.5
@@ -58,18 +58,21 @@ func _unhandled_key_input(_event: InputEvent) -> void:
 func special_physics_process(delta: float) -> void:
 	var special_delta = delta * FPS_DEVELOPED_IN
 	
-	var speed = linear_velocity.length()
+	var speed = linear_velocity.length() * special_delta
 	emit_signal("current_speed", speed)
 	
-	if turn_direction == Direction.NEUTRAL:
-		rotational_velocity = 0.0
-	else:
-		var rotational_drag = rotational_velocity * rotational_velocity * ROTATIONAL_DRAG_COEFFICIENT * -sign(rotational_velocity)
-		rotational_velocity += (turn_direction * ROTATIONAL_ACCELERATION + rotational_drag) * special_delta
-		rotation += rotational_velocity
+	if turn_direction != null:
+		rotational_velocity += turn_direction * ROTATIONAL_ACCELERATION * special_delta
+	var rotational_drag = rotational_velocity * rotational_velocity * ROTATIONAL_DRAG_COEFFICIENT
+	if rotational_velocity > 0.0:
+		rotational_drag *= -1
+	rotational_velocity += rotational_drag * special_delta
+	rotation += rotational_velocity * special_delta
 	
+	linear_velocity = Vector2.from_angle(rotation) * speed
+	linear_velocity += Vector2.from_angle(rotation) * LINEAR_ACCELERATION * special_delta
 	var linear_drag = speed * speed * LINEAR_DRAG_COEFFICIENT * -1
-	linear_velocity = Vector2.from_angle(rotation) * (speed + LINEAR_ACCELERATION + linear_drag) * special_delta
+	linear_velocity += Vector2.from_angle(rotation) * linear_drag * special_delta
 	
 	var collision = move_and_collide(linear_velocity)
 	if collision != null:

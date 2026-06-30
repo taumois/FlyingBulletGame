@@ -13,7 +13,6 @@ var seeds: Array[float]
 var bullet_chunk: Chunk
 
 func _ready() -> void:
-	%BackgroundMusic.play()
 	bullet = %Bullet
 	seeds.resize(HOUSES_PER_CHUNK * 9 * 3)
 	for i in seeds.size():
@@ -48,7 +47,7 @@ func _physics_process(delta: float) -> void:
 		var half_seeds_size = roundi(float(seeds.size()) / 2)
 		var chunk_seed_base = rand_from_seed((chunk.position.x + 7) * chunk.position.y + chunk.position.x)[0] % half_seeds_size
 		for j in HOUSES_PER_CHUNK:
-			if get_child_count() > 5:
+			if get_child_count() > 4:
 				if loaded_chunks[i].houses[j]:
 					remove_child(loaded_chunks[i].houses[j])
 			var house = get_house_from_bank()
