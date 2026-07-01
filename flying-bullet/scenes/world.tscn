@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://ccs11430lpxv0" path="res://scripts/camera.gd" id="2_k0juu"]
 [ext_resource type="Script" uid="uid://c86gahi6h8828" path="res://scripts/camera_target_alterer.gd" id="3_qfnet"]
 [ext_resource type="Script" uid="uid://b67uky55hdjfr" path="res://scripts/slime_spawner.gd" id="7_i7141"]
+[ext_resource type="AudioStream" uid="uid://drm01m7stuyar" path="res://assets/sounds/leberch-sci-fi-action-248039.mp3" id="8_4mrxx"]
 
 [node name="World" type="Node2D" unique_id=1755103904]
 script = ExtResource("1_4mrxx")
@@ -38,6 +39,11 @@ script = ExtResource("7_i7141")
 [node name="SpawnCooldown" type="Timer" parent="SlimeSpawner" unique_id=942607742]
 wait_time = 3.0
 autostart = true
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="." unique_id=880247344]
+unique_name_in_owner = true
+stream = ExtResource("8_4mrxx")
+volume_db = -17.434
 
 [connection signal="current_health" from="Bullet" to="HUD" method="_on_bullet_current_health"]
 [connection signal="current_score" from="Bullet" to="HUD" method="_on_bullet_current_score"]
