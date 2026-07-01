@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b3d8vloasmpuu" path="res://scripts/laser_slime.gd" id="1_7gkdm"]
 [ext_resource type="Texture2D" uid="uid://rij7t1c2tt5i" path="res://assets/sprites/laser_enemy.png" id="2_djsw6"]
+[ext_resource type="AudioStream" uid="uid://b34d452bcd3cw" path="res://assets/sounds/laser_wave.mp3" id="3_7gkdm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p2gj0"]
 
@@ -56,6 +57,11 @@ angular_velocity_min = -720.0
 angular_velocity_max = 720.0
 scale_amount_min = 3.0
 scale_amount_max = 5.0
+
+[node name="LaserSound" type="AudioStreamPlayer" parent="." unique_id=971716509]
+unique_name_in_owner = true
+stream = ExtResource("3_7gkdm")
+volume_db = 24.0
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="LaserCooldown" to="." method="_on_laser_cooldown_timeout"]

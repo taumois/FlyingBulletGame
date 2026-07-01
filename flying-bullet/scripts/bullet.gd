@@ -94,6 +94,8 @@ func do_explosion() -> void:
 
 
 func bounce(collision: KinematicCollision2D) -> void:
+	%BounceSound.volume_linear = randf_range(0.33, 1.66)
+	%BounceSound.play(0.74)
 	var collision_normal = collision.get_normal()
 	var collision_collider_rid = collision.get_collider_rid()
 	var pre_bounce_linear_velocity = linear_velocity

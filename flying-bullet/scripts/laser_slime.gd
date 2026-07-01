@@ -47,6 +47,7 @@ func _die() -> void:
 
 
 func _on_laser_visual_duration_timeout() -> void:
+	%LaserSound.play(0.0)
 	laser_fire_sprite.hide()
 
 
