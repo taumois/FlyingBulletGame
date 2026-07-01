@@ -15,7 +15,7 @@ run/main_scene="uid://bmtortsl7up2b"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 boot_splash/stretch_mode=0
 boot_splash/image="uid://snpaodb7k8pr"
-config/icon="uid://rij7t1c2tt5i"
+config/icon="uid://dhycj1x6jvtse"
 
 [display]
 
