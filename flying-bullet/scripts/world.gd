@@ -1,9 +1,9 @@
 extends Node2D
 
 const FULL_ROTATION = 2 * PI
-const CHUNK_SIZE = 8_000
-const HOUSES_PER_CHUNK = 3
-const HOUSES_SCALE = Vector2(5.0, 15.0)
+const CHUNK_SIZE = 7_500
+const HOUSES_PER_CHUNK = 2
+const HOUSES_SCALE = Vector2(10.0, 30.0)
 const CHUNK_HOUSE = preload("res://scenes/house.tscn")
 
 var bullet: CharacterBody2D

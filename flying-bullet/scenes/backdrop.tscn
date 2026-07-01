@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cb1s5lunwlybu"]
 
-[ext_resource type="Texture2D" uid="uid://b0d85475w5p57" path="res://assets/sprites/blank_navy.png" id="1_hwdtg"]
+[ext_resource type="Texture2D" uid="uid://c2gm7qndowyq6" path="res://assets/sprites/blank_white.png" id="1_hwdtg"]
 
 [node name="Backdrop" type="CanvasLayer" unique_id=51415157]
 
