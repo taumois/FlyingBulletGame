@@ -123,16 +123,3 @@ func bounce(collision: KinematicCollision2D) -> void:
 	
 	score += SCORE_GAIN_ON_BOUNCE
 	emit_signal("current_score", score)
-	
-	#if collision_limit_timer.is_stopped():
-		#collision_limit_timer.start()
-	#else:
-		#collision_count += 1
-
-
-#func _on_reset_collision_limit_timeout() -> void:
-	#if collision_count > COLLISION_LIMIT:
-		#position += Vector2.from_angle(rotation) * 1000.0
-		#linear_velocity = INITIAL_LINEAR_VELOCITY
-		#rotational_velocity = 0.0
-	#collision_count = 0
