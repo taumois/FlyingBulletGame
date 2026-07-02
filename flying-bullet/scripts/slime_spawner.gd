@@ -12,7 +12,7 @@ func _ready() -> void:
 
 
 func _on_spawn_cooldown_timeout() -> void:
-	if get_child_count() >= MAX_SLIMES:
+	if get_child_count() - 1 >= MAX_SLIMES:
 		return
 		
 	var new_slime = LASER_SLIME.instantiate() if randf() > 0.5 else ROCKET_SLIME.instantiate()
